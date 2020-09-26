@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!--常用颜色值-->
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="black_alpha">#80000000</color>
+
+    <!--TabBar和页面分割线颜色-->
+    <color name="line_grey">#dcdcdc</color>
+
+    <!--底部TabBar颜色-->
+    <color name="text_grey">#8a8a8a</color>
+    <color name="text_green">#45c01a</color>
+
+    <!--登录模块颜色-->
+    <color name="temp_color">#3333ffff</color>
+    <color name="input_background_color">#33ffffff</color>
+    <color name="input_active_color">#31b968</color>
+    <color name="input_split_line_color">#dededf</color>
 </resources>

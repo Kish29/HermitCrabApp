@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">HermitCrabApp</string>
+    <!--<string name="app_name_en">HermitCrabApp</string>-->
+    <string name="app_name_zh">寄居蟹</string>
+
+    <!--navigation bar title-->
+    <string name="nav_home_title">首页</string>
+    <string name="nav_forum_title">社区</string>
+    <string name="nav_service_title">服务</string>
+    <string name="nav_message_title">消息</string>
+    <string name="nav_personal">个人</string>
+
+    <string name="prompt_mobile">手机号</string>
+    <string name="prompt_password">密码</string>
+    <string name="prompt_password_check">请再次输入密码确认</string>
 </resources>

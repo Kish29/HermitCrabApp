@@ -6,13 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <include layout="@layout/bg_video_for_login" />
+
+    <Button
+        android:id="@+id/change_activity_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="点击跳转到另一个页面"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- 使用TabLayout来进行tab的布局 -->
+    <!-- RippleColor设置点击阴影效果 -->
+    <!-- 通过在activity操纵该TabLayout添加tab -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/nav_tab_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:tabIndicatorColor="@android:color/transparent"
+        app:tabIndicatorHeight="0dp"
+        app:tabMaxWidth="0dp"
+        app:tabRippleColor="@android:color/transparent" />
+
+
+    <!-- 该View的作用是在TabLayout的上方显示一条灰色的细线
+             来达到分割TabLayout的目的 -->
+    <!-- 注意要使用@id的形式，必须先让该id出现（这里是nav_tab_bar）-->
+    <!-- 或者直接使用@+id就行 -->
+    <!-- toXXXOf 表示贴合到某个组件的XXX位置-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/line_grey"
+        app:layout_constraintBottom_toTopOf="@id/nav_tab_bar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
