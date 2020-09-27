@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/input_active_color"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/ib_navigate_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/login_navigation_bar_bg"
+        android:contentDescription="@null"
+        app:srcCompat="@mipmap/btn_back_normal" />
+
+    <TextView
+        android:id="@+id/top_navigation_label"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_18"
+        android:text="@string/login_title" />
+
+    <Space
+        android:layout_width="48dp"
+        android:layout_height="48dp" />
+
+</LinearLayout>

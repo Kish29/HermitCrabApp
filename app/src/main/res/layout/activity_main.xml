@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include layout="@layout/bg_video_for_login" />
+    <include layout="@layout/ly_bg_video_for_login" />
 
     <Button
         android:id="@+id/change_activity_test"

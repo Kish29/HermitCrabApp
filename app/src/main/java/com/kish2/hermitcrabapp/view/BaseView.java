@@ -9,4 +9,9 @@ public interface BaseView {
     /* 必须调用，detach连接的presenter，调用presenter的detachView方法*/
     public void detachPresenter();
 
+    /* 通用方法 */
+    // 返回
+    public void navigationBack();
+
+    public void showToast(String msg);
 }

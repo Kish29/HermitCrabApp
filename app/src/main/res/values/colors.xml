@@ -7,6 +7,7 @@
 
     <!--常用颜色值-->
     <color name="white">#ffffff</color>
+    <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
     <color name="black_alpha">#80000000</color>
 
@@ -22,4 +23,10 @@
     <color name="input_background_color">#33ffffff</color>
     <color name="input_active_color">#31b968</color>
     <color name="input_split_line_color">#dededf</color>
+    <color name="submit_pressed_true">#14b94d</color>
+    <color name="login_other_color">#cacaca</color>
+
+
+    <color name="bg_press">#ebebeb</color>
+    <color name="bg_press_material">#d4d4d4</color>
 </resources>

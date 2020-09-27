@@ -7,5 +7,7 @@
     <dimen name="font_16">16sp</dimen>
     <dimen name="font_18">18sp</dimen>
 
-    <dimen name="anim_duration">200</dimen>
+    <dimen name="lay_12">12dp</dimen>
+    <dimen name="lay_16">16dp</dimen>
+
 </resources>

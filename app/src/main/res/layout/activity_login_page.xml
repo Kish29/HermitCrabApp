@@ -6,21 +6,33 @@
     android:layout_height="match_parent">
 
 
-    <!--<include layout="@layout/bg_video_for_login" />-->
-
     <!--上方主要登录界面-->
     <LinearLayout
-        android:id="@+id/login_container"
+        android:id="@+id/ll_login_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/login_background"
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
+        <include
+            android:id="@+id/ll_retrieve_bar"
+            layout="@layout/ly_top_bar_navigation" />
+
+        <ImageView
+            android:id="@+id/iv_login_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@null"
+            android:paddingTop="20dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/logo" />
+
 
         <!--登录用户名、邮箱、手机号输入框界面-->
         <LinearLayout
-            android:id="@+id/lay_identify"
+            android:id="@+id/ll_identify"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginStart="24dp"
@@ -30,8 +42,9 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <!--登录logo-->
             <ImageView
-                android:id="@+id/identify_input_icon"
+                android:id="@+id/iv_identify_input_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="14dp"
@@ -52,7 +65,7 @@
                 actionNext:下一行
                 actionSend:发送数据-->
             <EditText
-                android:id="@+id/identify_input"
+                android:id="@+id/et_identify_input"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
@@ -60,7 +73,6 @@
                 android:layout_weight="1"
                 android:autofillHints="@string/prompt_mobile"
                 android:background="@null"
-                android:ems="15"
                 android:focusable="true"
                 android:hint="@string/prompt_mobile"
                 android:imeOptions="actionNext"
@@ -77,11 +89,24 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- 删除输入内容的小按钮 -->
+            <ImageButton
+                android:id="@+id/ib_login_identify_input_del"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@mipmap/input_clear_bg"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+
         </LinearLayout>
 
         <!--密码输入框-->
         <LinearLayout
-            android:id="@+id/lay_password"
+            android:id="@+id/ll_lay_password"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginStart="24dp"
@@ -92,7 +117,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/password_input_icon"
+                android:id="@+id/iv_password_input_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="14dp"
@@ -107,7 +132,7 @@
                 android:background="@color/line_grey" />
 
             <EditText
-                android:id="@+id/password_input"
+                android:id="@+id/et_password_input"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
@@ -128,8 +153,194 @@
                 android:textSize="@dimen/font_16"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/identify_input" />
+                app:layout_constraintTop_toBottomOf="@id/et_identify_input" />
+
+            <!-- 删除输入内容的小按钮 -->
+            <ImageButton
+                android:id="@+id/ib_login_password_input_del"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@mipmap/input_clear_bg"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <!--登录按钮-->
+        <Button
+            android:id="@+id/btn_login_submit"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="94dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="94dp"
+            android:background="@drawable/login_submit_btn_type"
+            android:elevation="0dp"
+            android:outlineProvider="none"
+            android:text="@string/login_title"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18"
+            tools:targetApi="Q" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center_vertical"
+            android:text="@string/resister_hint"
+            android:textColor="@color/black" />
+
+        <!--注册按钮-->
+        <Button
+            android:id="@+id/btn_register_submit"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="94dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="94dp"
+            android:background="@drawable/register_submit_type"
+            android:elevation="0dp"
+            android:outlineProvider="none"
+            android:text="@string/register_title"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18"
+            tools:targetApi="Q" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_remember_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:button="@drawable/ic_checkbox_selector"
+                android:checked="true"
+                android:contentDescription="@null"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_12"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/remember_hint"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_16"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_forget_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingStart="4dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="@string/forget_password"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/ll_login_layer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@color/black_alpha" />
+
+        <LinearLayout
+            android:id="@+id/ll_login_pull"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_login_thirdpart"
+            android:orientation="vertical"
+            android:translationY="60dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/lay_12"
+                android:gravity="center"
+                android:text="@string/other_login_method"
+                android:textColor="@color/login_other_color"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_login_options"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/font_18"
+                android:paddingEnd="@dimen/font_18"
+                android:paddingBottom="@dimen/lay_12"
+                android:visibility="visible">
+
+                <!--<ImageButton
+                    android:id="@+id/ib_login_weibo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_material"
+                    android:contentDescription="@null"
+                    android:padding="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_login_3party_weibo" />-->
+
+                <ImageButton
+                    android:id="@+id/ib_login_wx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/lay_12"
+                    android:layout_marginEnd="@dimen/lay_12"
+                    android:background="@mipmap/ic_login_3party_wechat"
+                    android:contentDescription="@null"
+                    android:scaleType="centerInside" />
+
+                <ImageButton
+                    android:id="@+id/ib_login_qq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/lay_12"
+                    android:layout_marginEnd="@dimen/lay_12"
+                    android:background="@mipmap/ic_login_3party_qq"
+                    android:contentDescription="@null"
+                    android:scaleType="centerInside" />
+
+                <!--<ImageButton
+                    android:id="@+id/ib_login_csdn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_material"
+                    android:contentDescription="@null"
+                    android:padding="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_login_3party_csdn" />-->
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

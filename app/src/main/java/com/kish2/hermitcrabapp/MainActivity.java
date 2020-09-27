@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements UserView {
             return;
         for (int i = 0; i < len; i++) {
             TabLayout.Tab newTab = tabs.newTab();
-            View tabBarBasic = inflater.inflate(R.layout.nav_tab_bar_basic, null);
+            View tabBarBasic = inflater.inflate(R.layout.ly_nav_tab_bar_basic, null);
 
             // 使用自定义视图，目的是为了便于修改
             newTab.setCustomView(tabBarBasic);
@@ -130,6 +130,16 @@ public class MainActivity extends AppCompatActivity implements UserView {
     }
 
     @Override
+    public void navigationBack() {
+
+    }
+
+    @Override
+    public void showToast(String msg) {
+
+    }
+
+    @Override
     public String getUsername() {
         return null;
     }
@@ -146,9 +156,15 @@ public class MainActivity extends AppCompatActivity implements UserView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("create","MainActivity created.\n");
+        Log.d("create", "MainActivity created.\n");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.d("intent flag", String.valueOf(intent.getFlags()));
+        super.onNewIntent(intent);
     }
 }
