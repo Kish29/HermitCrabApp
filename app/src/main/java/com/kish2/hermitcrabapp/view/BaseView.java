@@ -1,7 +1,15 @@
 package com.kish2.hermitcrabapp.view;
 
-/* BaseView 必须给子类给予约束 */
+import android.content.Context;
+
+/* BaseFragment 必须给子类给予约束 */
 public interface BaseView {
+
+    /* 初始化视图 */
+    public void initView();
+
+    /* 设置顶部状态栏 */
+    public void setStatusBar();
 
     /* 初始化presenter */
     public void attachPresenter();
@@ -13,5 +21,9 @@ public interface BaseView {
     // 返回
     public void navigationBack();
 
+    // 显示toast
     public void showToast(String msg);
+
+    // 返回Context对象
+    public Context getContext();
 }

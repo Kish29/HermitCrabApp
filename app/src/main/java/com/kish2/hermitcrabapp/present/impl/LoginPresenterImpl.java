@@ -1,7 +1,13 @@
 package com.kish2.hermitcrabapp.present.impl;
 
+import android.content.Intent;
+import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.kish2.hermitcrabapp.present.LoginPresenter;
 import com.kish2.hermitcrabapp.view.LoginView;
+import com.kish2.hermitcrabapp.view.MyTest;
 import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
 
 public class LoginPresenterImpl implements LoginPresenter {
@@ -12,10 +18,44 @@ public class LoginPresenterImpl implements LoginPresenter {
         this.loginView = loginView;
     }
 
+    private static final String TAG = "login presenter";
 
     @Override
     public void detachView() {
         /* 让CG回收内存 */
         this.loginView = null;
+        Log.d(TAG, "detachView and set view=null");
+    }
+
+    @Override
+    public void login() {
+        Log.d(TAG, "login method");
+        Log.d(TAG, loginView.getIdentify() + "\tpwd->" + loginView.getPassword());
+    }
+
+    @Override
+    public void register() {
+        Log.d(TAG, "register method");
+    }
+
+    @Override
+    public void rememberUser(boolean isRemember) {
+        Log.d(TAG, "rememberUser method");
+        Log.d(TAG, String.valueOf(isRemember));
+    }
+
+    @Override
+    public void forgetPassword() {
+        Log.d(TAG, "forgetPassword method");
+    }
+
+    @Override
+    public void loginByWeChat() {
+        Log.d(TAG, "loginByWeChat method");
+    }
+
+    @Override
+    public void loginByQQ() {
+        Log.d(TAG, "loginByQQ method");
     }
 }

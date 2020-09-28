@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/ly_bg_video_for_login" />
 
     <!--上方主要登录界面-->
     <LinearLayout
         android:id="@+id/ll_login_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/login_background"
         android:orientation="vertical"
         android:paddingBottom="16dp">
 
@@ -169,7 +169,7 @@
         </LinearLayout>
 
         <!--登录按钮-->
-        <Button
+        <!--<Button
             android:id="@+id/btn_login_submit"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -182,6 +182,26 @@
             android:text="@string/login_title"
             android:textColor="@color/black"
             android:textSize="@dimen/font_18"
+            tools:targetApi="Q" />-->
+
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/btn_login_submit"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="94dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="94dp"
+            android:background="@drawable/login_submit_btn_type"
+            android:elevation="0dp"
+            android:outlineProvider="none"
+            android:text="@string/login_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_18"
+            app:initialCornerAngle="30dp"
+            app:spinning_bar_color="@color/white"
+            app:spinning_bar_padding="6dp"
+            app:spinning_bar_width="4dp"
             tools:targetApi="Q" />
 
         <TextView
@@ -193,7 +213,7 @@
             android:layout_marginEnd="24dp"
             android:gravity="center_vertical"
             android:text="@string/resister_hint"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
 
         <!--注册按钮-->
         <Button
@@ -225,7 +245,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:button="@drawable/ic_checkbox_selector"
+                android:button="@drawable/checkbox_type"
                 android:checked="true"
                 android:contentDescription="@null"
                 android:textColor="@color/black"
@@ -250,7 +270,7 @@
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:text="@string/forget_password"
-                android:textColor="@color/white"
+                android:textColor="@drawable/text_touch_type"
                 android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>

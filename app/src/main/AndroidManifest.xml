@@ -11,17 +11,29 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- 欢迎页 -->
         <activity
-            android:name=".MainActivity"
-            android:launchMode="singleTop">
+            android:name=".HermitCrabSplash"
+            android:launchMode="standard"
+            android:theme="@style/fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!--注册页面-->
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!--登录页面-->
         <activity android:name=".view.impl.LoginViewImpl" />
+
+        <activity android:name=".view.MyTest" />
     </application>
 
 </manifest>

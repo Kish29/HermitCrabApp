@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.gizmos;
+package com.kish2.hermitcrabapp.custom;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -29,8 +29,8 @@ public class CustomVideoView extends VideoView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         /*LinearLayout下，使用MeasureSpec的EXACTLY的模式，与第一个参数size无关*/
-        int width = getDefaultSize(0, widthMeasureSpec);
-        int height = getDefaultSize(0, heightMeasureSpec);
+        int width = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+        int height = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
         /* 调用 setMeasuredDimensionRaw方法，赋值 */
         setMeasuredDimension(width, height);
     }

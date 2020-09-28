@@ -1,11 +1,12 @@
 package com.kish2.hermitcrabapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
-import com.kish2.hermitcrabapp.gizmos.CustomVideoView;
+import com.kish2.hermitcrabapp.adapter.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.view.UserView;
 import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
 
@@ -37,69 +38,45 @@ public class MainActivity extends AppCompatActivity implements UserView {
     /* 菜单图标 */
     private final int[] TAB_IMG = new int[]{
             R.drawable.tab_bar_home_selector,
-            R.drawable.tab_bar_forum_selector,
+            R.drawable.tab_bar_community_selector,
             R.drawable.tab_bar_service_selector,
             R.drawable.tab_bar_message_selector,
             R.drawable.tab_bar_personal_selector
     };
 
     @BindView(R.id.nav_tab_bar)
-    TabLayout navigation;
-
-    @BindView(R.id.login_reg_video)
-    CustomVideoView bg;
-
+    TabLayout mNavigation;
 
     @BindView(R.id.change_activity_test)
-    Button changeButton;
+    Button mChangeButton;
 
+    @BindView(R.id.vp_main)
+    ViewPager mViewMain;
 
-    private void init() {
-        ButterKnife.bind(this);
-        setTabs(navigation, getLayoutInflater(), TAB_TITLES, TAB_IMG);
-        setStatusBar();
-        setVideo();
-
-        changeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginViewImpl.class);
-                startActivity(intent);
-            }
-        });
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        Log.d("create", "MainActivity created.\n");
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initView();
     }
 
-
-    private void setVideo() {
-        final String string = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg_video).toString();
-        Log.d("videoPath", string);
-        bg.setVideoPath(string);
-        bg.start();
-        bg.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.start();
-                mp.setLooping(true);
-            }
-        });
-        bg.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                bg.setVideoPath(string);
-                bg.start();
-            }
-        });
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.d("intent flag", String.valueOf(intent.getFlags()));
+        super.onNewIntent(intent);
     }
 
     @SuppressLint("ResourceAsColor")
-    private void setStatusBar() {
+    @Override
+    public void setStatusBar() {
         Window window = getWindow();
         window.setStatusBarColor(android.R.color.transparent);
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
     @SuppressLint("InflateParams")
-    private void setTabs(TabLayout tabs, LayoutInflater inflater, int[] titles, int[] img) {
+    private void initTabs(TabLayout tabs, LayoutInflater inflater, int[] titles, int[] img) {
         int len = img.length;
         if (titles.length != img.length)
             return;
@@ -115,8 +92,53 @@ public class MainActivity extends AppCompatActivity implements UserView {
             imgTab.setImageResource(img[i]);
             TextView tabTitle = tabBarBasic.findViewById(R.id.nav_tab_title);
             tabTitle.setText(titles[i]);
-            navigation.addTab(newTab);
+            mNavigation.addTab(newTab);
         }
+    }
+
+    private void initPagerViews() {
+        /* 设置适配器 */
+        MainFragmentAdapter pagerAdapter = new MainFragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        // 只使用一个pagerAdapter来达到可以通过滑动在TabLayout之间切换
+        mViewMain.setAdapter(pagerAdapter);
+
+        // 关联切换
+        // 并且设置页面切换时底部的TabLayout也要切换
+        mViewMain.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mNavigation));
+        /* 设置TabLayout切换时ViewPager的切换 */
+        mNavigation.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                /* 通过TabLayout的Item来设置ViewPager的显示
+                 *  此处是一一对应的 */
+                // 取消按下tab切换页面时的动画效果
+                mViewMain.setCurrentItem(tab.getPosition(), false);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+    }
+
+    @Override
+    public void initView() {
+        ButterKnife.bind(this);
+        initTabs(mNavigation, getLayoutInflater(), TAB_TITLES, TAB_IMG);
+        setStatusBar();
+        initPagerViews();
+
+        mChangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginViewImpl.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -140,6 +162,11 @@ public class MainActivity extends AppCompatActivity implements UserView {
     }
 
     @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
     public String getUsername() {
         return null;
     }
@@ -154,17 +181,4 @@ public class MainActivity extends AppCompatActivity implements UserView {
         return null;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.d("create", "MainActivity created.\n");
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        init();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        Log.d("intent flag", String.valueOf(intent.getFlags()));
-        super.onNewIntent(intent);
-    }
 }

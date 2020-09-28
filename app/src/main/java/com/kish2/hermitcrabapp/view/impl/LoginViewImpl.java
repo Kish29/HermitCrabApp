@@ -4,28 +4,35 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.Context;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kish2.hermitcrabapp.MainActivity;
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.custom.CustomVideoView;
 import com.kish2.hermitcrabapp.present.impl.LoginPresenterImpl;
+import com.kish2.hermitcrabapp.utils.ValidateFormInput;
 import com.kish2.hermitcrabapp.view.LoginView;
 
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -35,7 +42,12 @@ public class LoginViewImpl extends AppCompatActivity
         View.OnClickListener,
         View.OnFocusChangeListener,
         ViewTreeObserver.OnGlobalFocusChangeListener,
-        TextWatcher {
+        TextWatcher,
+        View.OnTouchListener {
+
+    /* 背景视频 */
+    @BindView(R.id.login_reg_video)
+    CustomVideoView bg;
 
     /* 登录界面具有组件 */
     // 返回按钮
@@ -61,7 +73,7 @@ public class LoginViewImpl extends AppCompatActivity
     ImageButton mClearPassword;
     // 登录/注册按钮
     @BindView(R.id.btn_login_submit)
-    Button mLoginSubmit;
+    CircularProgressButton mLoginSubmit;
     @BindView(R.id.btn_register_submit)
     Button mRegisterSubmit;
 
@@ -86,14 +98,8 @@ public class LoginViewImpl extends AppCompatActivity
     @BindView(R.id.ib_login_qq)
     ImageButton mLoginQQ;
 
-    /* identify 和密码 */
-    private String identify;
-    private String password;
-
     /*private int mLogoHeight;
     private int mLogoWidth;*/
-
-    private final String mobileStandard = "^1[3|4|5|7|8][0-9]{9}";
 
     private LoginPresenterImpl loginPresenter;
 
@@ -101,13 +107,38 @@ public class LoginViewImpl extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-        this.loginPresenter = new LoginPresenterImpl(this);
+        /* 绑定presenter */
+        attachPresenter();
         ButterKnife.bind(this);
         initView();
+        setVideo();
     }
 
+    private void setVideo() {
+        final String string = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg_video).toString();
+        Log.d("videoPath", string);
+        bg.setVideoPath(string);
+        bg.start();
+        bg.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+                mp.setLooping(true);
+            }
+        });
+        bg.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                bg.setVideoPath(string);
+                bg.start();
+            }
+        });
+    }
+
+
     /* 注册视图组件的监听事件 */
-    private void initView() {
+    @SuppressLint("ClickableViewAccessibility")
+    public void initView() {
         // 返回按钮
         mTopBarNavigationBack.setOnClickListener(this);
         mLayBackBar.getViewTreeObserver().addOnGlobalFocusChangeListener(this);
@@ -132,46 +163,37 @@ public class LoginViewImpl extends AppCompatActivity
         /* 注册按钮 */
         mRegisterSubmit.setOnClickListener(this);
 
+        /* 自动登录和忘记密码 */
+        mRememberUser.setOnClickListener(this);
+        mForgetPassword.setOnClickListener(this);
+
         // 其它登录方式下拉层
         mLoginPull.setOnClickListener(this);
+        mLoginWeChat.setOnClickListener(this);
+        mLoginQQ.setOnClickListener(this);
+
+        // 按钮的touch动效
+        mLoginWeChat.setOnTouchListener(this);
+        mLoginQQ.setOnTouchListener(this);
+    }
+
+    @SuppressLint("ResourceAsColor")
+    @Override
+    public void setStatusBar() {
+        Window window = getWindow();
+        window.setStatusBarColor(android.R.color.transparent);
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
 
     @Override
     public String getIdentify() {
-        if (isValidPassword(this.identify))
-            return this.identify;
-        else
-            return null;
+        return this.mIdentify.getText().toString().trim();
     }
 
     @Override
     public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public void login() {
-        Intent intent = new Intent(this, MainActivity.class);
-        // 清除栈顶activity
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
-    @Override
-    public void register() {
-        Intent intent = new Intent(this, LoginViewImpl.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void forgetPassword() {
-
-    }
-
-    @Override
-    public void rememberUser() {
-
+        return this.mPassword.getText().toString().trim();
     }
 
     @Override
@@ -205,7 +227,6 @@ public class LoginViewImpl extends AppCompatActivity
 
     /* 向下收起 */
     private void glide(int height, float progress, int time) {
-        Log.d("glide", "glide method running...");
         mLoginPull.animate()
                 .translationYBy(height - height * progress)
                 .translationY(height)
@@ -240,7 +261,6 @@ public class LoginViewImpl extends AppCompatActivity
 
     /* 向上滑出 */
     private void upGlide(int height, float progress, int time) {
-        Log.d("glide", "upGlide method running...");
         mLoginPull.animate()
                 .translationYBy(height * progress)      //从height * progress 到 0
                 .translationY(0)
@@ -279,29 +299,8 @@ public class LoginViewImpl extends AppCompatActivity
     }
 
     @Override
-    public boolean isValidIdentify(String identify) {
-        return false;
-    }
-
-    @Override
-    public boolean isValidPassword(String password) {
-        return true;
-    }
-
-
-    @Override
-    public void loginByWeChat() {
-
-    }
-
-    @Override
-    public void loginByQQ() {
-
-    }
-
-    @Override
     public void attachPresenter() {
-
+        this.loginPresenter = new LoginPresenterImpl(this);
     }
 
     @Override
@@ -311,18 +310,25 @@ public class LoginViewImpl extends AppCompatActivity
 
     @Override
     public void navigationBack() {
-
+        finish();
     }
 
+    @SuppressLint("ShowToast")
     @Override
     public void showToast(String msg) {
-
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onDestroy() {
         detachPresenter();
+        mLoginSubmit.dispose();
         super.onDestroy();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     /* 重写点击事件 */
@@ -331,7 +337,7 @@ public class LoginViewImpl extends AppCompatActivity
         switch (v.getId()) {
             case R.id.ib_navigate_back:
                 /*返回*/
-                finish();
+                navigationBack();
                 break;
             /*焦点处于此处*/
             case R.id.et_identify_input:
@@ -351,26 +357,28 @@ public class LoginViewImpl extends AppCompatActivity
                 mPassword.setText(null);
                 break;
             case R.id.btn_login_submit:
-                login();
+                mLoginSubmit.startAnimation();
+                this.loginPresenter.login();
                 break;
             case R.id.btn_register_submit:
-                register();
+                mLoginSubmit.revertAnimation();
+                this.loginPresenter.register();
                 break;
             case R.id.cb_remember_account:
-                rememberUser();
+                this.loginPresenter.rememberUser(mRememberUser.isChecked());
                 break;
             case R.id.tv_forget_pwd:
-                forgetPassword();
+                this.loginPresenter.forgetPassword();
                 break;
             case R.id.ll_login_layer:
             case R.id.ll_login_pull:
                 pullOtherLoginView();
                 break;
             case R.id.ib_login_wx:
-                loginByWeChat();
+                this.loginPresenter.loginByWeChat();
                 break;
             case R.id.ib_login_qq:
-                loginByQQ();
+                this.loginPresenter.loginByQQ();
                 break;
             default:
                 break;
@@ -397,8 +405,6 @@ public class LoginViewImpl extends AppCompatActivity
 
         String inputIdentify = mIdentify.getText().toString().trim();
         String inputPassword = mPassword.getText().toString().trim();
-        Log.d("input", inputIdentify);
-        Log.d("input", inputPassword);
 
         /* 是否显示清除按钮 */
         if (inputIdentify.length() > 0) {
@@ -425,6 +431,9 @@ public class LoginViewImpl extends AppCompatActivity
             }
         } else {
             if (hasFocus) {
+                if (!ValidateFormInput.isValidMobile(getIdentify())) {
+                    showToast("您输入的是无效的手机号哦~");
+                }
                 mPassword.setActivated(true);
                 mIdentify.setActivated(false);
             }
@@ -495,5 +504,33 @@ public class LoginViewImpl extends AppCompatActivity
             }
             valueAnimator.start();
         }*/
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                scaleView(true, v);
+                break;
+            case MotionEvent.ACTION_UP:
+                scaleView(false, v);
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+    private void scaleView(boolean zoomOut, View... views) {
+        for (View view : views) {
+            if (zoomOut) {
+                view.setScaleX(0.8f);
+                view.setScaleY(0.8f);
+            } else {
+                view.setScaleX(1.0f);
+                view.setScaleY(1.0f);
+            }
+        }
     }
 }
