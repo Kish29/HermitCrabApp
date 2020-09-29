@@ -9,6 +9,13 @@
     <string name="nav_message_title">消息</string>
     <string name="nav_personal">个人</string>
 
+    <!-- 各个页面的ViewPager标题-->
+    <string-array name="home_page_titles">
+        <item>最新</item>
+        <item>教务处</item>
+        <item>讲座</item>
+    </string-array>
+
     <!--登录页面-->
     <string name="prompt_mobile">手机号</string>
     <string name="prompt_password">密码</string>
@@ -20,4 +27,5 @@
     <string name="resister_hint">还没有账号？马上注册一个吧！</string>
     <string name="other_login_method">使用其它方式登录</string>
     <string name="prompt_password_check">请再次输入密码确认</string>
+
 </resources>

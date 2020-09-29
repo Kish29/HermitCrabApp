@@ -90,7 +90,7 @@ public class MainActivity extends BaseView implements UserView {
     }
 
     private void initPagerViews() {
-        /* 设置适配器 */
+        /* 设置适配器，并与当且Activity绑定  */
         MainFragmentAdapter pagerAdapter = new MainFragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         // 只使用一个pagerAdapter来达到可以通过滑动在TabLayout之间切换
         mViewMain.setAdapter(pagerAdapter);

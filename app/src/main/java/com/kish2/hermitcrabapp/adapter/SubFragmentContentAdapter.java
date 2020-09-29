@@ -3,23 +3,25 @@ package com.kish2.hermitcrabapp.adapter;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 
-/* 子页面布局fragment */
-public class SubFragmentContentAdapter extends FragmentPagerAdapter {
+import java.util.List;
 
-    public SubFragmentContentAdapter(@NonNull FragmentManager fm, int behavior) {
-        super(fm, behavior);
+/* 子页面布局fragment适配器
+ * 通过对SubFragmentContent传递数据来实例化页面UI */
+public class SubFragmentContentAdapter extends BaseSubFragmentAdapter {
+
+    public SubFragmentContentAdapter(@NonNull FragmentManager fm, int behavior, List<String> page_titles) {
+        super(fm, behavior, page_titles);
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return null;
+        return super.getItem(position);
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return super.getCount();
     }
 }
