@@ -13,7 +13,7 @@ import com.kish2.hermitcrabapp.utils.StatusBarUtil;
 
 
 @SuppressLint("Registered")
-public class BaseView extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
 
     protected int DEFAULT_COLOR_ID = -1;
 

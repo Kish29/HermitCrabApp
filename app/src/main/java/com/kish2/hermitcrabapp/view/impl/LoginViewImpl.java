@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,9 +25,8 @@ import androidx.annotation.Nullable;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.CustomVideoView;
 import com.kish2.hermitcrabapp.present.impl.LoginPresenterImpl;
-import com.kish2.hermitcrabapp.utils.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.ValidateFormInput;
-import com.kish2.hermitcrabapp.view.BaseView;
+import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.LoginView;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
@@ -37,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @SuppressLint("Registered")
-public class LoginViewImpl extends BaseView
+public class LoginViewImpl extends BaseActivity
         implements LoginView,
         View.OnClickListener,
         View.OnFocusChangeListener,

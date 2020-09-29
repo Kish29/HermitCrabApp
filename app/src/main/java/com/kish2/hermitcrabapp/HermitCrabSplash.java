@@ -1,14 +1,12 @@
 package com.kish2.hermitcrabapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.kish2.hermitcrabapp.view.BaseView;
+import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.IBaseView;
 
 import java.util.Timer;
@@ -17,7 +15,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HermitCrabSplash extends BaseView implements IBaseView {
+public class HermitCrabSplash extends BaseActivity implements IBaseView {
 
     @BindView(R.id.splash_picture)
     View splashPicture;

@@ -4,7 +4,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,14 +16,14 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.adapter.MainFragmentAdapter;
-import com.kish2.hermitcrabapp.view.BaseView;
+import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.UserView;
 import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseView implements UserView {
+public class MainActivity extends BaseActivity implements UserView {
 
     /* 菜单标题 */
     private final int[] TAB_TITLES = new int[]{

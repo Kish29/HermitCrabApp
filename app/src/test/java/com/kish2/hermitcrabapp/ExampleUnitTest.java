@@ -1,7 +1,7 @@
 package com.kish2.hermitcrabapp;
 
 import com.kish2.hermitcrabapp.utils.ValidateFormInput;
-import com.kish2.hermitcrabapp.view.BaseView;
+import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
 
 import org.junit.Test;
@@ -30,8 +30,8 @@ public class ExampleUnitTest {
 
     @Test
     public void getContextTest() {
-        BaseView baseView = new BaseView();
-        System.out.println(baseView.getContext());
+        BaseActivity baseActivity = new BaseActivity();
+        System.out.println(baseActivity.getContext());
 
         MainActivity mainActivity = new MainActivity();
         System.out.println(mainActivity.getContext());
