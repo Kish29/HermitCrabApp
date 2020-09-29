@@ -1,6 +1,15 @@
 package com.kish2.hermitcrabapp.fragment;
 
-public interface BaseFragment {
+import androidx.fragment.app.Fragment;
 
-    public void initView();
+import com.kish2.hermitcrabapp.adapter.SubFragmentContentAdapter;
+
+public class BaseFragment extends Fragment {
+
+    protected SubFragmentContentAdapter contents;
+
+    public void setPaddingTop() {
+
+    }
+
 }

@@ -3,14 +3,12 @@
     <!--顶部无标题-->
     <style name="MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/activityChangeAnimation</item>
     </style>
 
     <!-- 全屏 -->
     <style name="fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/activityChangeAnimation</item>
         <item name="android:windowFullscreen">true</item>
     </style>

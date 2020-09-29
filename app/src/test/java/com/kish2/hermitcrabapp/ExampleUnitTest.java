@@ -1,6 +1,8 @@
 package com.kish2.hermitcrabapp;
 
 import com.kish2.hermitcrabapp.utils.ValidateFormInput;
+import com.kish2.hermitcrabapp.view.BaseView;
+import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
 
 import org.junit.Test;
 
@@ -24,5 +26,17 @@ public class ExampleUnitTest {
         for (String email : emails) {
             System.out.println(ValidateFormInput.isValidEmail(email));
         }
+    }
+
+    @Test
+    public void getContextTest() {
+        BaseView baseView = new BaseView();
+        System.out.println(baseView.getContext());
+
+        MainActivity mainActivity = new MainActivity();
+        System.out.println(mainActivity.getContext());
+
+        LoginViewImpl loginView = new LoginViewImpl();
+        System.out.println(loginView.getContext());
     }
 }

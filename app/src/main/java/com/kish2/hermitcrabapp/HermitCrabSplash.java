@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kish2.hermitcrabapp.view.BaseView;
+import com.kish2.hermitcrabapp.view.IBaseView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,7 +17,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HermitCrabSplash extends AppCompatActivity implements BaseView {
+public class HermitCrabSplash extends BaseView implements IBaseView {
 
     @BindView(R.id.splash_picture)
     View splashPicture;
@@ -49,11 +50,6 @@ public class HermitCrabSplash extends AppCompatActivity implements BaseView {
     }
 
     @Override
-    public void setStatusBar() {
-
-    }
-
-    @Override
     public void attachPresenter() {
 
     }
@@ -61,20 +57,5 @@ public class HermitCrabSplash extends AppCompatActivity implements BaseView {
     @Override
     public void detachPresenter() {
 
-    }
-
-    @Override
-    public void navigationBack() {
-
-    }
-
-    @Override
-    public void showToast(String msg) {
-
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 }

@@ -1,6 +1,5 @@
 package com.kish2.hermitcrabapp;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -9,22 +8,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.adapter.MainFragmentAdapter;
+import com.kish2.hermitcrabapp.view.BaseView;
 import com.kish2.hermitcrabapp.view.UserView;
 import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements UserView {
+public class MainActivity extends BaseView implements UserView {
 
     /* 菜单标题 */
     private final int[] TAB_TITLES = new int[]{
@@ -67,13 +67,6 @@ public class MainActivity extends AppCompatActivity implements UserView {
         super.onNewIntent(intent);
     }
 
-    @SuppressLint("ResourceAsColor")
-    @Override
-    public void setStatusBar() {
-        Window window = getWindow();
-        window.setStatusBarColor(android.R.color.transparent);
-        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-    }
 
     @SuppressLint("InflateParams")
     private void initTabs(TabLayout tabs, LayoutInflater inflater, int[] titles, int[] img) {
@@ -112,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements UserView {
                 /* 通过TabLayout的Item来设置ViewPager的显示
                  *  此处是一一对应的 */
                 // 取消按下tab切换页面时的动画效果
+                Log.d("tab.getPosition", String.valueOf(tab.getPosition()));
                 mViewMain.setCurrentItem(tab.getPosition(), false);
             }
 
@@ -129,9 +123,8 @@ public class MainActivity extends AppCompatActivity implements UserView {
     public void initView() {
         ButterKnife.bind(this);
         initTabs(mNavigation, getLayoutInflater(), TAB_TITLES, TAB_IMG);
-        setStatusBar();
         initPagerViews();
-
+        setSinkStatusBar(false, true);
         mChangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,18 +145,9 @@ public class MainActivity extends AppCompatActivity implements UserView {
     }
 
     @Override
-    public void navigationBack() {
-
-    }
-
-    @Override
-    public void showToast(String msg) {
-
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
+    protected void onDestroy() {
+        detachPresenter();
+        super.onDestroy();
     }
 
     @Override
@@ -181,4 +165,23 @@ public class MainActivity extends AppCompatActivity implements UserView {
         return null;
     }
 
+    private long exitTime;
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        /* 如果按下了返回键 */
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK &&
+                event.getAction() == KeyEvent.ACTION_DOWN &&
+                event.getRepeatCount() == 0) {
+            // 重写键盘事件分发，onKeyDown方法某些情况下捕获不到，只能在这里写
+            if (System.currentTimeMillis() - exitTime > 2000) {
+                showToast("再按一次退出程序", TOAST_DURATION.TOAST_SHORT, TOAST_POSITION.TOAST_BOTTOM);
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
 }

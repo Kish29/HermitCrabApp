@@ -21,15 +21,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.CustomVideoView;
 import com.kish2.hermitcrabapp.present.impl.LoginPresenterImpl;
+import com.kish2.hermitcrabapp.utils.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.ValidateFormInput;
+import com.kish2.hermitcrabapp.view.BaseView;
 import com.kish2.hermitcrabapp.view.LoginView;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
@@ -37,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @SuppressLint("Registered")
-public class LoginViewImpl extends AppCompatActivity
+public class LoginViewImpl extends BaseView
         implements LoginView,
         View.OnClickListener,
         View.OnFocusChangeListener,
@@ -110,9 +110,11 @@ public class LoginViewImpl extends AppCompatActivity
         /* 绑定presenter */
         attachPresenter();
         ButterKnife.bind(this);
+        setSinkStatusBar(true, false, R.color.input_active_color);
         initView();
         setVideo();
     }
+
 
     private void setVideo() {
         final String string = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg_video).toString();
@@ -176,15 +178,6 @@ public class LoginViewImpl extends AppCompatActivity
         mLoginWeChat.setOnTouchListener(this);
         mLoginQQ.setOnTouchListener(this);
     }
-
-    @SuppressLint("ResourceAsColor")
-    @Override
-    public void setStatusBar() {
-        Window window = getWindow();
-        window.setStatusBarColor(android.R.color.transparent);
-        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-    }
-
 
     @Override
     public String getIdentify() {
@@ -309,26 +302,10 @@ public class LoginViewImpl extends AppCompatActivity
     }
 
     @Override
-    public void navigationBack() {
-        finish();
-    }
-
-    @SuppressLint("ShowToast")
-    @Override
-    public void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     protected void onDestroy() {
         detachPresenter();
         mLoginSubmit.dispose();
         super.onDestroy();
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 
     /* 重写点击事件 */
@@ -432,7 +409,7 @@ public class LoginViewImpl extends AppCompatActivity
         } else {
             if (hasFocus) {
                 if (!ValidateFormInput.isValidMobile(getIdentify())) {
-                    showToast("您输入的是无效的手机号哦~");
+                    showToast("您输入的是无效的手机号哦~", TOAST_DURATION.TOAST_SHORT, TOAST_POSITION.TOAST_CENTER);
                 }
                 mPassword.setActivated(true);
                 mIdentify.setActivated(false);

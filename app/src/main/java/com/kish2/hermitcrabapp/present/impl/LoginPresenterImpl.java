@@ -1,13 +1,8 @@
 package com.kish2.hermitcrabapp.present.impl;
 
-import android.content.Intent;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.kish2.hermitcrabapp.present.LoginPresenter;
-import com.kish2.hermitcrabapp.view.LoginView;
-import com.kish2.hermitcrabapp.view.MyTest;
 import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
 
 public class LoginPresenterImpl implements LoginPresenter {

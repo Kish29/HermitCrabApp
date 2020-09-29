@@ -1,27 +1,21 @@
-package com.kish2.hermitcrabapp.fragment;
+package com.kish2.hermitcrabapp.fragment.impl;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.fragment.BaseFragment;
+import com.kish2.hermitcrabapp.fragment.IBaseFragment;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeFragment extends Fragment implements BaseFragment {
-
-    @BindView(R.id.vp_tab_bar)
-    TableLayout mNavTabBar;
-    @BindView(R.id.vp_main)
-    ViewPager mViewMain;
+public class PersonalFragmentImpl extends BaseFragment implements IBaseFragment {
 
     /* 这三个方法必须重写 */
     @Override
@@ -32,8 +26,9 @@ public class HomeFragment extends Fragment implements BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        /* 绑定xml视图 */
-        View pagerView = inflater.inflate(R.layout.fragment_home, container, false);// 视图与父容器ViewGroup不需要连接
+        Log.d("tag", "PersonalFragment createView run.");
+
+        View pagerView = inflater.inflate(R.layout.fragment_personal, container, false);
         ButterKnife.bind(this, pagerView);
 
         return pagerView;
@@ -46,6 +41,21 @@ public class HomeFragment extends Fragment implements BaseFragment {
 
     @Override
     public void initView() {
+
+    }
+
+    @Override
+    public void attachPresenter() {
+
+    }
+
+    @Override
+    public void detachPresenter() {
+
+    }
+
+    @Override
+    public void setPaddingTopForStatusBar(View v) {
 
     }
 }
