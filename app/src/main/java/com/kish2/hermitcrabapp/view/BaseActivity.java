@@ -97,7 +97,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     // 返回Context对象
-    public Context getContext() {
+    public Context baseActivityGetContext() {
         return this;
     }
 }

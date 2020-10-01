@@ -1,10 +1,12 @@
 package com.kish2.hermitcrabapp.fragment.impl;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,10 +17,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.kish2.hermitcrabapp.MainActivity;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapter.SubFragmentContentAdapter;
 import com.kish2.hermitcrabapp.fragment.BaseFragment;
 import com.kish2.hermitcrabapp.fragment.IBaseFragment;
+import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +41,9 @@ public class PersonalFragmentImpl extends BaseFragment implements IBaseFragment 
     ViewPager mVPSubPersonal;
     @BindView(R.id.fragment_sub_constraint_layout_for_padding_top)
     ConstraintLayout mPaddingTop;
+
+    @BindView(R.id.change_activity_test)
+    Button mChangeButton;
 
     /* 这三个方法必须重写 */
     @Override
@@ -73,6 +80,14 @@ public class PersonalFragmentImpl extends BaseFragment implements IBaseFragment 
         mNavTabBar.setupWithViewPager(mVPSubPersonal);
         TextView viewById = mRetrieveBar.findViewById(R.id.top_navigation_label);
         viewById.setText("个人");
+
+        mChangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), LoginViewImpl.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

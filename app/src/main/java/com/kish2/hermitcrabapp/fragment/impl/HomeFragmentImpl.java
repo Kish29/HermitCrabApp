@@ -53,7 +53,7 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
         View pagerView = inflater.inflate(R.layout.fragment_home, container, false);// 视图与父容器ViewGroup不需要连接
         ButterKnife.bind(this, pagerView);
 
-        /* 设置沉浸式状态栏 */
+        /* 设置沉浸式状态栏预留空间 */
         setPaddingTopForStatusBar(pagerView);
         initView();
 

@@ -1,18 +1,33 @@
 <resources>
 
-    <!--顶部无标题-->
+    <!-- 无全屏 顶部无标题-->
     <style name="MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/activityChangeAnimation</item>
     </style>
 
-    <!-- 全屏 -->
+    <!-- 全屏 淡入淡出 -->
     <style name="fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowAnimationStyle">@style/activityChangeAnimation</item>
+        <item name="android:windowAnimationStyle">@style/activityChangeAnimationFadeInAndOut</item>
         <item name="android:windowFullscreen">true</item>
     </style>
-    <!-- app的页面切换样式 -->
+
+    <!-- 无全屏 淡入淡出 -->
+    <style name="noFullFadeInOut" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/activityChangeAnimationFadeInAndOut</item>
+    </style>
+
+    <!-- 页面切换样式 淡入淡出 -->
+    <style name="activityChangeAnimationFadeInAndOut" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <!-- app的页面切换样式 右进左出 -->
     <style name="activityChangeAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/in_from_right</item>
         <item name="android:activityOpenExitAnimation">@anim/out_to_left</item>

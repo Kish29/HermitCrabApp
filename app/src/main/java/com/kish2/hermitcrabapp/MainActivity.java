@@ -10,15 +10,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.adapter.MainFragmentAdapter;
+import com.kish2.hermitcrabapp.utils.DeviceInfo;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.UserView;
-import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,8 +45,6 @@ public class MainActivity extends BaseActivity implements UserView {
     @BindView(R.id.nav_tab_bar)
     TabLayout mNavigation;
 
-    @BindView(R.id.change_activity_test)
-    Button mChangeButton;
 
     @BindView(R.id.vp_main)
     ViewPager mViewMain;
@@ -72,6 +69,9 @@ public class MainActivity extends BaseActivity implements UserView {
         int len = img.length;
         if (titles.length != img.length)
             return;
+
+        /* 设置背景透明度 */
+        mNavigation.getBackground().setAlpha(204);
         for (int i = 0; i < len; i++) {
             TabLayout.Tab newTab = tabs.newTab();
             View tabBarBasic = inflater.inflate(R.layout.ly_nav_tab_bar_basic, null);
@@ -124,13 +124,7 @@ public class MainActivity extends BaseActivity implements UserView {
         initTabs(mNavigation, getLayoutInflater(), TAB_TITLES, TAB_IMG);
         initPagerViews();
         setSinkStatusBar(false, true);
-        mChangeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginViewImpl.class);
-                startActivity(intent);
-            }
-        });
+        initDeviceInfo();
     }
 
     @Override
@@ -183,4 +177,12 @@ public class MainActivity extends BaseActivity implements UserView {
         }
         return super.dispatchKeyEvent(event);
     }
+
+    private void initDeviceInfo() {
+        if (this.getSharedPreferences("device_info", MODE_PRIVATE) == null) {
+            Log.d("initDeviceInfo", "create DeviceInfo");
+            new DeviceInfo(this, this);
+        } else Log.d("no device info create", "no device info create");
+    }
+
 }

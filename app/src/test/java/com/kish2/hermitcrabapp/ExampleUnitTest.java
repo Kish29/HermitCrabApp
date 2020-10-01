@@ -31,12 +31,12 @@ public class ExampleUnitTest {
     @Test
     public void getContextTest() {
         BaseActivity baseActivity = new BaseActivity();
-        System.out.println(baseActivity.getContext());
+        System.out.println(baseActivity.baseActivityGetContext());
 
         MainActivity mainActivity = new MainActivity();
-        System.out.println(mainActivity.getContext());
+        System.out.println(mainActivity.baseActivityGetContext());
 
         LoginViewImpl loginView = new LoginViewImpl();
-        System.out.println(loginView.getContext());
+        System.out.println(loginView.baseActivityGetContext());
     }
 }

@@ -18,6 +18,16 @@
             android:id="@+id/retrieve_bar"
             layout="@layout/ly_top_bar_navigation" />
 
+        <Button
+            android:id="@+id/change_activity_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/retrieve_bar" />
+
         <!-- 顶部的TabBar -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/vp_nav_tab_bar"

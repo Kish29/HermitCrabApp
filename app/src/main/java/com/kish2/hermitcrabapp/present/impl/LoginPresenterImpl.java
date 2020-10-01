@@ -1,7 +1,9 @@
 package com.kish2.hermitcrabapp.present.impl;
 
+import android.content.Intent;
 import android.util.Log;
 
+import com.kish2.hermitcrabapp.MainActivity;
 import com.kish2.hermitcrabapp.present.LoginPresenter;
 import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
 
@@ -26,6 +28,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     public void login() {
         Log.d(TAG, "login method");
         Log.d(TAG, loginView.getIdentify() + "\tpwd->" + loginView.getPassword());
+        loginView.startActivity(new Intent(loginView.baseActivityGetContext(), MainActivity.class));
     }
 
     @Override

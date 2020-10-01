@@ -1,10 +1,12 @@
 package com.kish2.hermitcrabapp.fragment.impl;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapter.SubFragmentContentAdapter;
 import com.kish2.hermitcrabapp.fragment.BaseFragment;
 import com.kish2.hermitcrabapp.fragment.IBaseFragment;
+import com.kish2.hermitcrabapp.view.MyTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +39,9 @@ public class ServiceFragmentImpl extends BaseFragment implements IBaseFragment {
     ViewPager mVPSubService;
     @BindView(R.id.fragment_sub_constraint_layout_for_padding_top)
     ConstraintLayout mPaddingTop;
+
+    @BindView(R.id.change_activity_test)
+    Button mBtnChange;
 
     /* 这三个方法必须重写 */
     @Override
@@ -72,6 +78,14 @@ public class ServiceFragmentImpl extends BaseFragment implements IBaseFragment {
         mNavTabBar.setupWithViewPager(mVPSubService);
         TextView viewById = mRetrieveBar.findViewById(R.id.top_navigation_label);
         viewById.setText("服务");
+
+        mBtnChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MyTest.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

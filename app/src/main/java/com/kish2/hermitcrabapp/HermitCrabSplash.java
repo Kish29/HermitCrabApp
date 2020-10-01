@@ -35,7 +35,6 @@ public class HermitCrabSplash extends BaseActivity implements IBaseView {
             @Override
             public void run() {
                 startActivity(intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
         };
