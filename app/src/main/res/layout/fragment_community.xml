@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_community"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.impl.CommunityFragmentImpl">
@@ -14,9 +15,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
+        <!--<include
             android:id="@+id/retrieve_bar"
-            layout="@layout/ly_top_bar_navigation" />
+            layout="@layout/ly_top_bar_navigation" />-->
 
         <!-- 顶部的TabBar -->
         <com.google.android.material.tabs.TabLayout

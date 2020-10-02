@@ -56,12 +56,12 @@ public class PersonalFragmentImpl extends BaseFragment implements IBaseFragment 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("tag", "PersonalFragment createView run.");
 
-        View pagerView = inflater.inflate(R.layout.fragment_personal, container, false);
-        ButterKnife.bind(this, pagerView);
+        View fragmentPersonal = inflater.inflate(R.layout.fragment_personal, container, false);
+        ButterKnife.bind(this, fragmentPersonal);
 
-        setPaddingTopForStatusBar(pagerView);
+        setPaddingTopForStatusBar(fragmentPersonal);
         initView();
-        return pagerView;
+        return fragmentPersonal;
     }
 
     @Override

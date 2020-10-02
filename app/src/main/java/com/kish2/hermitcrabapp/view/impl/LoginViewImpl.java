@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -23,7 +24,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.custom.CustomVideoView;
+import com.kish2.hermitcrabapp.custom.CustomTextureVideoView;
 import com.kish2.hermitcrabapp.present.impl.LoginPresenterImpl;
 import com.kish2.hermitcrabapp.utils.ValidateFormInput;
 import com.kish2.hermitcrabapp.view.BaseActivity;
@@ -44,8 +45,11 @@ public class LoginViewImpl extends BaseActivity
 
     /* 背景视频 */
     @BindView(R.id.login_reg_video)
-    CustomVideoView bg;
+    CustomTextureVideoView bg;
 
+    /* 登录界面容器 */
+    @BindView(R.id.ll_login_container)
+    LinearLayout mLoginContainer;
     /* 登录界面具有组件 */
     // 返回按钮
     @BindView(R.id.ib_navigate_back)

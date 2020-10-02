@@ -54,12 +54,12 @@ public class ServiceFragmentImpl extends BaseFragment implements IBaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("tag", "ServiceFragment createView run.");
 
-        View pagerView = inflater.inflate(R.layout.fragment_service, container, false);
-        ButterKnife.bind(this, pagerView);
+        View fragmentService = inflater.inflate(R.layout.fragment_service, container, false);
+        ButterKnife.bind(this, fragmentService);
 
-        setPaddingTopForStatusBar(pagerView);
+        setPaddingTopForStatusBar(fragmentService);
         initView();
-        return pagerView;
+        return fragmentService;
     }
 
     @Override

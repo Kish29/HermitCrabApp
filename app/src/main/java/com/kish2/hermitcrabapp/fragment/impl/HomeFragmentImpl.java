@@ -1,10 +1,13 @@
 package com.kish2.hermitcrabapp.fragment.impl;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +18,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.kish2.hermitcrabapp.MainActivity;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapter.SubFragmentContentAdapter;
 import com.kish2.hermitcrabapp.fragment.BaseFragment;
@@ -39,6 +43,9 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
     @BindView(R.id.fragment_sub_constraint_layout_for_padding_top)
     ConstraintLayout mPaddingTop;
 
+    @BindView(R.id.btn_test)
+    Button button;
+
     /* 这三个方法必须重写 */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,14 +57,14 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("tag", "HomeFragment createView run.");
         /* 绑定xml视图 */
-        View pagerView = inflater.inflate(R.layout.fragment_home, container, false);// 视图与父容器ViewGroup不需要连接
-        ButterKnife.bind(this, pagerView);
+        View fragmentHome = inflater.inflate(R.layout.fragment_home, container, false);// 视图与父容器ViewGroup不需要连接
+        ButterKnife.bind(this, fragmentHome);
 
         /* 设置沉浸式状态栏预留空间 */
-        setPaddingTopForStatusBar(pagerView);
+        setPaddingTopForStatusBar(fragmentHome);
         initView();
 
-        return pagerView;
+        return fragmentHome;
     }
 
     @Override
@@ -76,6 +83,26 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
         mNavTabBar.setupWithViewPager(mVPSubHome);
         TextView viewById = mRetrieveBar.findViewById(R.id.top_navigation_label);
         viewById.setText("首页");
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int timeMillions = 300;
+                LinearLayout leftContent = requireActivity().findViewById(R.id.activity_main_left_content);
+                ConstraintLayout mainContent = requireActivity().findViewById(R.id.activity_main_content);
+                View layer = requireActivity().findViewById(R.id.activity_main_layer);
+                float width = leftContent.getWidth();
+
+                leftContent.animate().translationXBy(-width).translationX(0).setDuration(timeMillions).start();
+                mainContent.animate().translationXBy(0).translationX(width).setDuration(timeMillions).start();
+                layer.animate().alphaBy(0).alpha(1).setDuration(timeMillions).start();
+
+                MainActivity.isShowingSlideBar = true;
+            }
+        });
+
+
     }
 
     @Override

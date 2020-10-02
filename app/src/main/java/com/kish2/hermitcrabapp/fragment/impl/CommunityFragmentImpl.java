@@ -5,12 +5,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -28,8 +31,8 @@ import butterknife.ButterKnife;
 
 public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment {
     /* TabLayout的tabBar、ViewPager、预留padding */
-    @BindView(R.id.retrieve_bar)
-    LinearLayout mRetrieveBar;
+    /*@BindView(R.id.retrieve_bar)
+    LinearLayout mRetrieveBar;*/
     @BindView(R.id.vp_nav_tab_bar)
     TabLayout mNavTabBar;
     @BindView(R.id.vp_sub)
@@ -48,12 +51,12 @@ public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("tag", "Community createView run.");
 
-        View pagerView = inflater.inflate(R.layout.fragment_community, container, false);
-        ButterKnife.bind(this, pagerView);
+        View fragmentCommunity = inflater.inflate(R.layout.fragment_community, container, false);
+        ButterKnife.bind(this, fragmentCommunity);
 
-        setPaddingTopForStatusBar(pagerView);
+        setPaddingTopForStatusBar(fragmentCommunity);
         initView();
-        return pagerView;
+        return fragmentCommunity;
     }
 
     @Override
@@ -70,8 +73,9 @@ public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment
         mVPSubCommunity.setAdapter(subFmCAdapter);
         /* 绑定ViewPager */
         mNavTabBar.setupWithViewPager(mVPSubCommunity);
-        TextView viewById = mRetrieveBar.findViewById(R.id.top_navigation_label);
-        viewById.setText("社区");
+        /*TextView viewById = mRetrieveBar.findViewById(R.id.top_navigation_label);
+        viewById.setText("社区");*/
+
     }
 
     @Override

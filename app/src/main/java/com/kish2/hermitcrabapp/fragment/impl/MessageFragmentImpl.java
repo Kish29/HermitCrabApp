@@ -48,12 +48,12 @@ public class MessageFragmentImpl extends BaseFragment implements IBaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("tag", "MessageFragment createView run.");
 
-        View pagerView = inflater.inflate(R.layout.fragment_message, container, false);
-        ButterKnife.bind(this, pagerView);
+        View fragmentMessage = inflater.inflate(R.layout.fragment_message, container, false);
+        ButterKnife.bind(this, fragmentMessage);
 
-        setPaddingTopForStatusBar(pagerView);
+        setPaddingTopForStatusBar(fragmentMessage);
         initView();
-        return pagerView;
+        return fragmentMessage;
     }
 
     @Override
