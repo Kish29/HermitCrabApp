@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -23,6 +25,7 @@ import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapter.SubFragmentContentAdapter;
 import com.kish2.hermitcrabapp.fragment.BaseFragment;
 import com.kish2.hermitcrabapp.fragment.IBaseFragment;
+import com.kish2.hermitcrabapp.view.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,12 +76,18 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
     }
 
     @Override
+    public void setViewPagerOfScreenLimit() {
+        mVPSubHome.setOffscreenPageLimit(this.VIEW_PAGER_OF_SCREEN_LIMIT);
+    }
+
+    @Override
     public void initView() {
         /* 获取page_titles */
         setPageTitles();
         /* 创建实例并作为ViewPager的适配器 */
         subFmCAdapter = new SubFragmentContentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, page_titles);
         mVPSubHome.setAdapter(subFmCAdapter);
+        setViewPagerOfScreenLimit();
         /* 绑定ViewPager */
         mNavTabBar.setupWithViewPager(mVPSubHome);
         TextView viewById = mRetrieveBar.findViewById(R.id.top_navigation_label);
@@ -88,17 +97,8 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int timeMillions = 300;
-                LinearLayout leftContent = requireActivity().findViewById(R.id.activity_main_left_content);
-                ConstraintLayout mainContent = requireActivity().findViewById(R.id.activity_main_content);
-                View layer = requireActivity().findViewById(R.id.activity_main_layer);
-                float width = leftContent.getWidth();
-
-                leftContent.animate().translationXBy(-width).translationX(0).setDuration(timeMillions).start();
-                mainContent.animate().translationXBy(0).translationX(width).setDuration(timeMillions).start();
-                layer.animate().alphaBy(0).alpha(1).setDuration(timeMillions).start();
-
-                MainActivity.isShowingSlideBar = true;
+                DrawerLayout mRootView = requireActivity().findViewById(R.id.activity_main_drawer_layout);
+                mRootView.openDrawer(GravityCompat.START);
             }
         });
 

@@ -7,9 +7,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -33,6 +35,10 @@ public class MyTest extends BaseActivity implements IBaseView {
     Button left;
     @BindView(R.id.btn_right)
     Button right;
+    @BindView(R.id.drawer_left_content)
+    RelativeLayout leftContent;
+    @BindView(R.id.drawer_main_content)
+    ConstraintLayout mainContent;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -50,8 +56,14 @@ public class MyTest extends BaseActivity implements IBaseView {
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        Log.d("width", String.valueOf(leftContent.getWidth()));
+    }
+
+    @Override
     public void initView() {
-        setSinkStatusBar(true, true);
+        setSinkStatusBar(false, true);
         /*customRefreshView.setRefresh_type(CustomRefreshView.REFRESH_TYPE.NORMAL_REFRESH);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(adapter);
@@ -71,9 +83,7 @@ public class MyTest extends BaseActivity implements IBaseView {
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-                Log.d(TAG, "onDrawerSlide");
-                Log.d(TAG, String.valueOf(left.getTranslationX()));
-                Log.d(TAG, String.valueOf(right.getTranslationX()));
+                mainContent.setTranslationX(leftContent.getWidth() * slideOffset);
             }
 
             @Override

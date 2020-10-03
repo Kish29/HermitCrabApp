@@ -17,6 +17,8 @@ public class BaseActivity extends AppCompatActivity {
 
     protected int DEFAULT_COLOR_ID = -1;
 
+    protected int VIEW_PAGER_OF_SCREEN_LIMIT = 10;
+
     public void setSinkStatusBar(boolean isRemainPadding, boolean isDarkTheme) {
         setSinkStatusBar(isRemainPadding, isDarkTheme, DEFAULT_COLOR_ID);
     }

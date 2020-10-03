@@ -138,7 +138,6 @@ public class LoginViewImpl extends BaseActivity
         });
     }
 
-
     /* 注册视图组件的监听事件 */
     @SuppressLint("ClickableViewAccessibility")
     public void initView() {

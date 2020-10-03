@@ -5,6 +5,7 @@ import android.content.Context;
 /* IBaseFragment 必须给子类给予约束 */
 public interface IBaseView {
 
+
     /* 初始化视图 */
     public void initView();
 

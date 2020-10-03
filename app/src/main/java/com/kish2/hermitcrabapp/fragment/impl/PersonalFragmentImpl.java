@@ -70,9 +70,15 @@ public class PersonalFragmentImpl extends BaseFragment implements IBaseFragment 
     }
 
     @Override
+    public void setViewPagerOfScreenLimit() {
+        mVPSubPersonal.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
+    }
+
+    @Override
     public void initView() {
         /* 获取page_titles */
         setPageTitles();
+        setViewPagerOfScreenLimit();
         /* 创建实例并作为ViewPager的适配器 */
         subFmCAdapter = new SubFragmentContentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, page_titles);
         mVPSubPersonal.setAdapter(subFmCAdapter);

@@ -46,6 +46,11 @@ public class SubFragmentContent extends BaseFragment implements IBaseFragment {
     }
 
     @Override
+    public void setViewPagerOfScreenLimit() {
+
+    }
+
+    @Override
     public void initView() {
 
     }

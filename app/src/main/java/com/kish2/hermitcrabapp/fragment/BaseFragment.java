@@ -11,6 +11,8 @@ import java.util.List;
 
 public class BaseFragment extends Fragment {
 
+    /* viewpager预加载页面，提升流畅度 */
+    protected int VIEW_PAGER_OF_SCREEN_LIMIT = 10;
     /* 子Fragment适配器 */
     protected SubFragmentContentAdapter subFmCAdapter;
     /* 页面标题 */
