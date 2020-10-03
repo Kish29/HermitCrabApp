@@ -17,7 +17,7 @@
 
         <include
             android:id="@+id/ll_retrieve_bar"
-            layout="@layout/ly_top_bar_navigation" />
+            layout="@layout/ly_top_nav_bar" />
 
         <ImageView
             android:id="@+id/iv_login_logo"
@@ -338,7 +338,7 @@
                     android:layout_marginEnd="@dimen/lay_12"
                     android:background="@mipmap/ic_login_3party_wechat"
                     android:contentDescription="@null"
-                    android:scaleType="centerInside" />
+                    android:scaleType="centerCrop" />
 
                 <ImageButton
                     android:id="@+id/ib_login_qq"
@@ -348,7 +348,7 @@
                     android:layout_marginEnd="@dimen/lay_12"
                     android:background="@mipmap/ic_login_3party_qq"
                     android:contentDescription="@null"
-                    android:scaleType="centerInside" />
+                    android:scaleType="centerCrop" />
 
                 <!--<ImageButton
                     android:id="@+id/ib_login_csdn"

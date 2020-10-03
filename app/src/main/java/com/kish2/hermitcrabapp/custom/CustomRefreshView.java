@@ -4,16 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -100,7 +97,7 @@ public class CustomRefreshView extends LinearLayout implements View.OnTouchListe
         /* 如果attachToRoot=true,则布局文件将转化为View并绑定到root，然后返回root作为根节点的整个View
          * 如果attachToRoot=false,则布局文件转化为View但不绑定到root，返回以布局文件根节点为根节点的View
          * 所以这儿进行根节点的绑定 */
-        mRefreshHeader = LayoutInflater.from(context).inflate(R.layout.pull_to_refresh, null, true);
+        mRefreshHeader = LayoutInflater.from(context).inflate(R.layout.custom_refresh_view, null, true);
 
         /* 获取刷新头的部件*/
         mPrsBar = mRefreshHeader.findViewById(R.id.progress_bar);

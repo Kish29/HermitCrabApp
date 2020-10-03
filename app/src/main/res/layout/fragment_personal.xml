@@ -16,7 +16,7 @@
 
         <include
             android:id="@+id/retrieve_bar"
-            layout="@layout/ly_top_bar_navigation" />
+            layout="@layout/ly_top_nav_bar" />
 
         <Button
             android:id="@+id/change_activity_test"

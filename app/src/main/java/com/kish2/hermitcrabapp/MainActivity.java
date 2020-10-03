@@ -13,9 +13,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -59,15 +59,21 @@ public class MainActivity extends BaseActivity implements UserView {
     @BindView(R.id.btn_wrap_back)
     Button mBtnWrapSideMenu;
 
+    /* 侧边栏*/
     @BindView(R.id.left_side_menu)
-    LinearLayout mSideMenu;
+    ConstraintLayout mSideMenu;
+    /* 对应宽度*/
+    private float mSideMenuWidth;
 
+    /* 主内容*/
     @BindView(R.id.main_content)
     ConstraintLayout mMainContent;
 
+    /* 底部tab条*/
     @BindView(R.id.nav_tab_bar)
     TabLayout mNavigation;
 
+    /* 主viewpager*/
     @BindView(R.id.vp_main)
     ViewPager mViewMain;
 
@@ -99,7 +105,7 @@ public class MainActivity extends BaseActivity implements UserView {
         mNavigation.getBackground().setAlpha(204);
         for (int i = 0; i < len; i++) {
             TabLayout.Tab newTab = tabs.newTab();
-            View tabBarBasic = inflater.inflate(R.layout.ly_nav_tab_bar_basic, null);
+            View tabBarBasic = inflater.inflate(R.layout.ly_bottom_nav_tab_bar_basic, null);
 
             // 使用自定义视图，目的是为了便于修改
             newTab.setCustomView(tabBarBasic);
@@ -145,13 +151,14 @@ public class MainActivity extends BaseActivity implements UserView {
         });
     }
 
+    /* 设置主内容跟随移动 */
     private void initDrawerListener() {
         mRootView.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
                 /* 跟随侧边栏向右移动 */
-                mMainContent.setTranslationX(mSideMenu.getMeasuredWidth() * slideOffset);
+                mMainContent.setTranslationX(mSideMenuWidth * slideOffset);
             }
         });
     }
@@ -169,6 +176,7 @@ public class MainActivity extends BaseActivity implements UserView {
         mBtnWrapSideMenu.setOnClickListener(v -> {
             /* 收起左边栏*/
             mRootView.closeDrawer(GravityCompat.START);
+            mNavigation.selectTab(mNavigation.getTabAt(4));
         });
     }
 
@@ -229,4 +237,9 @@ public class MainActivity extends BaseActivity implements UserView {
         } else Log.d("no device info create", "no device info create");
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        mSideMenuWidth = mSideMenu.getWidth();
+    }
 }

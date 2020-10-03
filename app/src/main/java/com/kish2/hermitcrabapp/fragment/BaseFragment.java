@@ -1,5 +1,10 @@
 package com.kish2.hermitcrabapp.fragment;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.kish2.hermitcrabapp.R;
@@ -17,6 +22,5 @@ public class BaseFragment extends Fragment {
     protected SubFragmentContentAdapter subFmCAdapter;
     /* 页面标题 */
     protected List<String> page_titles;
-
 
 }

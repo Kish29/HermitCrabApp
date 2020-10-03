@@ -16,6 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@null"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:scaleType="centerCrop"
             android:src="@mipmap/login_background" />
 
@@ -58,23 +60,38 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 注意DrawerLayout布局中，左右菜单栏一定要写在主内容的后面 -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/left_side_menu"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/colorPrimary"
-        android:gravity="center"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_wrap_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/side_menu_background" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="去往个人中心" />
+            android:orientation="vertical">
 
+            <Button
+                android:id="@+id/btn_wrap_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="去往个人中心" />
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

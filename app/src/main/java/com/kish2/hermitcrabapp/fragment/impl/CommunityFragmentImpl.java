@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapter.SubFragmentContentAdapter;
 import com.kish2.hermitcrabapp.fragment.BaseFragment;
 import com.kish2.hermitcrabapp.fragment.IBaseFragment;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,9 +32,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment {
-    /* TabLayout的tabBar、ViewPager、预留padding */
-    /*@BindView(R.id.retrieve_bar)
-    LinearLayout mRetrieveBar;*/
+
+    /* 父根布局 */
+    DrawerLayout mDLParentView;
+
+    /* 顶部导航条*/
+    @BindView(R.id.top_retrieve_bar)
+    ViewGroup mTopRetrieveBar;
+    /* 用户头像*/
+    RoundedImageView mUserAvatar;
+    /* 搜索栏*/
+    SearchView mSearch;
+    /* 筛选栏*/
+    /*ImageButton mFilter*/
+
     @BindView(R.id.vp_nav_tab_bar)
     TabLayout mNavTabBar;
     @BindView(R.id.vp_sub)
@@ -79,9 +92,16 @@ public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment
         mVPSubCommunity.setAdapter(subFmCAdapter);
         /* 绑定ViewPager */
         mNavTabBar.setupWithViewPager(mVPSubCommunity);
-        /*TextView viewById = mRetrieveBar.findViewById(R.id.top_navigation_label);
-        viewById.setText("社区");*/
 
+        mDLParentView = requireActivity().findViewById(R.id.activity_main_drawer_layout);
+
+        /* 获取顶部retrieveBar的几个部件*/
+        mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_user_avatar);
+        mSearch = mTopRetrieveBar.findViewById(R.id.sv_search);
+
+        mUserAvatar.setOnClickListener(v -> {
+            mDLParentView.openDrawer(GravityCompat.START);
+        });
     }
 
     @Override
