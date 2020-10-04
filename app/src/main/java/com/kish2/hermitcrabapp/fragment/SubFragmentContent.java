@@ -1,25 +1,37 @@
 package com.kish2.hermitcrabapp.fragment;
 
+import android.icu.text.CaseMap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.custom.CustomRefreshView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 
 /* 此类用于设置视图 */
-public class SubFragmentContent extends BaseFragment implements IBaseFragment {
+public class SubFragmentContent extends BaseFragment implements IBaseFragment, BGARefreshLayout.BGARefreshLayoutDelegate {
 
-    @BindView(R.id.tv_sub_fragment)
-    TextView textView;
+    /*@BindView(R.id.tv_sub_fragment)
+    TextView textView;*/
+
+    @BindView(R.id.bga_refresh_layout)
+    BGARefreshLayout mRefreshLayout;
+    @BindView(R.id.lv_child)
+    ListView mListView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +44,25 @@ public class SubFragmentContent extends BaseFragment implements IBaseFragment {
         Log.d("SubFragmentContent", "onCreateView run.");
         View view = inflater.inflate(R.layout.sub_fragment_content, container, false);
         ButterKnife.bind(this, view);
+
+
+        /* 测试，添加ListView，查看滑动效果 */
+        String[] items = new String[26];
+        for (int i = 0; i < 26; i++) {
+            items[i] = String.valueOf((char) (i + 96));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, items);
+        mListView.setAdapter(adapter);
+        mListView.setVerticalScrollBarEnabled(false);
+
+        // 为BGARefreshLayout 设置代理
+        mRefreshLayout.setDelegate(this);
+
+        // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
+        BGARefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(getContext(), true);
+        // 设置下拉刷新和上拉加载更多的风格
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
+
         return view;
     }
 
@@ -63,5 +94,16 @@ public class SubFragmentContent extends BaseFragment implements IBaseFragment {
     @Override
     public void detachPresenter() {
 
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+
+        return true;
     }
 }

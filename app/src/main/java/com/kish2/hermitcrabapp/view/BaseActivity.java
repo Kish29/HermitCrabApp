@@ -19,13 +19,13 @@ public class BaseActivity extends AppCompatActivity {
 
     protected int VIEW_PAGER_OF_SCREEN_LIMIT = 10;
 
-    public void setSinkStatusBar(boolean isRemainPadding, boolean isDarkTheme) {
-        setSinkStatusBar(isRemainPadding, isDarkTheme, DEFAULT_COLOR_ID);
+    public void setSinkStatusBar(boolean remainPadding, boolean isDarkTheme) {
+        setSinkStatusBar(remainPadding, isDarkTheme, DEFAULT_COLOR_ID);
     }
 
-    public void setSinkStatusBar(boolean isRemainPadding, boolean isDarkTheme, int colorId) {
+    public void setSinkStatusBar(boolean remainPadding, boolean isDarkTheme, int colorId) {
         //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
-        StatusBarUtil.setRootViewFitsSystemWindows(this, isRemainPadding);
+        StatusBarUtil.setRootViewFitsSystemWindows(this, remainPadding);
         //设置状态栏透明
         StatusBarUtil.setTranslucentStatus(this);
 

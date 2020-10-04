@@ -1,5 +1,6 @@
 package com.kish2.hermitcrabapp;
 
+import com.kish2.hermitcrabapp.utils.RecordSearchHistorySQLite;
 import com.kish2.hermitcrabapp.utils.ValidateFormInput;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
@@ -38,5 +39,13 @@ public class ExampleUnitTest {
 
         LoginViewImpl loginView = new LoginViewImpl();
         System.out.println(loginView.baseActivityGetContext());
+    }
+
+    @Test
+    public void SQLiteTest() {
+        RecordSearchHistorySQLite sqLite = new RecordSearchHistorySQLite(new MainActivity().baseActivityGetContext());
+        String string = "第一条搜索数据";
+        sqLite.insert(string);
+        System.out.println(sqLite.matchedHistory(string));
     }
 }

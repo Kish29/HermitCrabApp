@@ -3,12 +3,14 @@ package com.kish2.hermitcrabapp.custom;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -47,6 +49,9 @@ public class CustomRefreshView extends LinearLayout implements View.OnTouchListe
 
     /* 是否已加载过一次Layout，这里onLayout中的初始化只需加载一次 */
     private boolean loadOnce = false;
+
+    /* 是否进行高度的设置 */
+    private boolean setHeight = false;
 
     /* 在被判定为滚动之前用户手指可以移动的最大值 */
     private static int touchSlop;
@@ -89,15 +94,24 @@ public class CustomRefreshView extends LinearLayout implements View.OnTouchListe
 
     /* 构造函数会在使用该布局文件的activity的setContentView时进行调用
      * 并且传入的context是使用该布局文件的activity */
+
+    /**
+     * @param context        上下文
+     * @param attrs          属性
+     * @param firstChildView 第一个子视图，必须添加进来，推荐是自定义的ViewGroup
+     */
     @SuppressLint("InflateParams")
-    public CustomRefreshView(Context context, @Nullable AttributeSet attrs) {
+    public CustomRefreshView(Context context, @Nullable AttributeSet attrs, ViewGroup firstChildView) {
         super(context, attrs);
+
+        System.out.println("CustomRefreshView create and " + this + "and loadOnce is");
+
 
         /* 获取自定义的下拉刷新布局文件 */
         /* 如果attachToRoot=true,则布局文件将转化为View并绑定到root，然后返回root作为根节点的整个View
          * 如果attachToRoot=false,则布局文件转化为View但不绑定到root，返回以布局文件根节点为根节点的View
          * 所以这儿进行根节点的绑定 */
-        mRefreshHeader = LayoutInflater.from(context).inflate(R.layout.custom_refresh_view, null, true);
+        mRefreshHeader = LayoutInflater.from(context).inflate(R.layout.ly_refresh_view, null, true);
 
         /* 获取刷新头的部件*/
         mPrsBar = mRefreshHeader.findViewById(R.id.progress_bar);
@@ -109,11 +123,22 @@ public class CustomRefreshView extends LinearLayout implements View.OnTouchListe
          * 滑动的距离太短，系统不认为它是滑动的。这是一个常量，和设备有关，在不同设备上这个值可能是不同的 */
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
-        /* 添加该刷新头(必须) */
-        addView(mRefreshHeader, 0);
-        /* 设置视图的排列方式
+        /* 子视图赋值*/
+        mSubView = firstChildView;
+
+        /* 设置视图的排列方式，必须
          * 也可在xml中进行设置 */
         setOrientation(VERTICAL);
+
+        /* addView都会提前调用onLayout函数 */
+        /* 添加该刷新头(必须) */
+        addView(mRefreshHeader, 0);
+
+        /* 添加第一个子视图 */
+        addView(mSubView, 1);
+
+        /* 添加完之后*/
+        setHeight = true;
     }
 
     /* onLayout函数用于布置子View，初始化子布局必须在这儿写 */

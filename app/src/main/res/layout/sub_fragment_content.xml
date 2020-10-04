@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ly_sub_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.SubFragmentContent">
 
-    <TextView
-        android:id="@+id/tv_sub_fragment"
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+        android:id="@+id/bga_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/app_name_zh" />
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/lv_child"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

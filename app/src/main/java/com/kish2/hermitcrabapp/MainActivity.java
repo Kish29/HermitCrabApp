@@ -4,7 +4,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,14 +11,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.adapter.MainFragmentAdapter;
+import com.kish2.hermitcrabapp.custom.NoScrollViewPager;
 import com.kish2.hermitcrabapp.utils.DeviceInfo;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.UserView;
@@ -75,7 +76,7 @@ public class MainActivity extends BaseActivity implements UserView {
 
     /* 主viewpager*/
     @BindView(R.id.vp_main)
-    ViewPager mViewMain;
+    NoScrollViewPager mViewMain;
 
     /* 用户两次返回的间隔时间 */
     private long exitTime;
@@ -129,7 +130,7 @@ public class MainActivity extends BaseActivity implements UserView {
 
         // 关联切换
         // 并且设置页面切换时底部的TabLayout也要切换
-        mViewMain.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mNavigation));
+        // mViewMain.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mNavigation));
         /* 设置TabLayout切换时ViewPager的切换 */
         mNavigation.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -166,6 +167,13 @@ public class MainActivity extends BaseActivity implements UserView {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void initView() {
+
+        /*RecordSearchHistorySQLite sqLite = new RecordSearchHistorySQLite(this);
+        String string = "第一条搜索数据";
+        sqLite.insert(string);
+        System.out.println(sqLite.matchedHistory("一"));*/
+
+
         ButterKnife.bind(this);
         initTabs(mNavigation, getLayoutInflater(), TAB_TITLES, TAB_IMG);
         initPagerViews();

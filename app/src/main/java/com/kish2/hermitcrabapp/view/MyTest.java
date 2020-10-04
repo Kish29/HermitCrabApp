@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class MyTest extends BaseActivity implements IBaseView {
 
-    /*@BindView(R.id.custom_refresh_view)
+    /*@BindView(R.id.ly_refresh_view)
     CustomRefreshView customRefreshView;
 
     @BindView(R.id.list_view)
@@ -48,7 +48,7 @@ public class MyTest extends BaseActivity implements IBaseView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawerlayout_test);
 
-        /*customRefreshView = findViewById(R.id.custom_refresh_view);
+        /*customRefreshView = findViewById(R.id.ly_refresh_view);
         listView = findViewById(R.id.list_view);*/
         ButterKnife.bind(this);
 

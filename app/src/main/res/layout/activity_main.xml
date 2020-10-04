@@ -22,7 +22,7 @@
             android:src="@mipmap/login_background" />
 
         <!-- 页面ViewPager -->
-        <androidx.viewpager.widget.ViewPager
+        <com.kish2.hermitcrabapp.custom.NoScrollViewPager
             android:id="@+id/vp_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

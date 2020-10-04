@@ -39,4 +39,7 @@ dependencies {
     implementation 'br.com.simplepass:loading-button-android:2.2.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.makeramen:roundedimageview:2.2.1'
+    /* 下拉刷新 */
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'cn.bingoogolapple:bga-refreshlayout-androidx:2.0.0@aar'
 }

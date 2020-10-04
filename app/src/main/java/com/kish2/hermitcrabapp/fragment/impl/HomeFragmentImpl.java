@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -119,7 +121,6 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
                 rootTabBar.selectTab(rootTabBar.getTabAt(4));
             }
         });
-
 
     }
 
