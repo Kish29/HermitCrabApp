@@ -1,6 +1,8 @@
 package com.kish2.hermitcrabapp.fragment;
 
+import android.annotation.SuppressLint;
 import android.icu.text.CaseMap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,14 +98,46 @@ public class SubFragmentContent extends BaseFragment implements IBaseFragment, B
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
 
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                mRefreshLayout.endRefreshing();
+            }
+        }.execute();
     }
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
 
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                mRefreshLayout.endLoadingMore();
+            }
+        }.execute();
         return true;
     }
 }
