@@ -66,7 +66,7 @@ public class MessageFragmentImpl extends BaseFragment implements IBaseFragment {
         View fragmentMessage = inflater.inflate(R.layout.fragment_message, container, false);
         ButterKnife.bind(this, fragmentMessage);
 
-        setPaddingTopForStatusBar(fragmentMessage);
+        /*setPaddingTopForStatusBar(fragmentMessage);*/
         initView();
         return fragmentMessage;
     }
@@ -106,12 +106,12 @@ public class MessageFragmentImpl extends BaseFragment implements IBaseFragment {
 
     @Override
     public void setPaddingTopForStatusBar(View view) {
-        int identifier = view.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        /*int identifier = view.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (identifier > 0) {
             int paddingTop = getResources().getDimensionPixelOffset(identifier);
             Log.d("height", String.valueOf(paddingTop));
             mPaddingTop.setPadding(0, paddingTop, 0, 0);
-        }
+        }*/
     }
 
     @Override

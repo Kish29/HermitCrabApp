@@ -1,8 +1,10 @@
 package com.kish2.hermitcrabapp.fragment.impl;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -48,10 +50,22 @@ public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment
 
     @BindView(R.id.vp_nav_tab_bar)
     TabLayout mNavTabBar;
+    /* retrieve bar的高度 */
+    private float mRBHeight;
+
     @BindView(R.id.vp_sub)
     ViewPager mVPSubCommunity;
+    @BindView(R.id.v_layer)
+    View mLayer;
+
     @BindView(R.id.fragment_sub_constraint_layout_for_padding_top)
     ConstraintLayout mPaddingTop;
+
+    ViewGroup.MarginLayoutParams mPaddingTopLayoutParam;
+
+    /* 系统的最小触摸判定 */
+    private float touchSlop;
+    private float firstTouchY;
 
     /* 这三个方法必须重写 */
     @Override
@@ -67,7 +81,7 @@ public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment
         View fragmentCommunity = inflater.inflate(R.layout.fragment_community, container, false);
         ButterKnife.bind(this, fragmentCommunity);
 
-        setPaddingTopForStatusBar(fragmentCommunity);
+        // setPaddingTopForStatusBar(fragmentCommunity);
         initView();
         return fragmentCommunity;
     }
@@ -90,14 +104,17 @@ public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment
         /* 创建实例并作为ViewPager的适配器 */
         subFmCAdapter = new SubFragmentContentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, page_titles);
         mVPSubCommunity.setAdapter(subFmCAdapter);
+
         /* 绑定ViewPager */
         mNavTabBar.setupWithViewPager(mVPSubCommunity);
 
         mDLParentView = requireActivity().findViewById(R.id.activity_main_drawer_layout);
+        mPaddingTopLayoutParam = (ViewGroup.MarginLayoutParams) mPaddingTop.getLayoutParams();
 
         /* 获取顶部retrieveBar的几个部件*/
         mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_user_avatar);
         mSearch = mTopRetrieveBar.findViewById(R.id.sv_search);
+        mRBHeight = -mTopRetrieveBar.getHeight();
 
         mUserAvatar.setOnClickListener(v -> {
             mDLParentView.openDrawer(GravityCompat.START);
@@ -116,17 +133,16 @@ public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment
 
     @Override
     public void setPaddingTopForStatusBar(View view) {
-        int identifier = view.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        /*int identifier = view.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (identifier > 0) {
             int paddingTop = getResources().getDimensionPixelOffset(identifier);
             Log.d("height", String.valueOf(paddingTop));
             mPaddingTop.setPadding(0, paddingTop, 0, 0);
-        }
+        }*/
     }
 
     @Override
     public void setPageTitles() {
-
         page_titles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.home_page_titles)));
     }
 }

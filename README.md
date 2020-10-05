@@ -14,3 +14,8 @@ An android application for USTB students/teachers
 # 2020-10-03
 发现重写DrawerLayout的onDrawerSlide方法就可以实现挤压式的了，我太蠢了
 重写了一下顶部的导航条
+
+
+# !!!!!!!! 2020-10-05
+
+懂了！懂了！关键在于 <font color=red>FrameLayout</font>

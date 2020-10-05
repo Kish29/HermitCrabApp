@@ -47,7 +47,8 @@ public class RecordSearchHistorySQLite extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             ArrayList<String> res = new ArrayList<>();
             for (int i = 0; i < cursorLen; i++) {
-                res.add(cursor.getString(i));
+                res.add(cursor.getString(cursor.getColumnIndex(NAME)));
+                cursor.moveToNext();
             }
             return res;
         }

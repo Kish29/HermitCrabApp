@@ -71,7 +71,7 @@ public class ServiceFragmentImpl extends BaseFragment implements IBaseFragment {
         View fragmentService = inflater.inflate(R.layout.fragment_service, container, false);
         ButterKnife.bind(this, fragmentService);
 
-        setPaddingTopForStatusBar(fragmentService);
+        /*setPaddingTopForStatusBar(fragmentService);*/
         initView();
         return fragmentService;
     }
@@ -127,12 +127,12 @@ public class ServiceFragmentImpl extends BaseFragment implements IBaseFragment {
 
     @Override
     public void setPaddingTopForStatusBar(View view) {
-        int identifier = view.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        /*int identifier = view.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (identifier > 0) {
             int paddingTop = getResources().getDimensionPixelOffset(identifier);
             Log.d("height", String.valueOf(paddingTop));
             mPaddingTop.setPadding(0, paddingTop, 0, 0);
-        }
+        }*/
     }
 
 

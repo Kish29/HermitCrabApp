@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.adapter.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.custom.NoScrollViewPager;
 import com.kish2.hermitcrabapp.utils.DeviceInfo;
+import com.kish2.hermitcrabapp.utils.RecordSearchHistorySQLite;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.UserView;
 
@@ -68,7 +70,7 @@ public class MainActivity extends BaseActivity implements UserView {
 
     /* 主内容*/
     @BindView(R.id.main_content)
-    ConstraintLayout mMainContent;
+    FrameLayout mMainContent;
 
     /* 底部tab条*/
     @BindView(R.id.nav_tab_bar)
@@ -128,6 +130,14 @@ public class MainActivity extends BaseActivity implements UserView {
         // 只使用一个pagerAdapter来达到可以通过滑动在TabLayout之间切换
         mViewMain.setAdapter(pagerAdapter);
 
+        /* 设置内边距，将子fragment下移一个状态栏的高度*/
+        int identifier = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (identifier > 0) {
+            int paddingTop = getResources().getDimensionPixelOffset(identifier);
+            Log.d("height", String.valueOf(paddingTop));
+            mViewMain.setPadding(0, paddingTop, 0, 0);
+        }
+
         // 关联切换
         // 并且设置页面切换时底部的TabLayout也要切换
         // mViewMain.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mNavigation));
@@ -168,10 +178,10 @@ public class MainActivity extends BaseActivity implements UserView {
     @Override
     public void initView() {
 
-        /*RecordSearchHistorySQLite sqLite = new RecordSearchHistorySQLite(this);
-        String string = "第一条搜索数据";
-        sqLite.insert(string);
-        System.out.println(sqLite.matchedHistory("一"));*/
+        RecordSearchHistorySQLite sqLite = new RecordSearchHistorySQLite(this);
+        /*String string = "一次的付费";
+        sqLite.insert(string);*/
+        System.out.println(sqLite.matchedHistory("一"));
 
 
         ButterKnife.bind(this);

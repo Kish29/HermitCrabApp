@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -41,6 +42,8 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
 
     /* 父根布局 */
     DrawerLayout mDLParentView;
+    /* 父根布局ViewPager */
+    ViewPager mVPParent;
 
     /* 顶部导航条*/
     @BindView(R.id.top_retrieve_bar)
@@ -76,10 +79,7 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
         View fragmentHome = inflater.inflate(R.layout.fragment_home, container, false);// 视图与父容器ViewGroup不需要连接
         ButterKnife.bind(this, fragmentHome);
 
-        /* 设置沉浸式状态栏预留空间 */
-        setPaddingTopForStatusBar(fragmentHome);
         initView();
-
         return fragmentHome;
     }
 
@@ -95,6 +95,8 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
 
     @Override
     public void initView() {
+        /* 获取父ViewPager */
+
         /* 获取page_titles */
         setPageTitles();
         /* 创建实例并作为ViewPager的适配器 */
@@ -117,8 +119,22 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TabLayout rootTabBar = requireActivity().findViewById(R.id.nav_tab_bar);
-                rootTabBar.selectTab(rootTabBar.getTabAt(4));
+                if (mPaddingTop.getTranslationY() >= 0) {
+                    mPaddingTop.animate().translationYBy(mTopRetrieveBar.getTranslationY()).translationY(-mTopRetrieveBar.getHeight()).setDuration(300).start();
+                } else
+                    mPaddingTop.animate().translationYBy(mTopRetrieveBar.getTranslationY()).translationY(0).setDuration(300).start();
+
+                View viewById = requireActivity().findViewById(R.id.nav_tab_bar);
+                if (viewById.getTranslationY() > 0)
+                    viewById.animate().translationYBy(viewById.getTranslationY()).translationY(0).setDuration(300).start();
+                else
+                    viewById.animate().translationYBy(viewById.getTranslationY()).translationY(viewById.getHeight()).setDuration(300).start();
+
+                View gap_line = requireActivity().findViewById(R.id.gap_line);
+                if (gap_line.getTranslationY() > 0)
+                    gap_line.animate().translationYBy(viewById.getTranslationY()).translationY(0).setDuration(300).start();
+                else
+                    gap_line.animate().translationYBy(viewById.getTranslationY()).translationY(viewById.getHeight()).setDuration(300).start();
             }
         });
 
@@ -136,12 +152,12 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
 
     @Override
     public void setPaddingTopForStatusBar(View view) {
-        int identifier = view.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        /*int identifier = view.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (identifier > 0) {
             int paddingTop = getResources().getDimensionPixelOffset(identifier);
             Log.d("height", String.valueOf(paddingTop));
             mPaddingTop.setPadding(0, paddingTop, 0, 0);
-        }
+        }*/
     }
 
     @Override

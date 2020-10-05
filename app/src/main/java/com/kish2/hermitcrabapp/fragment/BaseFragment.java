@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapter.SubFragmentContentAdapter;
+import com.kish2.hermitcrabapp.utils.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,5 +23,4 @@ public class BaseFragment extends Fragment {
     protected SubFragmentContentAdapter subFmCAdapter;
     /* 页面标题 */
     protected List<String> page_titles;
-
 }

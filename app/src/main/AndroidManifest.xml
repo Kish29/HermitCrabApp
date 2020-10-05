@@ -37,6 +37,8 @@
         <activity android:name=".view.impl.LoginViewImpl" />
 
         <activity android:name=".view.MyTest" />
+
+        <activity android:name=".view.UpGlideTest" />
     </application>
 
 </manifest>

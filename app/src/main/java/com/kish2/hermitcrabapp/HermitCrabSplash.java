@@ -20,7 +20,7 @@ public class HermitCrabSplash extends BaseActivity implements IBaseView {
     @BindView(R.id.splash_picture)
     View splashPicture;
 
-    private static final long DELAY = 1000;
+    private static final long DELAY = 500;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

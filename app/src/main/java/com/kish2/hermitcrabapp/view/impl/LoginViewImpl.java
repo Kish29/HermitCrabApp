@@ -104,6 +104,9 @@ public class LoginViewImpl extends BaseActivity
 
     private LoginPresenterImpl loginPresenter;
 
+    /* 滑出时间 */
+    private static final int glideTime = 200;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,7 +207,7 @@ public class LoginViewImpl extends BaseActivity
                 (float) mLoginLayer.getTag() : 1;
 
         /* 根据进度设定时间 */
-        int time = (int) (360 * progress);
+        int time = (int) (glideTime * progress);
 
         /* 已经在向上滑动的过程或者已经向上滑完*/
         if (mLoginPull.getTag() != null) {
@@ -250,6 +253,9 @@ public class LoginViewImpl extends BaseActivity
                     }
                 })
                 .start();
+
+        mLoginLayer.setOnClickListener(null);
+
     }
 
     /* 向上滑出 */
@@ -289,6 +295,8 @@ public class LoginViewImpl extends BaseActivity
 
                 })
                 .start();
+
+        mLoginLayer.setOnClickListener(this);
     }
 
     @Override
@@ -348,6 +356,8 @@ public class LoginViewImpl extends BaseActivity
                 this.loginPresenter.forgetPassword();
                 break;
             case R.id.ll_login_layer:
+                glide(mLoginOptions.getHeight(), 1, glideTime);
+                break;
             case R.id.ll_login_pull:
                 pullOtherLoginView();
                 break;
