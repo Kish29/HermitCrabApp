@@ -19,3 +19,7 @@ An android application for USTB students/teachers
 # !!!!!!!! 2020-10-05
 
 懂了！懂了！关键在于 <font color=red>FrameLayout</font>
+
+# 2020-10-06
+实现效果啦，下滑或者上拉list列表投递部的TabBar都会自动缩起或者展开
+FrameLayout，yyds！

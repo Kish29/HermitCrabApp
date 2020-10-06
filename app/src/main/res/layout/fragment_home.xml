@@ -8,41 +8,48 @@
 
     <!-- 添加另外一个子类布局，该子类布局动态获取设备的statusBar的高度，
          并赋值给paddingBottom，留出statusBar的高度，并且还能显示背景图 -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_sub_constraint_layout_for_padding_top"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ly_fragment_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!-- 顶部的TabBar -->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/vp_nav_tab_bar"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                app:layout_constraintBottom_toTopOf="@+id/vp_sub"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- test button -->
+            <Button
+                android:id="@+id/btn_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="切换底部tab"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vp_nav_tab_bar" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vp_sub"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vp_nav_tab_bar"
+                app:layout_constraintVertical_weight="1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
             android:id="@+id/top_retrieve_bar"
-            layout="@layout/ly_top_retrieve_bar" />
-
-        <!-- 顶部的TabBar -->
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/vp_nav_tab_bar"
+            layout="@layout/ly_top_retrieve_bar"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
-            app:layout_constraintTop_toBottomOf="@+id/top_retrieve_bar" />
-
-        <!-- test button -->
-        <Button
-            android:id="@+id/btn_test"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="切换底部tab"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vp_nav_tab_bar" />
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vp_sub"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vp_nav_tab_bar"
-            app:layout_constraintVertical_weight="1" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_gravity="top|center" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

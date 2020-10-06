@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -42,12 +43,24 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
 
     /* 父根布局 */
     DrawerLayout mDLParentView;
-    /* 父根布局ViewPager */
-    ViewPager mVPParent;
+
+    /* 主内容*/
+    @BindView(R.id.ly_fragment_content)
+    ConstraintLayout mLYFragmentContent;
 
     /* 顶部导航条*/
     @BindView(R.id.top_retrieve_bar)
     ViewGroup mTopRetrieveBar;
+    /* 顶部导航条高度*/
+    private static int mTopBarHeight = 0;
+    /* 底部导航条*/
+    ConstraintLayout mBottomNavTabBar;
+    /* 底部导航条高度*/
+    private static int mBottomBarHeight = 0;
+
+    /* 滑动时间*/
+    private static final long glideTime = 300;
+
     /* 用户头像*/
     RoundedImageView mUserAvatar;
     /* 搜索栏*/
@@ -59,9 +72,6 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
     TabLayout mNavTabBar;
     @BindView(R.id.vp_sub)
     ViewPager mVPSubHome;
-    @BindView(R.id.fragment_sub_constraint_layout_for_padding_top)
-    ConstraintLayout mPaddingTop;
-
     @BindView(R.id.btn_test)
     Button button;
 
@@ -107,37 +117,45 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
         mNavTabBar.setupWithViewPager(mVPSubHome);
 
         mDLParentView = requireActivity().findViewById(R.id.activity_main_drawer_layout);
+        mBottomNavTabBar = requireActivity().findViewById(R.id.ly_bottom_tab_bar);
 
         /* 获取顶部retrieveBar的几个部件*/
         mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_user_avatar);
         mSearch = mTopRetrieveBar.findViewById(R.id.sv_search);
+        mTopRetrieveBar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (mTopBarHeight == 0 || mBottomBarHeight == 0) {
+                    /* 获取高度 */
+                    mTopBarHeight = mTopRetrieveBar.getHeight();
+                    mBottomBarHeight = mBottomNavTabBar.getHeight();
+                    /* 设置translation */
+                    mLYFragmentContent.setTranslationY(mTopBarHeight);
+                }
+            }
+        });
 
         mUserAvatar.setOnClickListener(v -> {
             mDLParentView.openDrawer(GravityCompat.START);
         });
+    }
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPaddingTop.getTranslationY() >= 0) {
-                    mPaddingTop.animate().translationYBy(mTopRetrieveBar.getTranslationY()).translationY(-mTopRetrieveBar.getHeight()).setDuration(300).start();
-                } else
-                    mPaddingTop.animate().translationYBy(mTopRetrieveBar.getTranslationY()).translationY(0).setDuration(300).start();
-
-                View viewById = requireActivity().findViewById(R.id.nav_tab_bar);
-                if (viewById.getTranslationY() > 0)
-                    viewById.animate().translationYBy(viewById.getTranslationY()).translationY(0).setDuration(300).start();
-                else
-                    viewById.animate().translationYBy(viewById.getTranslationY()).translationY(viewById.getHeight()).setDuration(300).start();
-
-                View gap_line = requireActivity().findViewById(R.id.gap_line);
-                if (gap_line.getTranslationY() > 0)
-                    gap_line.animate().translationYBy(viewById.getTranslationY()).translationY(0).setDuration(300).start();
-                else
-                    gap_line.animate().translationYBy(viewById.getTranslationY()).translationY(viewById.getHeight()).setDuration(300).start();
+    public void topBarUpGlide(boolean hide) {
+        if (hide) {
+            if (mTopRetrieveBar.getTranslationY() == -mTopBarHeight) {
+                return;
             }
-        });
-
+            mTopRetrieveBar.animate().translationYBy(mTopRetrieveBar.getTranslationY()).translationY(-mTopBarHeight).setDuration(glideTime).start();
+            mLYFragmentContent.animate().translationYBy(mLYFragmentContent.getTranslationY()).translationY(0).setDuration(glideTime).start();
+            mBottomNavTabBar.animate().translationYBy(mBottomNavTabBar.getTranslationY()).translationY(mBottomNavTabBar.getHeight()).setDuration(glideTime).start();
+        } else {
+            if (mTopRetrieveBar.getTranslationY() == 0) {
+                return;
+            }
+            mTopRetrieveBar.animate().translationYBy(mTopRetrieveBar.getTranslationY()).translationY(0).setDuration(glideTime).start();
+            mLYFragmentContent.animate().translationYBy(mLYFragmentContent.getTranslationY()).translationY(mTopBarHeight).setDuration(glideTime).start();
+            mBottomNavTabBar.animate().translationYBy(mBottomNavTabBar.getTranslationY()).translationY(0).setDuration(glideTime).start();
+        }
     }
 
     @Override
