@@ -38,7 +38,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
-            android:background="@drawable/login_input_widget_type"
+            android:background="@drawable/bg_login_input"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -112,7 +112,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:background="@drawable/login_input_widget_type"
+            android:background="@drawable/bg_login_input"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -176,7 +176,7 @@
             android:layout_marginStart="94dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="94dp"
-            android:background="@drawable/login_submit_btn_type"
+            android:background="@drawable/btn_login_submit"
             android:elevation="0dp"
             android:outlineProvider="none"
             android:text="@string/login_title"
@@ -192,7 +192,7 @@
             android:layout_marginStart="94dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="94dp"
-            android:background="@drawable/login_submit_btn_type"
+            android:background="@drawable/btn_login_submit"
             android:elevation="0dp"
             android:outlineProvider="none"
             android:text="@string/login_title"
@@ -223,7 +223,7 @@
             android:layout_marginStart="94dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="94dp"
-            android:background="@drawable/register_submit_type"
+            android:background="@drawable/btn_register_submit"
             android:elevation="0dp"
             android:outlineProvider="none"
             android:text="@string/register_title"
@@ -245,7 +245,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:button="@drawable/checkbox_type"
+                android:button="@drawable/ic_checkbox_selector"
                 android:checked="true"
                 android:contentDescription="@null"
                 android:textColor="@color/black"
@@ -270,7 +270,7 @@
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:text="@string/forget_password"
-                android:textColor="@drawable/text_touch_type"
+                android:textColor="@drawable/cl_text_touch"
                 android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>

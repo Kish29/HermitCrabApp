@@ -1,8 +1,6 @@
 package com.kish2.hermitcrabapp.fragment;
 
 import android.annotation.SuppressLint;
-import android.icu.text.CaseMap;
-import android.icu.text.TimeZoneFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,19 +9,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.custom.CustomRefreshView;
 import com.kish2.hermitcrabapp.fragment.impl.HomeFragmentImpl;
 
 import butterknife.BindView;
@@ -66,9 +59,9 @@ public class SubFragmentContent extends BaseFragment implements IBaseFragment, B
         ButterKnife.bind(this, view);
 
         /* 测试，添加ListView，查看滑动效果 */
-        String[] items = new String[26];
-        for (int i = 0; i < 26; i++) {
-            items[i] = String.valueOf((char) (i + 96));
+        String[] items = new String[2000];
+        for (int i = 0; i < 2000; i++) {
+            items[i] = String.valueOf((char) i);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, items);
         mListView.setAdapter(adapter);
@@ -83,7 +76,6 @@ public class SubFragmentContent extends BaseFragment implements IBaseFragment, B
                     case MotionEvent.ACTION_MOVE:
                         mCurrentY = event.getY();
                         if (mCurrentY - mFirstY > mTouchSlop) {
-                            System.out.println("mtouchislop:" + mTouchSlop);
                             mParent = (HomeFragmentImpl) requireParentFragment();
                             // 下滑 显示titleBar
                             mParent.topBarUpGlide(false);
@@ -96,6 +88,8 @@ public class SubFragmentContent extends BaseFragment implements IBaseFragment, B
                     case MotionEvent.ACTION_UP:
                         break;
                 }
+                /*因为要让listView继续滑动，所以这儿返回false
+                事件未被消费，向下传递，调用onTouchEvent*/
                 return false;
             }
         });

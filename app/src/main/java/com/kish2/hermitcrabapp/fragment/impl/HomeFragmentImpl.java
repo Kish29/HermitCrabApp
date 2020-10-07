@@ -1,20 +1,16 @@
 package com.kish2.hermitcrabapp.fragment.impl;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,12 +21,10 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.kish2.hermitcrabapp.MainActivity;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapter.SubFragmentContentAdapter;
 import com.kish2.hermitcrabapp.fragment.BaseFragment;
 import com.kish2.hermitcrabapp.fragment.IBaseFragment;
-import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -58,9 +52,6 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
     /* 底部导航条高度*/
     private static int mBottomBarHeight = 0;
 
-    /* 滑动时间*/
-    private static final long glideTime = 300;
-
     /* 用户头像*/
     RoundedImageView mUserAvatar;
     /* 搜索栏*/
@@ -74,6 +65,10 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
     ViewPager mVPSubHome;
     @BindView(R.id.btn_test)
     Button button;
+
+    private float mFirstY;
+    private float mTouchSlop;
+    private float mCurrentY;
 
     /* 这三个方法必须重写 */
     @Override
@@ -103,6 +98,7 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
         mVPSubHome.setOffscreenPageLimit(this.VIEW_PAGER_OF_SCREEN_LIMIT);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void initView() {
         /* 获取父ViewPager */
@@ -120,7 +116,7 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
         mBottomNavTabBar = requireActivity().findViewById(R.id.ly_bottom_tab_bar);
 
         /* 获取顶部retrieveBar的几个部件*/
-        mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_user_avatar);
+        mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
         mSearch = mTopRetrieveBar.findViewById(R.id.sv_search);
         mTopRetrieveBar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -138,24 +134,13 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
         mUserAvatar.setOnClickListener(v -> {
             mDLParentView.openDrawer(GravityCompat.START);
         });
+
+        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+
     }
 
     public void topBarUpGlide(boolean hide) {
-        if (hide) {
-            if (mTopRetrieveBar.getTranslationY() == -mTopBarHeight) {
-                return;
-            }
-            mTopRetrieveBar.animate().translationYBy(mTopRetrieveBar.getTranslationY()).translationY(-mTopBarHeight).setDuration(glideTime).start();
-            mLYFragmentContent.animate().translationYBy(mLYFragmentContent.getTranslationY()).translationY(0).setDuration(glideTime).start();
-            mBottomNavTabBar.animate().translationYBy(mBottomNavTabBar.getTranslationY()).translationY(mBottomNavTabBar.getHeight()).setDuration(glideTime).start();
-        } else {
-            if (mTopRetrieveBar.getTranslationY() == 0) {
-                return;
-            }
-            mTopRetrieveBar.animate().translationYBy(mTopRetrieveBar.getTranslationY()).translationY(0).setDuration(glideTime).start();
-            mLYFragmentContent.animate().translationYBy(mLYFragmentContent.getTranslationY()).translationY(mTopBarHeight).setDuration(glideTime).start();
-            mBottomNavTabBar.animate().translationYBy(mBottomNavTabBar.getTranslationY()).translationY(0).setDuration(glideTime).start();
-        }
+        viewGlide(hide, mTopRetrieveBar, mTopBarHeight, mLYFragmentContent, mBottomNavTabBar, mBottomBarHeight);
     }
 
     @Override

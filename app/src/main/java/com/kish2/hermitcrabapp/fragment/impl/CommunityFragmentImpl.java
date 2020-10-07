@@ -1,16 +1,11 @@
 package com.kish2.hermitcrabapp.fragment.impl;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -112,7 +107,7 @@ public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment
         mPaddingTopLayoutParam = (ViewGroup.MarginLayoutParams) mPaddingTop.getLayoutParams();
 
         /* 获取顶部retrieveBar的几个部件*/
-        mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_user_avatar);
+        mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
         mSearch = mTopRetrieveBar.findViewById(R.id.sv_search);
         mRBHeight = -mTopRetrieveBar.getHeight();
 

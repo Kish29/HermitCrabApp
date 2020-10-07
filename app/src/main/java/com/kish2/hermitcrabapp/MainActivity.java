@@ -11,9 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -43,11 +41,11 @@ public class MainActivity extends BaseActivity implements UserView {
 
     /* 菜单图标 */
     private final int[] TAB_IMG = new int[]{
-            R.drawable.tab_bar_home_selector,
-            R.drawable.tab_bar_community_selector,
-            R.drawable.tab_bar_service_selector,
-            R.drawable.tab_bar_message_selector,
-            R.drawable.tab_bar_personal_selector
+            R.drawable.ic_tab_home_selector,
+            R.drawable.ic_tab_community_selector,
+            R.drawable.ic_tab_service_selector,
+            R.drawable.ic_tab_message_selector,
+            R.drawable.ic_tab_personal_selector
     };
 
     /* 根布局DrawerLayout*/

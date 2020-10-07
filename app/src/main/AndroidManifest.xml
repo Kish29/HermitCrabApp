@@ -5,9 +5,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/app_icon"
+        android:icon="@drawable/ic_app_icon"
         android:label="@string/app_name_zh"
-        android:roundIcon="@drawable/app_icon"
+        android:roundIcon="@drawable/ic_app_icon"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         tools:ignore="GoogleAppIndexingWarning">
@@ -16,6 +16,7 @@
         <activity
             android:name=".HermitCrabSplash"
             android:launchMode="standard"
+            android:screenOrientation="portrait"
             android:theme="@style/fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +28,7 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/noFullFadeInOut">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -34,11 +36,13 @@
             </intent-filter>
         </activity>
         <!--登录页面-->
-        <activity android:name=".view.impl.LoginViewImpl" />
+        <activity
+            android:name=".view.impl.LoginViewImpl"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".view.MyTest" />
-
-        <activity android:name=".view.UpGlideTest" />
+        <activity
+            android:name=".view.MyTest"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

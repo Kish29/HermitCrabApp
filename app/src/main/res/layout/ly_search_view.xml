@@ -19,7 +19,7 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@null"
             android:padding="10dp"
-            android:src="@drawable/app_icon" />
+            android:src="@drawable/ic_app_icon" />
 
     </LinearLayout>
 

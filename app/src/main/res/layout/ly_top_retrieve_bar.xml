@@ -8,7 +8,7 @@
     android:orientation="horizontal">
 
     <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/riv_user_avatar"
+        android:id="@+id/riv_side_menu"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="10dp"
@@ -23,15 +23,14 @@
         android:layout_width="0dp"
         android:layout_height="28dp"
         android:layout_weight="1"
-        android:background="@drawable/login_input_widget_type" />
+        android:background="@drawable/bg_login_input" />
 
     <ImageButton
         android:id="@+id/ib_filter"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/ib_round_bg"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
-        android:src="@drawable/app_icon" />
+        android:src="@drawable/ic_app_icon" />
 
 </LinearLayout>

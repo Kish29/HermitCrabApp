@@ -5,9 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -95,7 +93,7 @@ public class MessageFragmentImpl extends BaseFragment implements IBaseFragment {
         mDLParentView = requireActivity().findViewById(R.id.activity_main_drawer_layout);
 
         /* 获取顶部retrieveBar的几个部件*/
-        mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_user_avatar);
+        mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
         mSearch = mTopRetrieveBar.findViewById(R.id.sv_search);
 
         mUserAvatar.setOnClickListener(v -> {

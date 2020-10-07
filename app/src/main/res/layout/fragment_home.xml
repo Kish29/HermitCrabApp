@@ -16,7 +16,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ly_fragment_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:translationY="60dp">
             <!-- 顶部的TabBar -->
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/vp_nav_tab_bar"

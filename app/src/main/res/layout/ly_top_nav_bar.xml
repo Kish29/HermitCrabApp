@@ -11,7 +11,7 @@
         android:id="@+id/ib_navigate_back"
         android:layout_width="38dp"
         android:layout_height="38dp"
-        android:background="@drawable/login_navigation_bar_bg"
+        android:background="@drawable/ly_login_navigation_bar_bg"
         android:contentDescription="@null"
         android:src="@mipmap/btn_back_normal" />
 
