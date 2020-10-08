@@ -20,11 +20,6 @@ public class BaseFragment extends Fragment {
 
     /* viewpager预加载页面，提升流畅度 */
     protected int VIEW_PAGER_OF_SCREEN_LIMIT = 10;
-    /* 子Fragment适配器 */
-    protected SubFragmentContentAdapter subFmCAdapter;
-    /* 页面标题 */
-    protected List<String> page_titles;
-
     /* 滑动时间*/
     protected static final long glideTime = 300;
 

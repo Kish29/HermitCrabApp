@@ -97,8 +97,8 @@ public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment
         setPageTitles();
         setViewPagerOfScreenLimit();
         /* 创建实例并作为ViewPager的适配器 */
-        subFmCAdapter = new SubFragmentContentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, page_titles);
-        mVPSubCommunity.setAdapter(subFmCAdapter);
+        /*subFmCAdapter = new SubFragmentContentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, page_titles);
+        mVPSubCommunity.setAdapter(subFmCAdapter);*/
 
         /* 绑定ViewPager */
         mNavTabBar.setupWithViewPager(mVPSubCommunity);
@@ -138,6 +138,6 @@ public class CommunityFragmentImpl extends BaseFragment implements IBaseFragment
 
     @Override
     public void setPageTitles() {
-        page_titles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.home_page_titles)));
+        /*page_titles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.home_page_titles)));*/
     }
 }

@@ -30,12 +30,13 @@
             android:id="@+id/cl_personal_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:translationY="80dp">
+            android:layout_marginTop="20dp"
+            android:translationY="100dp">
 
             <LinearLayout
                 android:id="@+id/ll_publish_center"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="120dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/ll_quick_entry"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +46,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="4"
+                    android:layout_weight="3"
                     android:background="@color/black"
                     android:orientation="horizontal">
 
@@ -58,8 +59,8 @@
 
                     <LinearLayout
                         android:id="@+id/ll_old_publish"
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
                         android:layout_marginEnd="10dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,49 +69,56 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="60dp"
+                            android:layout_height="0dp"
                             android:layout_gravity="center"
+                            android:layout_weight="4"
                             android:background="@color/black"
-                            android:contentDescription="@null" />
+                            android:contentDescription="@null"
+                            android:padding="10dp"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/login_background" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_gravity="bottom|center"
+                            android:layout_weight="1"
                             android:gravity="center"
                             android:text="二手发布"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/font_10" />
+                            android:textSize="@dimen/font_12" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_topic_publish"
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/ll_old_publish"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="60dp"
+                            android:layout_height="0dp"
                             android:layout_gravity="center"
+                            android:layout_weight="4"
                             android:background="@color/black"
                             android:contentDescription="@null" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_gravity="bottom|center"
+                            android:layout_weight="1"
                             android:gravity="center"
                             android:text="新帖发布"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/font_10" />
+                            android:textSize="@dimen/font_12" />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
@@ -118,7 +126,7 @@
             <LinearLayout
                 android:id="@+id/ll_quick_entry"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/ll_student_service"
@@ -129,7 +137,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="4"
+                    android:layout_weight="3"
                     android:background="@color/black"
                     android:orientation="horizontal">
 
@@ -142,8 +150,8 @@
 
                     <LinearLayout
                         android:id="@+id/ll_favor_product"
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
                         android:layout_marginEnd="10dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -152,49 +160,53 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="60dp"
+                            android:layout_height="0dp"
                             android:layout_gravity="center"
+                            android:layout_weight="4"
                             android:background="@color/black"
                             android:contentDescription="@null" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_gravity="bottom|center"
+                            android:layout_weight="1"
                             android:gravity="center"
                             android:text="旧贝壳"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/font_10" />
+                            android:textSize="@dimen/font_12" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_favor_topic"
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/ll_favor_product"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="60dp"
+                            android:layout_height="0dp"
                             android:layout_gravity="center"
+                            android:layout_weight="4"
                             android:background="@color/black"
                             android:contentDescription="@null" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_gravity="bottom|center"
+                            android:layout_weight="1"
                             android:gravity="center"
                             android:text="帖子"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/font_10" />
+                            android:textSize="@dimen/font_12" />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
@@ -274,24 +286,45 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_personal_user"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:background="@color/white">
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/riv_user_avatar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="20dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/login_background"
+            <RelativeLayout
+                android:id="@+id/rl_user_avatar"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ll_personal_user_brief"
-                app:layout_constraintTop_toTopOf="parent"
-                app:riv_border_color="@color/black"
-                app:riv_border_width="2dp"
-                app:riv_oval="true" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/riv_avatar"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/login_background"
+                    app:riv_border_color="@color/black"
+                    app:riv_border_width="2dp"
+                    app:riv_oval="true" />
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_user_gender"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_app_icon"
+                    app:riv_border_color="@color/white"
+                    app:riv_border_width="1dp"
+                    app:riv_oval="true" />
+
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/ll_personal_user_brief"
@@ -299,7 +332,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/riv_user_avatar"
+                app:layout_constraintEnd_toStartOf="@+id/rl_user_avatar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -314,29 +347,22 @@
                         android:id="@+id/tv_username"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
+                        android:layout_weight="1"
                         android:gravity="center_vertical|end"
-                        android:text="您未登录"
+                        android:text="未登录"
+                        android:textSize="@dimen/font_18"
                         tools:ignore="NestedWeights" />
 
                     <TextView
                         android:id="@+id/tv_user_student_id"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical|start"
+                        android:layout_weight="1"
+                        android:gravity="center|start"
                         android:text="(41824233)"
+                        android:textSize="@dimen/font_14"
                         tools:ignore="NestedWeights" />
 
-                    <ImageView
-                        android:id="@+id/iv_user_gender"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="5dp"
-                        android:contentDescription="@null"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/login_background" />
 
                 </LinearLayout>
 
@@ -360,6 +386,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="3"
+                            android:gravity="center"
                             android:text="110"
                             android:textAlignment="center"
                             android:textSize="@dimen/font_16" />
@@ -368,6 +395,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="2"
+                            android:gravity="top"
                             android:text="好友"
                             android:textAlignment="center"
                             android:textSize="@dimen/font_12" />
@@ -384,6 +412,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="3"
+                            android:gravity="center"
                             android:text="100"
                             android:textAlignment="center"
                             android:textSize="@dimen/font_16" />
@@ -392,6 +421,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="2"
+                            android:gravity="top"
                             android:text="我的旧贝壳"
                             android:textAlignment="center"
                             android:textSize="@dimen/font_12" />
@@ -408,6 +438,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="3"
+                            android:gravity="center"
                             android:text="100"
                             android:textAlignment="center"
                             android:textSize="@dimen/font_16" />
@@ -416,6 +447,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="2"
+                            android:gravity="top"
                             android:text="帖子"
                             android:textAlignment="center"
                             android:textSize="@dimen/font_12" />
@@ -423,14 +455,6 @@
                 </LinearLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- layer用来监听滑动事件 -->
-        <View
-            android:id="@+id/v_personal_layer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="false"
-            android:focusableInTouchMode="false" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

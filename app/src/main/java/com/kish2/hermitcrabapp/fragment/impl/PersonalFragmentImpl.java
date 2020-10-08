@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -51,14 +50,14 @@ public class PersonalFragmentImpl extends BaseFragment implements IBaseFragment 
     // 高度
     private int mUserShowHeight;
     // 用户头像
-    @BindView(R.id.riv_user_avatar)
-    RoundedImageView mUserAvatar;
+    @BindView(R.id.rl_user_avatar)
+    RelativeLayout mUserAvatar;
     @BindView(R.id.tv_username)
     TextView mUsername;
     @BindView(R.id.tv_user_student_id)
     TextView mUserStdId;
     @BindView(R.id.iv_user_gender)
-    ImageView mUserGender;
+    RoundedImageView mUserGender;
 
     /* 简短展示页面*/
     @BindView(R.id.tv_user_friend)
@@ -77,10 +76,6 @@ public class PersonalFragmentImpl extends BaseFragment implements IBaseFragment 
     View mOldPublish;
     /* 快速入口*/
     /* 学生服务*/
-
-    // 滑动监听layer
-    @BindView(R.id.v_personal_layer)
-    View mLayer;
 
     private float mFirstY;
     private float mTouchSlop;

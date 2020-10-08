@@ -3,6 +3,7 @@ package com.kish2.hermitcrabapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 public class HermitCrabSplash extends BaseActivity implements IBaseView {
 
     @BindView(R.id.splash_picture)
-    View splashPicture;
+    ImageView mSplashPicture;
 
     private static final long DELAY = 500;
 
@@ -27,6 +28,8 @@ public class HermitCrabSplash extends BaseActivity implements IBaseView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_page);
         ButterKnife.bind(this);
+
+        initView();
 
         /* intent必须为final */
         final Intent intent = new Intent(this, MainActivity.class);
@@ -43,7 +46,7 @@ public class HermitCrabSplash extends BaseActivity implements IBaseView {
 
     @Override
     public void initView() {
-
+        mSplashPicture.setImageResource(R.drawable.background);
     }
 
     @Override

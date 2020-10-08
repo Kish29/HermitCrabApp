@@ -22,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.adapter.HomeFragmentAdapter;
 import com.kish2.hermitcrabapp.adapter.SubFragmentContentAdapter;
 import com.kish2.hermitcrabapp.fragment.BaseFragment;
 import com.kish2.hermitcrabapp.fragment.IBaseFragment;
@@ -105,9 +106,13 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
 
         /* 获取page_titles */
         setPageTitles();
+
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("最新");
+        strings.add("教务处");
         /* 创建实例并作为ViewPager的适配器 */
-        subFmCAdapter = new SubFragmentContentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, page_titles);
-        mVPSubHome.setAdapter(subFmCAdapter);
+        HomeFragmentAdapter homeFragmentAdapter = new HomeFragmentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, strings);
+        mVPSubHome.setAdapter(homeFragmentAdapter);
         setViewPagerOfScreenLimit();
         /* 绑定ViewPager */
         mNavTabBar.setupWithViewPager(mVPSubHome);
@@ -165,6 +170,6 @@ public class HomeFragmentImpl extends BaseFragment implements IBaseFragment {
 
     @Override
     public void setPageTitles() {
-        page_titles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.home_page_titles)));
+        /*page_titles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.home_page_titles)));*/
     }
 }
