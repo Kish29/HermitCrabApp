@@ -3,21 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kish2.hermitcrabapp">
 
+    <!-- 获取外存的读取权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_app_icon"
         android:label="@string/app_name_zh"
         android:roundIcon="@drawable/ic_app_icon"
         android:supportsRtl="true"
-        android:theme="@style/MyTheme"
+        android:theme="@style/AppThemeBase"
         tools:ignore="GoogleAppIndexingWarning">
 
         <!-- 欢迎页 -->
         <activity
-            android:name=".HermitCrabSplash"
+            android:name=".view.activities.HermitCrabSplash"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/fullscreen">
+            android:theme="@style/AppThemeBase.Fade.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,10 +30,10 @@
 
         <!-- 主页 -->
         <activity
-            android:name=".MainActivity"
+            android:name=".view.activities.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/noFullFadeInOut">
+            android:theme="@style/AppThemeBase.Fade">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -37,7 +41,7 @@
         </activity>
         <!--登录页面-->
         <activity
-            android:name=".view.impl.LoginViewImpl"
+            android:name=".view.activities.LoginViewImpl"
             android:screenOrientation="portrait" />
 
         <activity

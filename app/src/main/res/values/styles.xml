@@ -1,51 +1,47 @@
 <resources>
 
     <!-- 无全屏 顶部无标题-->
-    <style name="MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowAnimationStyle">@style/activityChangeAnimation</item>
+        <item name="windowActionBar">false</item>
+        <!--默认左进右出-->
+        <item name="android:windowAnimationStyle">@style/anim_RILO</item>
     </style>
 
-    <!-- 全屏 淡入淡出 -->
-    <style name="fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowAnimationStyle">@style/activityChangeAnimationFadeInAndOut</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
-    <!-- 无全屏 淡入淡出 -->
-    <style name="noFullFadeInOut" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowAnimationStyle">@style/activityChangeAnimationFadeInAndOut</item>
-    </style>
-
-    <!-- 页面切换样式 淡入淡出 -->
-    <style name="activityChangeAnimationFadeInAndOut" parent="@android:style/Animation.Activity">
+    <!-- 页面切换样式 -->
+    <!-- 淡入淡出 -->
+    <style name="anim_fade" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
         <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
         <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
         <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
     </style>
 
-    <!-- app的页面切换样式 右进左出 -->
-    <style name="activityChangeAnimation" parent="@android:style/Animation.Activity">
+    <!-- 右进左出 -->
+    <style name="anim_RILO" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/in_from_right</item>
         <item name="android:activityOpenExitAnimation">@anim/out_to_left</item>
         <item name="android:activityCloseEnterAnimation">@anim/in_from_left</item>
         <item name="android:activityCloseExitAnimation">@anim/out_to_right</item>
     </style>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!-- 主题和配色 -->
+    <!-- 切换 左右进入 -->
+    <style name="AppThemeBase.RILO">
+        <item name="android:windowAnimationStyle">@style/anim_RILO</item>
     </style>
 
-    <!--tab标题-->
-    <style name="tab_head" parent="TextAppearance.Design.Tab">
-        <item name="textAllCaps">false</item>
+    <!-- 切换 淡入淡出 -->
+    <style name="AppThemeBase.Fade">
+        <item name="android:windowAnimationStyle">@style/anim_fade</item>
+    </style>
+
+    <!-- 全屏 淡入淡出 -->
+    <style name="AppThemeBase.Fade.Fullscreen">
+        <item name="android:windowFullscreen">true</item>
     </style>
 
 </resources>

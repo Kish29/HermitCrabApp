@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.impl.HomeFragmentImpl">
+    tools:context=".view.fragments.home.HomeFragment">
 
     <!-- 添加另外一个子类布局，该子类布局动态获取设备的statusBar的高度，
          并赋值给paddingBottom，留出statusBar的高度，并且还能显示背景图 -->
@@ -14,34 +14,24 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ly_fragment_content"
+            android:id="@+id/cl_fragment_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:translationY="60dp">
             <!-- 顶部的TabBar -->
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/vp_nav_tab_bar"
+                android:id="@+id/tl_category_tab"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
-                app:layout_constraintBottom_toTopOf="@+id/vp_sub"
+                app:layout_constraintBottom_toTopOf="@+id/vp_content_list"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- test button -->
-            <Button
-                android:id="@+id/btn_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="切换底部tab"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vp_nav_tab_bar" />
-
             <androidx.viewpager.widget.ViewPager
-                android:id="@+id/vp_sub"
+                android:id="@+id/vp_content_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vp_nav_tab_bar"
+                app:layout_constraintTop_toBottomOf="@+id/tl_category_tab"
                 app:layout_constraintVertical_weight="1" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

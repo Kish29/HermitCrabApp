@@ -1,11 +1,18 @@
 package com.kish2.hermitcrabapp;
 
-import com.kish2.hermitcrabapp.utils.RecordSearchHistorySQLite;
+import android.Manifest;
+import android.text.TextUtils;
+
+import com.kish2.hermitcrabapp.utils.sql.SearchHistory;
 import com.kish2.hermitcrabapp.utils.ValidateFormInput;
 import com.kish2.hermitcrabapp.view.BaseActivity;
-import com.kish2.hermitcrabapp.view.impl.LoginViewImpl;
+import com.kish2.hermitcrabapp.view.activities.LoginViewImpl;
+import com.kish2.hermitcrabapp.view.activities.MainActivity;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -43,9 +50,10 @@ public class ExampleUnitTest {
 
     @Test
     public void SQLiteTest() {
-        RecordSearchHistorySQLite sqLite = new RecordSearchHistorySQLite(new MainActivity().baseActivityGetContext());
+        SearchHistory sqLite = new SearchHistory(new MainActivity().baseActivityGetContext());
         String string = "第一条搜索数据";
         sqLite.insert(string);
         System.out.println(sqLite.matchedHistory(string));
     }
+
 }

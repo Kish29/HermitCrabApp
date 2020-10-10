@@ -23,3 +23,6 @@ An android application for USTB students/teachers
 # 2020-10-06
 实现效果啦，下滑或者上拉list列表投递部的TabBar都会自动缩起或者展开
 FrameLayout，yyds！
+
+# 2020-10-10
+是个值得纪念的日子，重构了项目的一个流程，弄明白了android开发的一些基本操作和误区，修复了一个Fragment的onPause方法带来的BUG

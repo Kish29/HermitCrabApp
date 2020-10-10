@@ -12,6 +12,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.IntDef;
+import androidx.fragment.app.Fragment;
+
+import com.kish2.hermitcrabapp.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -22,12 +25,33 @@ public class StatusBarUtil {
     public final static int TYPE_MIUI = 0;
     public final static int TYPE_FLYME = 1;
     public final static int TYPE_M = 3;//6.0
+    private final static int DEFAULT_COLOR_ID = -1;
 
     @IntDef({TYPE_MIUI,
             TYPE_FLYME,
             TYPE_M})
     @Retention(RetentionPolicy.SOURCE)
     @interface ViewType {
+    }
+
+    public static void setSinkStatusBar(Activity activity, boolean isDarkTheme, int colorId) {
+        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+        StatusBarUtil.setRootViewFitsSystemWindows(activity, false);
+        //设置状态栏透明
+        StatusBarUtil.setTranslucentStatus(activity);
+        /* 深色主题 */
+        if (isDarkTheme) {
+            //一般的手机的状态栏文字和图标都是白色的, 可如果你的应用也是纯白色的, 或导致状态栏文字看不清
+            //所以如果你是这种情况,请使用以下代码, 设置状态使用深色文字图标风格, 否则你可以选择性注释掉这个if内容
+            if (!StatusBarUtil.setStatusBarDarkTheme(activity, true)) {
+                //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
+                //这样半透明+白=灰, 状态栏的文字能看得清
+                StatusBarUtil.setStatusBarColor(activity, 0x55000000);
+            }
+        }
+        if (colorId != DEFAULT_COLOR_ID) {
+            StatusBarUtil.setStatusBarColor(activity, activity.getResources().getColor(colorId));
+        }
     }
 
     /**

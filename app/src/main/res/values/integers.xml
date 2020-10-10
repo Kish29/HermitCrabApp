@@ -2,4 +2,5 @@
 <resources>
     <integer name="anim_duration">300</integer>
     <integer name="anim_fade_duration">1000</integer>
+    <!-- 底部Tab的透明度 0~255 -->
 </resources>

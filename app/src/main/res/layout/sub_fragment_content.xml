@@ -4,19 +4,19 @@
     android:id="@+id/ly_sub_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.SubFragmentContent">
+    tools:context=".view.fragments.SubFragmentContent">
 
-    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
-        android:id="@+id/bga_refresh_layout"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lv_child"
+            android:id="@+id/rv_container_items"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
