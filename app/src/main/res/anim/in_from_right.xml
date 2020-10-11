@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@integer/anim_duration">
+    android:duration="@integer/anim_RILO_duration">
     <!-- 定义从右边屏幕进来的动画 -->
     <!-- activity坐标以坐下放为原点 0%p显示在屏幕中央
         100%p在屏幕的右边-->

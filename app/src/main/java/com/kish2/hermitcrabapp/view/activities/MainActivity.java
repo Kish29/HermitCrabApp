@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.MainFragmentAdapter;
+import com.kish2.hermitcrabapp.adapters.viewpager.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.custom.NoScrollViewPager;
 import com.kish2.hermitcrabapp.utils.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
@@ -61,8 +61,8 @@ public class MainActivity extends BaseActivity implements IBaseView {
     DrawerLayout mDLRootView;
 
     /* 占位StatusBar*/
-    @BindView(R.id.v_virtual_status_bar)
-    View mVStatusBarHolder;
+    /*@BindView(R.id.v_virtual_status_bar)
+    View mVStatusBarHolder;*/
 
     /* 收回侧边栏菜单 */
     @BindView(R.id.ly_user_card)
@@ -127,7 +127,8 @@ public class MainActivity extends BaseActivity implements IBaseView {
         ButterKnife.bind(this);
         /* 主线程执行*/
         getAndSetLayoutView();
-        StatusBarUtil.setSinkStatusBar(this, ThemeUtil.Theme.isDarkTheme, ThemeUtil.Theme.colorId);
+        /* 透明状态栏*/
+        StatusBarUtil.setSinkStatusBar(this, ThemeUtil.Theme.isDarkTheme, -1);
         /* 子线程注册事务 */
         new Thread() {
             @Override
@@ -176,11 +177,6 @@ public class MainActivity extends BaseActivity implements IBaseView {
     @Override
     public void loadData() {
         //*******底部Tab初始化视图*********/
-        /*设置底部tabBar的透明度*/
-        mTLMainNavBar.getBackground().setAlpha(204);
-        /*布局规则(xml中已设置)*/
-        /*mTLMainNavBar.setTabMode(TabLayout.MODE_FIXED);
-        mTLMainNavBar.setTabGravity(TabLayout.GRAVITY_FILL);*/
         for (TabLayout.Tab mTab : mTabs) {
             mTLMainNavBar.addTab(mTab);
         }
@@ -191,14 +187,12 @@ public class MainActivity extends BaseActivity implements IBaseView {
 
     @Override
     public void getAndSetLayoutView() {
-        /* 设置虚拟statusBar高度 */
-        int identifier = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (identifier > 0) {
-            mVStatusBarHolder.getLayoutParams().height = getResources().getDimensionPixelOffset(identifier);
-        }
-        /* 设置颜色(好像暂时没有需要设置的。。。。)*/
-        // TODO
-
+        /* 设置颜色*/
+        /*设置底部tabBar的透明度*/
+        mTLMainNavBar.getBackground().setAlpha(216);
+        /*布局规则(xml中已设置)*/
+        /*mTLMainNavBar.setTabMode(TabLayout.MODE_FIXED);
+        mTLMainNavBar.setTabGravity(TabLayout.GRAVITY_FILL);*/
     }
 
     @Override
@@ -236,6 +230,13 @@ public class MainActivity extends BaseActivity implements IBaseView {
                 mFLMainContent.setTranslationX(mSideMenuWidth * slideOffset);
             }
         });
+        mLYSideMenuUserCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDLRootView.closeDrawer(GravityCompat.START);
+                mTLMainNavBar.selectTab(mTLMainNavBar.getTabAt(4));
+            }
+        });
     }
 
     @Override
@@ -247,20 +248,20 @@ public class MainActivity extends BaseActivity implements IBaseView {
             if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
                 switch (tabPos) {
                     case 0:
-                        ((HomeFragment) MainFragmentAdapter.getCurrentFragment()).topAndBottomBarGlide(false);
+                        ((HomeFragment) MainFragmentAdapter.getCurrentFragment()).bottomBarHide(false);
                         break;
                     case 1:
-                        ((CommunityFragment) MainFragmentAdapter.getCurrentFragment()).topAndBottomBarGlide(false);
+                        ((CommunityFragment) MainFragmentAdapter.getCurrentFragment()).bottomBarHide(false);
                         break;
                     /* Service界面不需要隐藏 */
                     /*case 2:
                         ((ServiceFragmentImpl) MainFragmentAdapter.getCurrentFragment()).topAndBottomBarGlide(false);
                         break;*/
                     case 3:
-                        ((MessageFragment) MainFragmentAdapter.getCurrentFragment()).topAndBottomBarGlide(false);
+                        ((MessageFragment) MainFragmentAdapter.getCurrentFragment()).bottomBarHide(false);
                         break;
                     case 4:
-                        ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).topAndBottomBarGlide(false);
+                        ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).bottomBarHide(false);
                         break;
                     default:
                         break;

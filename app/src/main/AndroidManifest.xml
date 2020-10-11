@@ -41,11 +41,11 @@
         </activity>
         <!--登录页面-->
         <activity
-            android:name=".view.activities.LoginViewImpl"
+            android:name=".view.activities.LoginActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".view.MyTest"
+            android:name=".view.activities.MyTest"
             android:screenOrientation="portrait" />
     </application>
 

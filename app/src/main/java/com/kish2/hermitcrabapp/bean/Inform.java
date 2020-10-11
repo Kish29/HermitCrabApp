@@ -1,5 +1,7 @@
 package com.kish2.hermitcrabapp.bean;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Date;
 
 public class Inform {
@@ -10,6 +12,7 @@ public class Inform {
 
     private String imgSrc;
 
+    @NotNull
     @Override
     public String toString() {
         return "Inform{" +

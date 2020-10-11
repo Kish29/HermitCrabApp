@@ -34,7 +34,7 @@ public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAd
     @Override
     public RecyclerInformAdapter.ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // 找到一个xml布局，但是是隐藏的
-        View view = LayoutInflater.from(mContext).inflate(R.layout.ly_inform, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.ly_inform_item, parent, false);
         return new ItemHolder(view);
     }
 

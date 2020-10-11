@@ -3,15 +3,15 @@ package com.kish2.hermitcrabapp.presenter.impl;
 import android.content.Intent;
 import android.util.Log;
 
+import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.kish2.hermitcrabapp.view.activities.MainActivity;
 import com.kish2.hermitcrabapp.presenter.LoginPresenter;
-import com.kish2.hermitcrabapp.view.activities.LoginViewImpl;
 
 public class LoginPresenterImpl implements LoginPresenter {
 
-    private LoginViewImpl loginView;
+    private LoginActivity loginView;
 
-    public LoginPresenterImpl(LoginViewImpl loginView) {
+    public LoginPresenterImpl(LoginActivity loginView) {
         this.loginView = loginView;
     }
 

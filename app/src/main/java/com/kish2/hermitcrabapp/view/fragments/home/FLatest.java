@@ -31,7 +31,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LatestFragment extends HomeBaseFragment implements IBaseFragment {
+public class FLatest extends FHomeBase implements IBaseFragment {
 
     /*@BindView(R.id.tv_sub_fragment)
     TextView textView;*/
@@ -83,7 +83,12 @@ public class LatestFragment extends HomeBaseFragment implements IBaseFragment {
             @Override
             public void run() {
                 registerViewComponentsAffairs();
-
+                mRefreshLayout.setRefreshing(true);
+                try {
+                    sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 ArrayList<Inform> informArrayList = new ArrayList<>();
                 /* 测试，添加ListView，查看滑动效果 */
                 for (int i = 0; i < 20; i++) {
@@ -131,6 +136,7 @@ public class LatestFragment extends HomeBaseFragment implements IBaseFragment {
     @Override
     public void loadData() {
         mInformList.setAdapter(mInformListAdapter);
+        mRefreshLayout.setRefreshing(false);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -148,10 +154,10 @@ public class LatestFragment extends HomeBaseFragment implements IBaseFragment {
                         mCurrentY = event.getY();
                         if (mCurrentY - mFirstY > mTouchSlop) {
                             // 下滑 显示titleBar
-                            mHome.topAndBottomBarGlide(false);
+                            mHome.bottomBarHide(false);
                         } else if (mFirstY - mCurrentY > mTouchSlop) {
                             // 上滑 隐藏titleBar
-                            mHome.topAndBottomBarGlide(true);
+                            mHome.bottomBarHide(true);
                         }
                         break;
                     case MotionEvent.ACTION_UP:

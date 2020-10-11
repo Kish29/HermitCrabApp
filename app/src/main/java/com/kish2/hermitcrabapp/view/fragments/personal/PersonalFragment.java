@@ -1,6 +1,7 @@
 package com.kish2.hermitcrabapp.view.fragments.personal;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,10 +17,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.IBaseFragment;
+import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
@@ -30,24 +36,28 @@ public class PersonalFragment extends BaseFragment implements IBaseFragment {
     /**
      * @获取要用到的所有控件
      */
-    // 顶部条
+    /* 主要展示页面*/
+    @BindView(R.id.ns_personal_main)
+    NestedScrollView mNSPersonalMain;
+
+    // 顶部条容器
+    @BindView(R.id.abl_retrieve_bar_container)
+    AppBarLayout mABLContainer;
     @BindView(R.id.top_retrieve_bar)
     RelativeLayout mTopRetrieveBar;
+    @BindView(R.id.ctl_banner_container)
+    CollapsingToolbarLayout mRetrieveBarContainer;
+    private static float mTopRetrieveBarHeight = 0;
+
     // 左上角菜单
     ImageButton mSideMenu;
     ImageButton mTheme;
     ImageButton mSetting;
-    /* 底部导航条*/
-    ConstraintLayout mBottomNavTabBar;
-    /* 底部导航条高度*/
-    private static int mBottomBarHeight = 0;
 
 
     // 用户展示界面布局
     @BindView(R.id.ll_personal_user)
     ConstraintLayout mUserBanner;
-    // 高度
-    private int mUserShowHeight;
     // 用户头像
     @BindView(R.id.rl_user_avatar)
     RelativeLayout mUserAvatar;
@@ -66,9 +76,6 @@ public class PersonalFragment extends BaseFragment implements IBaseFragment {
     @BindView(R.id.tv_user_topic)
     TextView mUserTopic;
 
-    /* 主要展示页面*/
-    @BindView(R.id.cl_personal_main)
-    ConstraintLayout mPersonalMain;
 
     /* 发布中心*/
     @BindView(R.id.ll_old_publish)
@@ -94,13 +101,19 @@ public class PersonalFragment extends BaseFragment implements IBaseFragment {
         View fragmentPersonal = inflater.inflate(R.layout.fragment_personal, container, false);
         ButterKnife.bind(this, fragmentPersonal);
 
-        /*setPaddingTopForStatusBar(fragmentPersonal);*/
+        getAndSetLayoutView();
         new Thread() {
             @Override
             public void run() {
-                getLayoutComponentsAttr();
+                registerViewComponentsAffairs();
             }
         }.start();
+        mUserBanner.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                getLayoutComponentsAttr();
+            }
+        });
         return fragmentPersonal;
     }
 
@@ -111,24 +124,36 @@ public class PersonalFragment extends BaseFragment implements IBaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        topAndBottomBarGlide(false);
+        bottomBarHide(false, mBottomTab, mBottomTabHeight);
+    }
+
+    @Override
+    public void getLayoutComponentsAttr() {
+        mTopRetrieveBarHeight = mRetrieveBarContainer.getHeight();
+    }
+
+    @Override
+    public void getAndSetLayoutView() {
+        setPaddingTopForStatusBarHeight(mABLContainer);
+        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+        mABLContainer.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
+    }
+
+    @Override
+    public void loadData() {
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public void getLayoutComponentsAttr() {
-        mBottomNavTabBar = requireActivity().findViewById(R.id.cl_bottom_tab_bar);
-        mUserBanner.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mUserShowHeight = mUserBanner.getHeight();
-                mBottomBarHeight = mBottomNavTabBar.getHeight();
-                mPersonalMain.setTranslationY(mUserShowHeight);
-            }
+    public void registerViewComponentsAffairs() {
+        mABLContainer.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            float offset = mTopRetrieveBarHeight + verticalOffset;
+            float ratio = offset / mTopRetrieveBarHeight;
+            mRetrieveBarContainer.setAlpha(ratio);
         });
 
-        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-        mPersonalMain.setOnTouchListener(new View.OnTouchListener() {
+        mNSPersonalMain.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -139,41 +164,25 @@ public class PersonalFragment extends BaseFragment implements IBaseFragment {
                         mCurrentY = event.getY();
                         if (mCurrentY - mFirstY > mTouchSlop) {
                             // 下滑 显示titleBar
-                            topAndBottomBarGlide(false);
+                            bottomBarHide(false, mBottomTab, mBottomTabHeight);
                         } else if (mFirstY - mCurrentY > mTouchSlop) {
                             // 上滑 隐藏titleBar
-                            topAndBottomBarGlide(true);
+                            bottomBarHide(true, mBottomTab, mBottomTabHeight);
                         }
                         break;
                     case MotionEvent.ACTION_UP:
                         break;
                 }
-                /* 不向下传递*/
-                return true;
+                return false;
             }
         });
 
-        mOldPublish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("发布旧商品");
-            }
+        mOldPublish.setOnClickListener(v -> System.out.println("发布旧商品"));
+
+        mUsername.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), LoginActivity.class);
+            startActivity(intent);
         });
-    }
-
-    @Override
-    public void getAndSetLayoutView() {
-
-    }
-
-    @Override
-    public void loadData() {
-
-    }
-
-    @Override
-    public void registerViewComponentsAffairs() {
-
     }
 
     @Override
@@ -186,9 +195,4 @@ public class PersonalFragment extends BaseFragment implements IBaseFragment {
 
     }
 
-
-    @Override
-    public void topAndBottomBarGlide(boolean hide) {
-        viewGlide(hide, mUserBanner, mUserShowHeight, mPersonalMain, mBottomNavTabBar, mBottomBarHeight);
-    }
 }

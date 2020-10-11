@@ -23,9 +23,9 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.custom.CustomTextureVideoView;
+import com.kish2.hermitcrabapp.custom.FixedVideoView;
 import com.kish2.hermitcrabapp.presenter.impl.LoginPresenterImpl;
-import com.kish2.hermitcrabapp.utils.ValidateFormInput;
+import com.kish2.hermitcrabapp.utils.InputCheckUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.LoginView;
 
@@ -34,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @SuppressLint("Registered")
-public class LoginViewImpl extends BaseActivity
+public class LoginActivity extends BaseActivity
         implements LoginView,
         View.OnClickListener,
         View.OnFocusChangeListener,
@@ -44,7 +44,7 @@ public class LoginViewImpl extends BaseActivity
 
     /* 背景视频 */
     @BindView(R.id.login_reg_video)
-    CustomTextureVideoView bg;
+    FixedVideoView bg;
 
     /* 登录界面容器 */
     @BindView(R.id.ll_login_container)
@@ -432,7 +432,7 @@ public class LoginViewImpl extends BaseActivity
             }
         } else {
             if (hasFocus) {
-                if (!ValidateFormInput.isValidMobile(getIdentify())) {
+                if (!InputCheckUtil.isValidMobile(getIdentify())) {
 /*
                     showToast("您输入的是无效的手机号哦~", TOAST_DURATION.TOAST_SHORT, TOAST_POSITION.TOAST_CENTER);
 */

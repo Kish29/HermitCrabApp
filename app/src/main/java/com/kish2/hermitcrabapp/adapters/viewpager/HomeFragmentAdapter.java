@@ -1,18 +1,18 @@
-package com.kish2.hermitcrabapp.adapters;
+package com.kish2.hermitcrabapp.adapters.viewpager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.kish2.hermitcrabapp.view.fragments.home.AcademicAffairsFragment;
-import com.kish2.hermitcrabapp.view.fragments.home.LatestFragment;
+import com.kish2.hermitcrabapp.view.fragments.home.FAcademicAffairs;
+import com.kish2.hermitcrabapp.view.fragments.home.FLatest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragmentAdapter extends FragmentPagerAdapter {
+public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
 
     /* 页面标题*/
     private List<String> pageTitles;
@@ -30,11 +30,11 @@ public class HomeFragmentAdapter extends FragmentPagerAdapter {
         Fragment fragment;
         switch (position) {
             case 1:
-                fragment = new AcademicAffairsFragment();
+                fragment = new FAcademicAffairs();
                 break;
             case 0:
             default:
-                fragment = new LatestFragment();
+                fragment = new FLatest();
                 break;
         }
         return fragment;

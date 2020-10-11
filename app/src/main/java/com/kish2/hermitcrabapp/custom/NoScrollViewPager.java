@@ -11,7 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 public class NoScrollViewPager extends ViewPager {
 
-    private static boolean enableScroll = false;
+    private static boolean ENABLE_SCROLL = false;
 
     public NoScrollViewPager(@NonNull Context context) {
         super(context);
@@ -24,7 +24,7 @@ public class NoScrollViewPager extends ViewPager {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (enableScroll)
+        if (ENABLE_SCROLL)
             return super.onTouchEvent(ev);
         else
             return false;
@@ -32,7 +32,7 @@ public class NoScrollViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (enableScroll)
+        if (ENABLE_SCROLL)
             return super.onInterceptTouchEvent(ev);
         else
             return false;

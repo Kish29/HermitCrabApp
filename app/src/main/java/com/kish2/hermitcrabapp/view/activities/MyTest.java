@@ -128,7 +128,7 @@ public class MyTest extends BaseActivity implements IBaseView {
 }*/
 
 
-package com.kish2.hermitcrabapp.view;
+package com.kish2.hermitcrabapp.view.activities;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;

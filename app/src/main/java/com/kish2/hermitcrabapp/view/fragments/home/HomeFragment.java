@@ -1,6 +1,7 @@
 package com.kish2.hermitcrabapp.view.fragments.home;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,15 +13,17 @@ import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.HomeFragmentAdapter;
+import com.kish2.hermitcrabapp.adapters.viewpager.HomeFragmentAdapter;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.IBaseFragment;
@@ -32,23 +35,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeFragment extends BaseFragment implements IBaseFragment {
-
-    /* 父根布局 */
-    DrawerLayout mDLParentView;
-
     /* 主内容*/
     @BindView(R.id.cl_fragment_content)
     ConstraintLayout mCLFragmentContent;
 
+    /* 顶部导航条AppBarLayout */
+    @BindView(R.id.abl_retrieve_bar_container)
+    AppBarLayout mABLContainer;
+
     /* 顶部导航条*/
     @BindView(R.id.top_retrieve_bar)
     ViewGroup mTopRetrieveBar;
-    /* 顶部导航条高度*/
-    private static int mTopBarHeight = 0;
-    /* 底部导航条*/
-    ConstraintLayout mBottomTab;
-    /* 底部导航条高度*/
-    private static int mBottomTabHeight = 0;
+    @BindView(R.id.ctl_banner_container)
+    CollapsingToolbarLayout mRetrieveBarContainer;
+    private static float mTopRetrieveBarHeight = 0;
 
     /* 用户头像*/
     RoundedImageView mUserAvatar;
@@ -59,7 +59,7 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
 
     /* 分类Tab*/
     @BindView(R.id.tl_category_tab)
-    TabLayout mCateGoryTab;
+    TabLayout mCategoryTab;
     @BindView(R.id.vp_content_list)
     ViewPager mVPSubHome;
 
@@ -142,22 +142,27 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        topAndBottomBarGlide(false);
+        bottomBarHide(false, mBottomTab, mBottomTabHeight);
+    }
+
+    @Override
+    public void bottomBarHide(boolean hide) {
+        bottomBarHide(hide, mBottomTab, mBottomTabHeight);
     }
 
     @Override
     public void getLayoutComponentsAttr() {
         /* 获取高度 */
-        mTopBarHeight = mTopRetrieveBar.getHeight();
         mBottomTabHeight = mBottomTab.getHeight();
-        /* 设置translation */
-        mCLFragmentContent.setTranslationY(mTopBarHeight);
+        mTopRetrieveBarHeight = mRetrieveBarContainer.getHeight();
     }
 
     @Override
     public void getAndSetLayoutView() {
-        /* 设置TopRetrieveBar的颜色 */
-        mTopRetrieveBar.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
+        /* 设置StatusBar的占位高度 */
+        setPaddingTopForStatusBarHeight(mABLContainer);
+        /* 设置AppBarLayout的颜色 */
+        mABLContainer.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
         /* 父组件 */
         mDLParentView = requireActivity().findViewById(R.id.dl_maint_activity);
         mBottomTab = requireActivity().findViewById(R.id.cl_bottom_tab_bar);
@@ -170,7 +175,7 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
     public void loadData() {
         mVPSubHome.setAdapter(homeFragmentAdapter);
         /* 绑定ViewPager */
-        mCateGoryTab.setupWithViewPager(mVPSubHome);
+        mCategoryTab.setupWithViewPager(mVPSubHome);
     }
 
     @Override
@@ -178,11 +183,11 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
         mUserAvatar.setOnClickListener(v -> {
             mDLParentView.openDrawer(GravityCompat.START);
         });
-    }
-
-    @Override
-    public void topAndBottomBarGlide(boolean hide) {
-        viewGlide(hide, mTopRetrieveBar, mTopBarHeight, mCLFragmentContent, mBottomTab, mBottomTabHeight);
+        mABLContainer.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            float offset = mTopRetrieveBarHeight + verticalOffset;
+            float ratio = offset / mTopRetrieveBarHeight;
+            mTopRetrieveBar.setAlpha(ratio);
+        });
     }
 
     @Override

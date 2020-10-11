@@ -3,7 +3,7 @@ package com.kish2.hermitcrabapp.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ValidateFormInput {
+public class InputCheckUtil {
 
     private final static String MOBILE_STANDARD = "^1[34578][0-9]{9}";
 

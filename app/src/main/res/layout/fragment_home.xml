@@ -1,46 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.fragments.home.HomeFragment">
 
-    <!-- 添加另外一个子类布局，该子类布局动态获取设备的statusBar的高度，
-         并赋值给paddingBottom，留出statusBar的高度，并且还能显示背景图 -->
-    <FrameLayout
+    <!-- 需要动态设置padding -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/abl_retrieve_bar_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_fragment_content"
+        <!-- 最好用CollapsingToolBarLayout作为子组件，再往里面添东西 -->
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/ctl_banner_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:translationY="60dp">
-            <!-- 顶部的TabBar -->
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tl_category_tab"
-                android:layout_width="match_parent"
-                android:layout_height="34dp"
-                app:layout_constraintBottom_toTopOf="@+id/vp_content_list"
-                app:layout_constraintTop_toTopOf="parent" />
+            app:layout_scrollFlags="scroll|enterAlways">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/vp_content_list"
+            <include
+                android:id="@+id/top_retrieve_bar"
+                layout="@layout/ly_top_retrieve_bar_home"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tl_category_tab"
-                app:layout_constraintVertical_weight="1" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="match_parent" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <include
-            android:id="@+id/top_retrieve_bar"
-            layout="@layout/ly_top_retrieve_bar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_fragment_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <!-- 顶部的TabBar -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_category_tab"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center" />
-    </FrameLayout>
+            android:layout_height="34dp"
+            app:layout_constraintBottom_toTopOf="@+id/vp_content_list"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp_content_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_category_tab"
+            app:layout_constraintVertical_weight="1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

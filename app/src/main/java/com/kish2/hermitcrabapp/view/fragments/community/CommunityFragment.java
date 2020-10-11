@@ -85,7 +85,6 @@ public class CommunityFragment extends BaseFragment implements IBaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        topAndBottomBarGlide(false);
     }
 
     @Override
@@ -128,11 +127,6 @@ public class CommunityFragment extends BaseFragment implements IBaseFragment {
 
     @Override
     public void detachPresenter() {
-
-    }
-
-    @Override
-    public void topAndBottomBarGlide(boolean hide) {
 
     }
 

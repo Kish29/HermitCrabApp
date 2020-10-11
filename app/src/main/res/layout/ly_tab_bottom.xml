@@ -11,7 +11,7 @@
         android:id="@+id/nav_tab_img"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:contentDescription="@string/app_name_zh"
+        android:contentDescription="@null"
         android:src="@drawable/ic_tab_home_default" />
 
     <TextView

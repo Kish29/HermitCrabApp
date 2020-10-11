@@ -76,7 +76,6 @@ public class MessageFragment extends BaseFragment implements IBaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        topAndBottomBarGlide(false);
     }
 
     @Override
@@ -111,12 +110,6 @@ public class MessageFragment extends BaseFragment implements IBaseFragment {
 
     @Override
     public void registerViewComponentsAffairs() {
-
-    }
-
-
-    @Override
-    public void topAndBottomBarGlide(boolean hide) {
 
     }
 

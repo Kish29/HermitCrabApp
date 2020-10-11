@@ -14,13 +14,13 @@ public class ThemeUtil {
 
     public static void setInstance(Context context) {
         SharedPreferences theme_config = context.getSharedPreferences("theme_config", Context.MODE_PRIVATE);
-        Theme.colorId = theme_config.getInt(KEY_COLOR, 0);
+        Theme.colorId = theme_config.getInt(KEY_COLOR, 6);
         /* 如果不是用户用图片作为背景的情况下，设置颜色主题 */
         if (Theme.colorId != -1)
             Theme.colorId = AppTheme[Theme.colorId];
         Theme.bgImgSrc = theme_config.getString(KEY_BG_IMG, null);
         Theme.sideBgImgSrc = theme_config.getString(KEY_SIDE_BG_IMG, null);
-        Theme.isDarkTheme = theme_config.getBoolean(KEY_DARK_THEME, false);
+        Theme.isDarkTheme = theme_config.getBoolean(KEY_DARK_THEME,true);
     }
 
     private static int[] AppTheme = {

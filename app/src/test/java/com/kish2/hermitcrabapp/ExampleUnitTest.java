@@ -1,18 +1,12 @@
 package com.kish2.hermitcrabapp;
 
-import android.Manifest;
-import android.text.TextUtils;
-
-import com.kish2.hermitcrabapp.utils.sql.SearchHistory;
-import com.kish2.hermitcrabapp.utils.ValidateFormInput;
+import com.kish2.hermitcrabapp.sql.SearchHistory;
+import com.kish2.hermitcrabapp.utils.InputCheckUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
-import com.kish2.hermitcrabapp.view.activities.LoginViewImpl;
+import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.kish2.hermitcrabapp.view.activities.MainActivity;
 
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +26,7 @@ public class ExampleUnitTest {
         String[] emails = {"875691208@qq.com", "qwr91779y7@163.com", "12479sdaf9 nlsa n@lsadf-12=.joh.a"};
 
         for (String email : emails) {
-            System.out.println(ValidateFormInput.isValidEmail(email));
+            System.out.println(InputCheckUtil.isValidEmail(email));
         }
     }
 
@@ -44,7 +38,7 @@ public class ExampleUnitTest {
         MainActivity mainActivity = new MainActivity();
         System.out.println(mainActivity.baseActivityGetContext());
 
-        LoginViewImpl loginView = new LoginViewImpl();
+        LoginActivity loginView = new LoginActivity();
         System.out.println(loginView.baseActivityGetContext());
     }
 

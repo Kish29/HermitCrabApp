@@ -20,7 +20,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.IBaseFragment;
-import com.kish2.hermitcrabapp.view.MyTest;
+import com.kish2.hermitcrabapp.view.activities.MyTest;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
@@ -131,8 +131,4 @@ public class ServiceFragment extends BaseFragment implements IBaseFragment {
 
     }
 
-    @Override
-    public void topAndBottomBarGlide(boolean hide) {
-
-    }
 }

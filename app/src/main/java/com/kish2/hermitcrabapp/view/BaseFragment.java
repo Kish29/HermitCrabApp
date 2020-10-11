@@ -5,6 +5,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 public class BaseFragment extends Fragment {
@@ -14,33 +16,45 @@ public class BaseFragment extends Fragment {
     /* 滑动时间*/
     protected static final long glideTime = 300;
 
+    /* 父根布局 */
+    /* 只需要在HomeFragment中实例一次就行 */
+    protected static DrawerLayout mDLParentView;
+
+    /* 底部Tab条以及高度 */
+    /* 同样只需要在HomeFragment中实例一次 */
+    protected static ConstraintLayout mBottomTab;
+    protected static int mBottomTabHeight = 0;
+
+    /* 用CoordinatorLayout之后只需要下降底部Tab条即可 */
+
     /**
-     * @param topGlide    要滑动的上面的视图
-     * @param tH          上面的视图的高度
-     * @param middleView  中间的视图
-     * @param bottomGlide 要滑动的下面的视图
-     * @param bH          要滑动的下面的高度
+     * @param hide   是否隐藏
+     * @param btmTab 底部Tab条
+     * @param bH     底部Tab条高度
      */
-    public void viewGlide(boolean hide, View topGlide, int tH, View middleView, View bottomGlide, int bH) {
+    protected void bottomBarHide(boolean hide, View btmTab, int bH) {
         if (hide) {
-            if (topGlide.getTranslationY() == -tH) {
+            if (btmTab.getTranslationY() > 0)
                 return;
-            }
-            topGlide.animate().translationYBy(topGlide.getTranslationY()).translationY(-tH).setDuration(glideTime).start();
-            middleView.animate().translationYBy(middleView.getTranslationY()).translationY(0).setDuration(glideTime).start();
-            bottomGlide.animate().translationYBy(bottomGlide.getTranslationY()).translationY(bH).setDuration(glideTime).start();
+            btmTab.animate().translationYBy(btmTab.getTranslationY()).translationY(bH).setDuration(glideTime).start();
         } else {
-            if (topGlide.getTranslationY() == 0) {
+            if (btmTab.getTranslationY() == 0)
                 return;
-            }
-            topGlide.animate().translationYBy(topGlide.getTranslationY()).translationY(0).setDuration(glideTime).start();
-            middleView.animate().translationYBy(middleView.getTranslationY()).translationY(tH).setDuration(glideTime).start();
-            bottomGlide.animate().translationYBy(bottomGlide.getTranslationY()).translationY(0).setDuration(glideTime).start();
+            btmTab.animate().translationYBy(btmTab.getTranslationY()).translationY(0).setDuration(glideTime).start();
         }
     }
 
-    protected void topAndBottomBarGlide(boolean hide) {
+    /* 重写该方法，以便activity或者子fragment能够访问*/
+    public void bottomBarHide(boolean hide) {
 
     }
 
+
+    protected void setPaddingTopForStatusBarHeight(View view) {
+        /* 设置虚拟statusBar高度 */
+        int identifier = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (identifier > 0) {
+            view.setPadding(0, getResources().getDimensionPixelOffset(identifier), 0, 0);
+        }
+    }
 }

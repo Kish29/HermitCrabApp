@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.adapters;
+package com.kish2.hermitcrabapp.adapters.viewpager;
 
 import android.util.Log;
 import android.view.ViewGroup;

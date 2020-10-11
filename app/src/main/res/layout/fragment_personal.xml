@@ -1,37 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.fragments.personal.PersonalFragment">
 
-    <include
-        android:id="@+id/top_retrieve_bar"
-        layout="@layout/ly_top_retrieve_bar_personal"
-        app:layout_constraintBottom_toTopOf="@+id/fl_personal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <FrameLayout
-        android:id="@+id/fl_personal"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/abl_retrieve_bar_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_retrieve_bar">
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
 
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/ctl_banner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/top_retrieve_bar"
+                    layout="@layout/ly_top_retrieve_bar_personal" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ll_personal_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_user_avatar"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/ll_personal_user_brief"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/riv_avatar"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerInParent="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/login_background"
+                            app:riv_border_color="@color/black"
+                            app:riv_border_width="2dp"
+                            app:riv_oval="true" />
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/iv_user_gender"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:contentDescription="@null"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_app_icon"
+                            app:riv_border_color="@color/white"
+                            app:riv_border_width="1dp"
+                            app:riv_oval="true" />
+
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_personal_user_brief"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/rl_user_avatar"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:paddingEnd="10dp"
+                            tools:ignore="RtlSymmetry">
+
+                            <TextView
+                                android:id="@+id/tv_username"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical|end"
+                                android:text="未登录"
+                                android:textSize="@dimen/font_18"
+                                tools:ignore="NestedWeights" />
+
+                            <TextView
+                                android:id="@+id/tv_user_student_id"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center|start"
+                                android:text="(41824233)"
+                                android:textSize="@dimen/font_14"
+                                tools:ignore="NestedWeights" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="3"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                tools:ignore="NestedWeights">
+
+
+                                <TextView
+                                    android:id="@+id/tv_user_friend"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="3"
+                                    android:gravity="center"
+                                    android:text="110"
+                                    android:textSize="@dimen/font_16" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="2"
+                                    android:gravity="top|center"
+                                    android:text="好友"
+                                    android:textSize="@dimen/font_12" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_user_product"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="3"
+                                    android:gravity="center"
+                                    android:text="100"
+                                    android:textSize="@dimen/font_16" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="2"
+                                    android:gravity="top|center"
+                                    android:text="我的旧贝壳"
+                                    android:textSize="@dimen/font_12" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_user_topic"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="3"
+                                    android:gravity="center"
+                                    android:text="100"
+                                    android:textAlignment="center"
+                                    android:textSize="@dimen/font_16" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="2"
+                                    android:gravity="top|center"
+                                    android:text="帖子"
+                                    android:textSize="@dimen/font_12" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/ns_personal_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_personal_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:translationY="100dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/ll_publish_center"
@@ -214,7 +389,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ll_student_service"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -282,179 +457,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ll_personal_user"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/white">
-
-            <RelativeLayout
-                android:id="@+id/rl_user_avatar"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ll_personal_user_brief"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/riv_avatar"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_centerInParent="true"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/login_background"
-                    app:riv_border_color="@color/black"
-                    app:riv_border_width="2dp"
-                    app:riv_oval="true" />
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/iv_user_gender"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:contentDescription="@null"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_app_icon"
-                    app:riv_border_color="@color/white"
-                    app:riv_border_width="1dp"
-                    app:riv_oval="true" />
-
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_personal_user_brief"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/rl_user_avatar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:paddingEnd="10dp"
-                    tools:ignore="RtlSymmetry">
-
-                    <TextView
-                        android:id="@+id/tv_username"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|end"
-                        android:text="未登录"
-                        android:textSize="@dimen/font_18"
-                        tools:ignore="NestedWeights" />
-
-                    <TextView
-                        android:id="@+id/tv_user_student_id"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center|start"
-                        android:text="(41824233)"
-                        android:textSize="@dimen/font_14"
-                        tools:ignore="NestedWeights" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        tools:ignore="NestedWeights">
-
-
-                        <TextView
-                            android:id="@+id/tv_user_friend"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="3"
-                            android:gravity="center"
-                            android:text="110"
-                            android:textAlignment="center"
-                            android:textSize="@dimen/font_16" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="2"
-                            android:gravity="top"
-                            android:text="好友"
-                            android:textAlignment="center"
-                            android:textSize="@dimen/font_12" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_user_product"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="3"
-                            android:gravity="center"
-                            android:text="100"
-                            android:textAlignment="center"
-                            android:textSize="@dimen/font_16" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="2"
-                            android:gravity="top"
-                            android:text="我的旧贝壳"
-                            android:textAlignment="center"
-                            android:textSize="@dimen/font_12" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_user_topic"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="3"
-                            android:gravity="center"
-                            android:text="100"
-                            android:textAlignment="center"
-                            android:textSize="@dimen/font_16" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="2"
-                            android:gravity="top"
-                            android:text="帖子"
-                            android:textAlignment="center"
-                            android:textSize="@dimen/font_12" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 

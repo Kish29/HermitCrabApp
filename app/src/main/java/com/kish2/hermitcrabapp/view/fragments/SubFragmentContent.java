@@ -79,11 +79,11 @@ public class SubFragmentContent extends BaseFragment implements IBaseFragment, B
                         if (mCurrentY - mFirstY > mTouchSlop) {
                             mParent = (HomeFragment) requireParentFragment();
                             // 下滑 显示titleBar
-                            mParent.topAndBottomBarGlide(false);
+                            mParent.bottomBarHide(false);
                         } else if (mFirstY - mCurrentY > mTouchSlop) {
                             mParent = (HomeFragment) requireParentFragment();
                             // 上滑 隐藏titleBar
-                            mParent.topAndBottomBarGlide(true);
+                            mParent.bottomBarHide(true);
                         }
                         break;
                     case MotionEvent.ACTION_UP:
