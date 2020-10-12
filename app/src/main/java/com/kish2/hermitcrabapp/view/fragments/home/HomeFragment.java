@@ -1,19 +1,16 @@
 package com.kish2.hermitcrabapp.view.fragments.home;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -41,13 +38,13 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
 
     /* 顶部导航条AppBarLayout */
     @BindView(R.id.abl_retrieve_bar_container)
-    AppBarLayout mABLContainer;
+    AppBarLayout mAppBarLayout;
 
     /* 顶部导航条*/
     @BindView(R.id.top_retrieve_bar)
     ViewGroup mTopRetrieveBar;
     @BindView(R.id.ctl_banner_container)
-    CollapsingToolbarLayout mRetrieveBarContainer;
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
     private static float mTopRetrieveBarHeight = 0;
 
     /* 用户头像*/
@@ -80,7 +77,7 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case 1:
-                        loadData();
+                        loadDataComplete();
                         break;
                     case 2:
                     case 3:
@@ -110,28 +107,7 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
         ButterKnife.bind(this, fragmentHome);
         /* 主线程*/
         getAndSetLayoutView();
-        /* 子线程 */
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                registerViewComponentsAffairs();
-                mVPSubHome.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
-                ArrayList<String> strings = new ArrayList<>();
-                strings.add("最新");
-                strings.add("教务处");
-                /* 创建实例并作为ViewPager的适配器 */
-                homeFragmentAdapter = new HomeFragmentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, strings);
-                Message msg = new Message();
-                msg.what = 1;
-                mHandler.sendMessage(msg);
-            }
-        }).start();
-        mCLFragmentContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                getLayoutComponentsAttr();
-            }
-        });
+        mCLFragmentContent.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentHome;
     }
 
@@ -151,28 +127,44 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
     }
 
     @Override
+    protected void loadData() {
+        registerViewComponentsAffairs();
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("最新");
+        strings.add("教务处");
+        /* 创建实例并作为ViewPager的适配器 */
+        homeFragmentAdapter = new HomeFragmentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, strings);
+        Message msg = new Message();
+        msg.what = 1;
+        mHandler.sendMessage(msg);
+    }
+
+    @Override
     public void getLayoutComponentsAttr() {
         /* 获取高度 */
         mBottomTabHeight = mBottomTab.getHeight();
-        mTopRetrieveBarHeight = mRetrieveBarContainer.getHeight();
+        mTopRetrieveBarHeight = mCollapsingToolbarLayout.getHeight();
     }
 
     @Override
     public void getAndSetLayoutView() {
-        /* 设置StatusBar的占位高度 */
-        setPaddingTopForStatusBarHeight(mABLContainer);
+        /* 用padding设置StatusBar的占位高度 */
+        setPaddingTopForStatusBarHeight(mAppBarLayout);
         /* 设置AppBarLayout的颜色 */
-        mABLContainer.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
+        if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
+            mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
         /* 父组件 */
         mDLParentView = requireActivity().findViewById(R.id.dl_maint_activity);
         mBottomTab = requireActivity().findViewById(R.id.cl_bottom_tab_bar);
         /* 获取顶部retrieveBar的几个部件*/
         mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
         mSearch = mTopRetrieveBar.findViewById(R.id.sv_search);
+        /* 设置最大缓存fragment */
+        mVPSubHome.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
     }
 
     @Override
-    public void loadData() {
+    public void loadDataComplete() {
         mVPSubHome.setAdapter(homeFragmentAdapter);
         /* 绑定ViewPager */
         mCategoryTab.setupWithViewPager(mVPSubHome);
@@ -183,10 +175,10 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
         mUserAvatar.setOnClickListener(v -> {
             mDLParentView.openDrawer(GravityCompat.START);
         });
-        mABLContainer.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+        mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             float offset = mTopRetrieveBarHeight + verticalOffset;
             float ratio = offset / mTopRetrieveBarHeight;
-            mTopRetrieveBar.setAlpha(ratio);
+            mCollapsingToolbarLayout.setAlpha(ratio);
         });
     }
 

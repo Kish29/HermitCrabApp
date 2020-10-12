@@ -22,6 +22,14 @@
         app:riv_border_width="1dp"
         app:riv_oval="true" />
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_category_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:tabGravity="fill"
+        app:tabMode="fixed" />
+
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -29,11 +37,5 @@
         android:layout_centerVertical="true"
         android:contentDescription="@null"
         android:scaleType="centerCrop" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:src="?attr/homeAsUpIndicator" />
 
 </RelativeLayout>

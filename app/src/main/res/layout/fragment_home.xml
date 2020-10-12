@@ -41,6 +41,7 @@
             app:layout_constraintBottom_toTopOf="@+id/vp_content_list"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- 注意ViewPager不能嵌套在ScrollView之类的视图里 -->
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/vp_content_list"
             android:layout_width="match_parent"

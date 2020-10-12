@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.view.fragments.home;
+package com.kish2.hermitcrabapp.view.fragments.community;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -22,7 +22,10 @@ import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
 import com.kish2.hermitcrabapp.bean.Inform;
 import com.kish2.hermitcrabapp.utils.ToastUtil;
+import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.IBaseFragment;
+import com.kish2.hermitcrabapp.view.fragments.home.FLatest;
+import com.kish2.hermitcrabapp.view.fragments.home.HomeFragment;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,11 +34,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FLatest extends FHomeBase implements IBaseFragment {
-
-    /*@BindView(R.id.tv_sub_fragment)
-    TextView textView;*/
-
+public class FSecondHand extends FCommunityBase implements IBaseFragment {
     @BindView(R.id.srl_refresh_list)
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_container_items)
@@ -59,7 +58,7 @@ public class FLatest extends FHomeBase implements IBaseFragment {
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case 1:
-                        FLatest.this.loadDataComplete();
+                        loadDataComplete();
                         break;
                     case 2:
                     case 3:
@@ -128,7 +127,7 @@ public class FLatest extends FHomeBase implements IBaseFragment {
     @Override
     public void getAndSetLayoutView() {
         /* 父Fragment*/
-        mHome = (HomeFragment) requireParentFragment();
+        mCommunity = (CommunityFragment) requireParentFragment();
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mInformList.setLayoutManager(layoutManager);
         /*StaggeredLayout不需要设置该项
@@ -156,10 +155,10 @@ public class FLatest extends FHomeBase implements IBaseFragment {
                         mCurrentY = event.getY();
                         if (mCurrentY - mFirstY > mTouchSlop) {
                             // 下滑 显示titleBar
-                            mHome.bottomBarHide(false);
+                            mCommunity.bottomBarHide(false);
                         } else if (mFirstY - mCurrentY > mTouchSlop) {
                             // 上滑 隐藏titleBar
-                            mHome.bottomBarHide(true);
+                            mCommunity.bottomBarHide(true);
                         }
                         break;
                     case MotionEvent.ACTION_UP:

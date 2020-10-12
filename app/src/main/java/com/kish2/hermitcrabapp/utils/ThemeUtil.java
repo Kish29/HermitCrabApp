@@ -20,7 +20,7 @@ public class ThemeUtil {
             Theme.colorId = AppTheme[Theme.colorId];
         Theme.bgImgSrc = theme_config.getString(KEY_BG_IMG, null);
         Theme.sideBgImgSrc = theme_config.getString(KEY_SIDE_BG_IMG, null);
-        Theme.isDarkTheme = theme_config.getBoolean(KEY_DARK_THEME,true);
+        Theme.isDarkTheme = theme_config.getBoolean(KEY_DARK_THEME, false);
     }
 
     private static int[] AppTheme = {

@@ -187,7 +187,7 @@ public class LoginActivity extends BaseActivity
     }
 
     @Override
-    public void loadData() {
+    public void loadDataComplete() {
 
     }
 

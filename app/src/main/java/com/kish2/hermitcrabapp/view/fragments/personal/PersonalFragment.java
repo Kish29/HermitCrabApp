@@ -136,11 +136,12 @@ public class PersonalFragment extends BaseFragment implements IBaseFragment {
     public void getAndSetLayoutView() {
         setPaddingTopForStatusBarHeight(mABLContainer);
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-        mABLContainer.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
+        if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
+            mABLContainer.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
     }
 
     @Override
-    public void loadData() {
+    public void loadDataComplete() {
 
     }
 

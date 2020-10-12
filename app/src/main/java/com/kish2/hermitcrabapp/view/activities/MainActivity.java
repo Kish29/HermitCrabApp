@@ -113,7 +113,7 @@ public class MainActivity extends BaseActivity implements IBaseView {
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case 1:
-                        loadData();
+                        loadDataComplete();
                         break;
                     case 2:
                     case 3:
@@ -165,17 +165,12 @@ public class MainActivity extends BaseActivity implements IBaseView {
         }.start();
         /* 监听获取组件属性 */
         /* 使用任意一个view来执行 getLayoutComponentsAttr() 方法*/
-        mDLRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                getLayoutComponentsAttr();
-            }
-        });
+        mDLRootView.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
     }
 
 
     @Override
-    public void loadData() {
+    public void loadDataComplete() {
         //*******底部Tab初始化视图*********/
         for (TabLayout.Tab mTab : mTabs) {
             mTLMainNavBar.addTab(mTab);

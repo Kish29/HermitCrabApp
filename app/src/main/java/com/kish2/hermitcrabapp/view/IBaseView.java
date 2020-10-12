@@ -17,8 +17,8 @@ public interface IBaseView {
     // 放在主线程
     public void getAndSetLayoutView();
 
-    /* 加载数据或者设置adapter，放在Handle中，等待子线程完成数据的加载 */
-    public void loadData();
+    /* 数据加载完成后设置相应组件的数据显示 */
+    public void loadDataComplete();
 
     /* 注册控制事务 */
     /* 子线程 */

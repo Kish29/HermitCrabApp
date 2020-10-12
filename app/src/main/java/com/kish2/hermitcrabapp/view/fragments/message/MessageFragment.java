@@ -104,7 +104,7 @@ public class MessageFragment extends BaseFragment implements IBaseFragment {
     }
 
     @Override
-    public void loadData() {
+    public void loadDataComplete() {
 
     }
 

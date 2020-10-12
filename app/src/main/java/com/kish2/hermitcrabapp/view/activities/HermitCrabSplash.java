@@ -66,7 +66,7 @@ public class HermitCrabSplash extends BaseActivity implements IBaseView {
     }
 
     @Override
-    public void loadData() {
+    public void loadDataComplete() {
 
     }
 

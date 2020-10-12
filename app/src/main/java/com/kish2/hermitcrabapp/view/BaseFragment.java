@@ -1,15 +1,37 @@
 package com.kish2.hermitcrabapp.view;
 
-import android.annotation.SuppressLint;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 public class BaseFragment extends Fragment {
+
+    /* 是否是第一次加载数据 */
+    protected boolean isLoaded = false;
+
+    /* 为实现懒加载，需要在resume中执行该判断*/
+    /* 所以子类必须实现loadData方法 */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isLoaded) {
+            new Thread() {
+                @Override
+                public void run() {
+                    loadData();
+                    /* 数据加载完后置true */
+                    isLoaded = true;
+                }
+            }.start();
+        }
+    }
+
+    /* 子类重写 */
+    /* 加载数据或者设置adapter，放在Handle中，等待子线程完成数据的加载 */
+    protected void loadData() {
+    }
 
     /* viewpager预加载页面，提升流畅度 */
     protected int VIEW_PAGER_OF_SCREEN_LIMIT = 10;
@@ -57,4 +79,13 @@ public class BaseFragment extends Fragment {
             view.setPadding(0, getResources().getDimensionPixelOffset(identifier), 0, 0);
         }
     }
+
+    protected void setHeightForStatusBar(View view) {
+        /* 设置虚拟statusBar高度 */
+        int identifier = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (identifier > 0) {
+            view.getLayoutParams().height = getResources().getDimensionPixelOffset(identifier);
+        }
+    }
+
 }
