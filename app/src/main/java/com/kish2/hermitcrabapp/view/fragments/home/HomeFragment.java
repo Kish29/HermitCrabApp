@@ -119,7 +119,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        bottomBarHide(false, mBottomTab, mBottomTabHeight);
     }
 
     @Override

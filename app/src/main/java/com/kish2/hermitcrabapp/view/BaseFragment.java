@@ -13,7 +13,7 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
     /* viewpager预加载页面，提升流畅度 */
     protected int VIEW_PAGER_OF_SCREEN_LIMIT = 10;
     /* 滑动时间*/
-    protected static final long glideTime = 300;
+    public static final long glideTime = 300;
 
     /* 提供给Presenter使用 */
     public Handler mHandler;

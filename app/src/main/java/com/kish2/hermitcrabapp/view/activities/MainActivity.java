@@ -25,6 +25,7 @@ import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.ToastUtil;
+import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.fragments.community.CommunityFragment;
 import com.kish2.hermitcrabapp.view.fragments.home.HomeFragment;
 import com.kish2.hermitcrabapp.view.fragments.message.MessageFragment;
@@ -233,29 +234,8 @@ public class MainActivity extends BaseActivity {
         /* 先判断底部导航条是否是收起的状态 */
         /* 收起状态*/
         if (mCLBottomTab.getTranslationY() > 0) {
-            if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-                switch (tabPos) {
-                    case 0:
-                        ((HomeFragment) MainFragmentAdapter.getCurrentFragment()).bottomBarHide(false);
-                        break;
-                    case 1:
-                        ((CommunityFragment) MainFragmentAdapter.getCurrentFragment()).bottomBarHide(false);
-                        break;
-                    /* Service界面不需要隐藏 */
-                    /*case 2:
-                        ((ServiceFragmentImpl) MainFragmentAdapter.getCurrentFragment()).topAndBottomBarGlide(false);
-                        break;*/
-                    case 3:
-                        ((MessageFragment) MainFragmentAdapter.getCurrentFragment()).bottomBarHide(false);
-                        break;
-                    case 4:
-                        ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).bottomBarHide(false);
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
+            mCLBottomTab.animate().translationYBy(mCLBottomTab.getTranslationY()).translationY(0).setDuration(BaseFragment.glideTime);
+            return true;
         }
         if (mDLRootView.isDrawerOpen(GravityCompat.START)) {
             mDLRootView.closeDrawer(GravityCompat.START);
@@ -288,5 +268,10 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         detachPresenter();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }
