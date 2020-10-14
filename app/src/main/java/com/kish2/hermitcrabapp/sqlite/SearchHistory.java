@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.sql;
+package com.kish2.hermitcrabapp.sqlite;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

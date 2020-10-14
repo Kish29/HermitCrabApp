@@ -1,7 +1,5 @@
 package com.kish2.hermitcrabapp.view;
 
-import android.content.Context;
-
 /* IBaseView 必须给子类给予约束 */
 public interface IBaseView {
 
@@ -17,8 +15,8 @@ public interface IBaseView {
     // 放在主线程
     public void getAndSetLayoutView();
 
-    /* 数据加载完成后设置相应组件的数据显示 */
-    public void loadDataComplete();
+    /* presenter或自己加载本地数据 */
+    public void loadData();
 
     /* 注册控制事务 */
     /* 子线程 */

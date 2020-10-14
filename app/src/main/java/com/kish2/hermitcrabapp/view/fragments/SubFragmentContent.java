@@ -27,7 +27,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 
 /* 此类用于设置视图 */
-public class SubFragmentContent extends BaseFragment implements IBaseFragment, BGARefreshLayout.BGARefreshLayoutDelegate {
+public class SubFragmentContent extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     /*@BindView(R.id.tv_sub_fragment)
     TextView textView;*/
@@ -117,7 +117,7 @@ public class SubFragmentContent extends BaseFragment implements IBaseFragment, B
     }
 
     @Override
-    public void loadDataComplete() {
+    public void loadData() {
 
     }
 
@@ -177,5 +177,10 @@ public class SubFragmentContent extends BaseFragment implements IBaseFragment, B
             }
         }.execute();
         return true;
+    }
+
+    @Override
+    public void bottomBarHide(boolean hide) {
+
     }
 }

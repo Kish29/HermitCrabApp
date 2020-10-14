@@ -21,6 +21,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.HomeFragmentAdapter;
+import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.IBaseFragment;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeFragment extends BaseFragment implements IBaseFragment {
+public class HomeFragment extends BaseFragment {
     /* 主内容*/
     @BindView(R.id.cl_fragment_content)
     ConstraintLayout mCLFragmentContent;
@@ -76,12 +77,12 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
-                    case 1:
-                        loadDataComplete();
+                    case MessageForHandler.ADAPTER_INIT:
+                        mVPSubHome.setAdapter(homeFragmentAdapter);
+                        /* 绑定ViewPager */
+                        mCategoryTab.setupWithViewPager(mVPSubHome);
                         break;
-                    case 2:
-                    case 3:
-                    case 4:
+                    default:
                         break;
                 }
             }
@@ -127,7 +128,8 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
     }
 
     @Override
-    protected void loadData() {
+    public void loadData() {
+        /* 注册事件 */
         registerViewComponentsAffairs();
         ArrayList<String> strings = new ArrayList<>();
         strings.add("最新");
@@ -135,7 +137,7 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
         /* 创建实例并作为ViewPager的适配器 */
         homeFragmentAdapter = new HomeFragmentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, strings);
         Message msg = new Message();
-        msg.what = 1;
+        msg.what = MessageForHandler.ADAPTER_INIT;
         mHandler.sendMessage(msg);
     }
 
@@ -161,13 +163,6 @@ public class HomeFragment extends BaseFragment implements IBaseFragment {
         mSearch = mTopRetrieveBar.findViewById(R.id.sv_search);
         /* 设置最大缓存fragment */
         mVPSubHome.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
-    }
-
-    @Override
-    public void loadDataComplete() {
-        mVPSubHome.setAdapter(homeFragmentAdapter);
-        /* 绑定ViewPager */
-        mCategoryTab.setupWithViewPager(mVPSubHome);
     }
 
     @Override

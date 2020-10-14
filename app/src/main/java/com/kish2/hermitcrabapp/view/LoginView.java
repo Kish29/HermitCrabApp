@@ -1,6 +1,6 @@
 package com.kish2.hermitcrabapp.view;
 
-public interface LoginView extends IBaseView {
+public interface LoginView extends IBaseActivity {
 
     /* presenter调用方法 */
     public String getIdentify();

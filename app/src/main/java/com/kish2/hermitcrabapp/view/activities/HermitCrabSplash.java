@@ -1,7 +1,6 @@
 package com.kish2.hermitcrabapp.view.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 
@@ -10,7 +9,6 @@ import androidx.annotation.Nullable;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
-import com.kish2.hermitcrabapp.view.IBaseView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,12 +16,10 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HermitCrabSplash extends BaseActivity implements IBaseView {
+public class HermitCrabSplash extends BaseActivity {
 
     @BindView(R.id.iv_splash_picture)
     ImageView mSplashPicture;
-
-    Bitmap mBackground;
 
     private static final long DELAY = 500;
 
@@ -41,6 +37,7 @@ public class HermitCrabSplash extends BaseActivity implements IBaseView {
             public void run() {
                 /* 资源也应当在子线程中设置 */
                 registerViewComponentsAffairs();
+                loadData();
             }
         }.start();
         /* intent必须为final */
@@ -66,8 +63,7 @@ public class HermitCrabSplash extends BaseActivity implements IBaseView {
     }
 
     @Override
-    public void loadDataComplete() {
-
+    public void loadData() {
     }
 
     @Override

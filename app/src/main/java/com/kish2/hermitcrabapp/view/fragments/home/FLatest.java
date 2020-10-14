@@ -20,18 +20,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
-import com.kish2.hermitcrabapp.bean.Inform;
+import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
+import com.kish2.hermitcrabapp.presenter.fragments.LatestPresenter;
 import com.kish2.hermitcrabapp.utils.ToastUtil;
-import com.kish2.hermitcrabapp.view.IBaseFragment;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FLatest extends FHomeBase implements IBaseFragment {
+public class FLatest extends FHomeBase {
 
     /*@BindView(R.id.tv_sub_fragment)
     TextView textView;*/
@@ -41,9 +37,12 @@ public class FLatest extends FHomeBase implements IBaseFragment {
     @BindView(R.id.rv_container_items)
     RecyclerView mInformList;
 
-    RecyclerInformAdapter mInformListAdapter;
+    RecyclerInformAdapter mInformsAdapter;
+    LatestPresenter mPresenter;
 
-    private Handler mHandler;
+    public void setmInformsAdapter(RecyclerInformAdapter mInformsAdapter) {
+        this.mInformsAdapter = mInformsAdapter;
+    }
 
     private float mFirstY;
     private float mTouchSlop;
@@ -53,17 +52,22 @@ public class FLatest extends FHomeBase implements IBaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        attachPresenter();
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
-                    case 1:
-                        FLatest.this.loadDataComplete();
+                    case MessageForHandler.ADAPTER_INIT:
+                        mInformList.setAdapter(mInformsAdapter);
+                        ToastUtil.showToast(getContext(), "数据加载成功", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
                         break;
-                    case 2:
-                    case 3:
+                    case MessageForHandler.DATA_UPDATE:
+                        mInformsAdapter.notifyDataSetChanged();
+                        ToastUtil.showToast(getContext(), "数据更新成功", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
+                        break;
                     default:
+                        ToastUtil.showToast(getContext(), "数据加载失败", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
                         break;
                 }
             }
@@ -88,39 +92,6 @@ public class FLatest extends FHomeBase implements IBaseFragment {
     }
 
     @Override
-    protected void loadData() {
-        registerViewComponentsAffairs();
-        mRefreshLayout.setRefreshing(true);
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                ArrayList<Inform> informArrayList = new ArrayList<>();
-                /* 测试，添加ListView，查看滑动效果 */
-                for (int i = 0; i < 20; i++) {
-                    Inform inform = new Inform();
-                    inform.setTitle("这是标题");
-                    inform.setDate(new Date());
-                    int j = new Random().nextInt(11);
-                    if (j <= 5)
-                        inform.setImgSrc("yes");
-                    else inform.setImgSrc("no");
-                    informArrayList.add(inform);
-                }
-                System.out.println("data load complete");
-                mInformListAdapter = new RecyclerInformAdapter(informArrayList, getContext());
-                Message msg = new Message();
-                msg.what = 1;
-                mHandler.sendMessage(msg);
-            }
-        }.start();
-    }
-
-    @Override
     public void getLayoutComponentsAttr() {
 
     }
@@ -133,11 +104,14 @@ public class FLatest extends FHomeBase implements IBaseFragment {
         mInformList.setLayoutManager(layoutManager);
         /*StaggeredLayout不需要设置该项
         mInformList.setVerticalScrollBarEnabled(false);*/
+        mInformList.setAdapter(mInformsAdapter);
     }
 
     @Override
-    public void loadDataComplete() {
-        mInformList.setAdapter(mInformListAdapter);
+    public void loadData() {
+        registerViewComponentsAffairs();
+        mRefreshLayout.setRefreshing(true);
+        mPresenter.getData();
         mRefreshLayout.setRefreshing(false);
     }
 
@@ -171,27 +145,30 @@ public class FLatest extends FHomeBase implements IBaseFragment {
             }
         });
 
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ToastUtil.showToast(getContext(), "刷新", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
-                        mRefreshLayout.setRefreshing(false);
-                    }
-                }, 1000);
-            }
+        mRefreshLayout.setOnRefreshListener(() -> {
+            mPresenter.getData();
+            mRefreshLayout.setRefreshing(false);
         });
     }
 
     @Override
     public void attachPresenter() {
-
+        this.mPresenter = new LatestPresenter(this);
     }
 
     @Override
     public void detachPresenter() {
+        this.mPresenter.detachView();
+    }
 
+    @Override
+    public void bottomBarHide(boolean hide) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.detachPresenter();
     }
 }

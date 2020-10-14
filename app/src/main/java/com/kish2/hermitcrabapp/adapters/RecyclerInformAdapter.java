@@ -48,6 +48,7 @@ public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAd
         holder.date.setText(new SimpleDateFormat("yyyy-MM-dd \n HH:mm:ss").format(new Date().getTime()));
         if (inform.getImgSrc().equals("yes"))
             holder.imgSrc.setImageResource(R.mipmap.login_background);
+        else holder.imgSrc.setImageDrawable(null);
         ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
         /*layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;*/
         holder.itemView.setLayoutParams(layoutParams);

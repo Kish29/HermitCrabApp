@@ -26,7 +26,9 @@ import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.FixedVideoView;
 import com.kish2.hermitcrabapp.presenter.impl.LoginPresenterImpl;
 import com.kish2.hermitcrabapp.utils.InputCheckUtil;
+import com.kish2.hermitcrabapp.utils.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
+import com.kish2.hermitcrabapp.view.IBaseActivity;
 import com.kish2.hermitcrabapp.view.LoginView;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
@@ -35,10 +37,9 @@ import butterknife.ButterKnife;
 
 @SuppressLint("Registered")
 public class LoginActivity extends BaseActivity
-        implements LoginView,
+        implements
         View.OnClickListener,
         View.OnFocusChangeListener,
-        ViewTreeObserver.OnGlobalFocusChangeListener,
         TextWatcher,
         View.OnTouchListener {
 
@@ -145,7 +146,6 @@ public class LoginActivity extends BaseActivity
     public void getLayoutComponentsAttr() {
         // 返回按钮
         mTopBarNavigationBack.setOnClickListener(this);
-        mLayBackBar.getViewTreeObserver().addOnGlobalFocusChangeListener(this);
         // 登录信息部分
         /* 登录信息 */
         // 点击事件
@@ -187,7 +187,7 @@ public class LoginActivity extends BaseActivity
     }
 
     @Override
-    public void loadDataComplete() {
+    public void loadData() {
 
     }
 
@@ -196,17 +196,14 @@ public class LoginActivity extends BaseActivity
 
     }
 
-    @Override
     public String getIdentify() {
         return this.mIdentify.getText().toString().trim();
     }
 
-    @Override
     public String getPassword() {
         return this.mPassword.getText().toString().trim();
     }
 
-    @Override
     public void pullOtherLoginView() {
         /* 停止当前动画 */
         /* 并在监听出获取进度 */
@@ -433,80 +430,12 @@ public class LoginActivity extends BaseActivity
         } else {
             if (hasFocus) {
                 if (!InputCheckUtil.isValidMobile(getIdentify())) {
-/*
-                    showToast("您输入的是无效的手机号哦~", TOAST_DURATION.TOAST_SHORT, TOAST_POSITION.TOAST_CENTER);
-*/
+                    ToastUtil.showToast(this, "您输入的是无效的手机号哦~", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
                 }
                 mPassword.setActivated(true);
                 mIdentify.setActivated(false);
             }
         }
-    }
-
-    @Override
-    public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-        /*final ImageView ivLogo = this.loginLogo;
-        Rect KeypadRect = new Rect();
-
-        mLayBackBar.getWindowVisibleDisplayFrame(KeypadRect);
-
-        int screenHeight = mLayBackBar.getRootView().getHeight();
-        int keypadHeight = screenHeight - KeypadRect.bottom;
-
-        //隐藏logo
-        if (keypadHeight > 300 && ivLogo.getTag() == null) {
-            final int height = ivLogo.getHeight();
-            final int width = ivLogo.getWidth();
-            this.mLogoHeight = height;
-            this.mLogoWidth = width;
-
-            ivLogo.setTag(true);
-
-            ValueAnimator valueAnimator = ValueAnimator.ofFloat(1, 0);
-            valueAnimator.setDuration(400).setInterpolator(new DecelerateInterpolator());
-            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float animatedValue = (float) animation.getAnimatedValue();
-                    ViewGroup.LayoutParams layoutParams = ivLogo.getLayoutParams();
-                    layoutParams.height = (int) (height * animatedValue);
-                    layoutParams.width = (int) (width * animatedValue);
-                    ivLogo.requestLayout();
-                    ivLogo.setAlpha(animatedValue);
-                }
-            });
-
-            if (valueAnimator.isRunning()) {
-                valueAnimator.cancel();
-            }
-            valueAnimator.start();
-        }
-        //显示logo
-        else if (keypadHeight < 300 && ivLogo.getTag() != null) {
-            final int height = mLogoHeight;
-            final int width = mLogoWidth;
-
-            ivLogo.setTag(null);
-
-            ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
-            valueAnimator.setDuration(400).setInterpolator(new DecelerateInterpolator());
-            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float animatedValue = (float) animation.getAnimatedValue();
-                    ViewGroup.LayoutParams layoutParams = ivLogo.getLayoutParams();
-                    layoutParams.height = (int) (height * animatedValue);
-                    layoutParams.width = (int) (width * animatedValue);
-                    ivLogo.requestLayout();
-                    ivLogo.setAlpha(animatedValue);
-                }
-            });
-
-            if (valueAnimator.isRunning()) {
-                valueAnimator.cancel();
-            }
-            valueAnimator.start();
-        }*/
     }
 
     @SuppressLint("ClickableViewAccessibility")

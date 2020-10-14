@@ -1,28 +1,25 @@
 package com.kish2.hermitcrabapp.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.widget.Toast;
+import android.os.Handler;
+import android.os.Message;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.utils.StatusBarUtil;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 
-
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements IBaseActivity {
 
     protected int DEFAULT_COLOR_ID = -1;
 
     protected int VIEW_PAGER_OF_SCREEN_LIMIT = 10;
+
+    /* 提供给Presenter使用 */
+    public Handler mHandler;
 
     public void setSinkStatusBar(boolean remainPadding, boolean isDarkTheme) {
         setSinkStatusBar(remainPadding, isDarkTheme, DEFAULT_COLOR_ID);
@@ -63,24 +60,5 @@ public class BaseActivity extends AppCompatActivity {
     // 返回Context对象
     public Context baseActivityGetContext() {
         return this;
-    }
-
-    /* 检查并申请权限 */
-    public void checkAndRequestPermissions(ArrayList<String> permissionList) {
-        ArrayList<String> list = new ArrayList<>(permissionList);
-        Iterator<String> it = list.iterator();
-        while (it.hasNext()) {
-            String permission = it.next();
-            if (ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
-                it.remove();
-            }
-        }
-        /* 所有权限均通过 */
-        if (list.size() == 0) {
-            return;
-        }
-        /* 先转化为String数组*/
-        String[] permissions = list.toArray(new String[0]);
-        ActivityCompat.requestPermissions(this, permissions, 3000);
     }
 }

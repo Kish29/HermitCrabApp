@@ -26,7 +26,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ServiceFragment extends BaseFragment implements IBaseFragment {
+public class ServiceFragment extends BaseFragment {
     /* 父根布局 */
     DrawerLayout mDLParentView;
 
@@ -112,7 +112,7 @@ public class ServiceFragment extends BaseFragment implements IBaseFragment {
     }
 
     @Override
-    public void loadDataComplete() {
+    public void loadData() {
 
     }
 
@@ -131,4 +131,8 @@ public class ServiceFragment extends BaseFragment implements IBaseFragment {
 
     }
 
+    @Override
+    public void bottomBarHide(boolean hide) {
+        bottomBarHide(hide,mBottomTab,mBottomTabHeight);
+    }
 }

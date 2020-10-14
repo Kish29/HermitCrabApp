@@ -31,7 +31,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PersonalFragment extends BaseFragment implements IBaseFragment {
+public class PersonalFragment extends BaseFragment{
 
     /**
      * @获取要用到的所有控件
@@ -128,6 +128,11 @@ public class PersonalFragment extends BaseFragment implements IBaseFragment {
     }
 
     @Override
+    public void bottomBarHide(boolean hide) {
+        bottomBarHide(hide, mBottomTab, mBottomTabHeight);
+    }
+
+    @Override
     public void getLayoutComponentsAttr() {
         mTopRetrieveBarHeight = mRetrieveBarContainer.getHeight();
     }
@@ -141,7 +146,7 @@ public class PersonalFragment extends BaseFragment implements IBaseFragment {
     }
 
     @Override
-    public void loadDataComplete() {
+    public void loadData() {
 
     }
 

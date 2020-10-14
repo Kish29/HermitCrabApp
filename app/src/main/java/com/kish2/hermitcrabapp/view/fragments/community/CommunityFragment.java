@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CommunityFragment extends BaseFragment implements IBaseFragment {
+public class CommunityFragment extends BaseFragment {
 
     /* 顶部导航条*/
     @BindView(R.id.abl_retrieve_bar_container)
@@ -70,7 +70,9 @@ public class CommunityFragment extends BaseFragment implements IBaseFragment {
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case 1:
-                        loadDataComplete();
+                        mVPSubCommunity.setAdapter(communityFragmentAdapter);
+                        /* 绑定ViewPager */
+                        mCategoryTab.setupWithViewPager(mVPSubCommunity);
                         break;
                     case 2:
                     case 3:
@@ -104,19 +106,6 @@ public class CommunityFragment extends BaseFragment implements IBaseFragment {
     }
 
     @Override
-    protected void loadData() {
-        registerViewComponentsAffairs();
-        mVPSubCommunity.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("最新");
-        strings.add("教务处");
-        communityFragmentAdapter = new CommunityFragmentAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, strings);
-        Message msg = new Message();
-        msg.what = 1;
-        mHandler.sendMessage(msg);
-    }
-
-    @Override
     public void getAndSetLayoutView() {
         /* 设置StatusBar的占位高度 */
         setHeightForStatusBar(mStatusBar);
@@ -129,10 +118,16 @@ public class CommunityFragment extends BaseFragment implements IBaseFragment {
     }
 
     @Override
-    public void loadDataComplete() {
-        mVPSubCommunity.setAdapter(communityFragmentAdapter);
-        /* 绑定ViewPager */
-        mCategoryTab.setupWithViewPager(mVPSubCommunity);
+    public void loadData() {
+        registerViewComponentsAffairs();
+        mVPSubCommunity.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("易贝壳");
+        strings.add("话题");
+        communityFragmentAdapter = new CommunityFragmentAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, strings);
+        Message msg = new Message();
+        msg.what = 1;
+        mHandler.sendMessage(msg);
     }
 
     @Override
@@ -163,4 +158,8 @@ public class CommunityFragment extends BaseFragment implements IBaseFragment {
 
     }
 
+    @Override
+    public void bottomBarHide(boolean hide) {
+        bottomBarHide(hide,mBottomTab,mBottomTabHeight);
+    }
 }
