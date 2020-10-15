@@ -3,10 +3,6 @@ package com.kish2.hermitcrabapp.view.fragments.home;
 import androidx.fragment.app.Fragment;
 
 public class FAcademicAffairs extends FHomeBase {
-    @Override
-    public void bottomBarHide(boolean hide) {
-
-    }
 
     @Override
     public void getLayoutComponentsAttr() {

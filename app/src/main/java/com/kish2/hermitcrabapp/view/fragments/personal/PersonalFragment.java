@@ -24,14 +24,13 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
-import com.kish2.hermitcrabapp.view.IBaseFragment;
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PersonalFragment extends BaseFragment{
+public class PersonalFragment extends BaseFragment {
 
     /**
      * @获取要用到的所有控件
@@ -42,12 +41,12 @@ public class PersonalFragment extends BaseFragment{
 
     // 顶部条容器
     @BindView(R.id.abl_retrieve_bar_container)
-    AppBarLayout mABLContainer;
+    AppBarLayout mAppBarLayout;
     @BindView(R.id.top_retrieve_bar)
     RelativeLayout mTopRetrieveBar;
     @BindView(R.id.ctl_banner_container)
-    CollapsingToolbarLayout mRetrieveBarContainer;
-    private static float mTopRetrieveBarHeight = 0;
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private static float mCollapsingHeight = 0;
 
     // 左上角菜单
     ImageButton mSideMenu;
@@ -127,21 +126,17 @@ public class PersonalFragment extends BaseFragment{
     }
 
     @Override
-    public void bottomBarHide(boolean hide) {
-        bottomBarHide(hide, mBottomTab, mBottomTabHeight);
-    }
-
-    @Override
     public void getLayoutComponentsAttr() {
-        mTopRetrieveBarHeight = mRetrieveBarContainer.getHeight();
+        mCollapsingHeight = mCollapsingToolbarLayout.getHeight();
     }
 
     @Override
     public void getAndSetLayoutView() {
-        setPaddingTopForStatusBarHeight(mABLContainer);
+        setPaddingTopForStatusBarHeight(mAppBarLayout);
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
-            mABLContainer.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
+            mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
+        else mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
     }
 
     @Override
@@ -152,35 +147,13 @@ public class PersonalFragment extends BaseFragment{
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void registerViewComponentsAffairs() {
-        mABLContainer.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            float offset = mTopRetrieveBarHeight + verticalOffset;
-            float ratio = offset / mTopRetrieveBarHeight;
-            mRetrieveBarContainer.setAlpha(ratio);
+        mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            float offset = mCollapsingHeight + verticalOffset;
+            float ratio = offset / mCollapsingHeight;
+            mCollapsingToolbarLayout.setAlpha(ratio);
         });
 
-        mNSPersonalMain.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mFirstY = event.getY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        mCurrentY = event.getY();
-                        if (mCurrentY - mFirstY > mTouchSlop) {
-                            // 下滑 显示titleBar
-                            bottomBarHide(false, mBottomTab, mBottomTabHeight);
-                        } else if (mFirstY - mCurrentY > mTouchSlop) {
-                            // 上滑 隐藏titleBar
-                            bottomBarHide(true, mBottomTab, mBottomTabHeight);
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
-                }
-                return false;
-            }
-        });
+        mNSPersonalMain.setOnTouchListener(this::touchCheck);
 
         mOldPublish.setOnClickListener(v -> System.out.println("发布旧商品"));
 

@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.kish2.hermitcrabapp.view.fragments.community.CommunityFragment;
 import com.kish2.hermitcrabapp.view.fragments.home.HomeFragment;
-import com.kish2.hermitcrabapp.view.fragments.message.MessageFragment;
+import com.kish2.hermitcrabapp.view.fragments.message.ChatFragment;
 import com.kish2.hermitcrabapp.view.fragments.personal.PersonalFragment;
 import com.kish2.hermitcrabapp.view.fragments.service.ServiceFragment;
 
@@ -37,7 +37,7 @@ public class MainFragmentAdapter extends FragmentStatePagerAdapter {
                 fragment = new ServiceFragment();
                 break;
             case 3:
-                fragment = new MessageFragment();
+                fragment = new ChatFragment();
                 break;
             case 4:
                 fragment = new PersonalFragment();

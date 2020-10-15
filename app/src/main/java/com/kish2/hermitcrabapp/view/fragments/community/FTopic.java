@@ -4,10 +4,6 @@ import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.IBaseFragment;
 
 public class FTopic extends FCommunityBase{
-    @Override
-    public void bottomBarHide(boolean hide) {
-
-    }
 
     @Override
     public void getLayoutComponentsAttr() {

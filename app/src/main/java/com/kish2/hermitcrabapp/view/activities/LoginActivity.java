@@ -12,7 +12,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -24,12 +23,10 @@ import androidx.annotation.Nullable;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.FixedVideoView;
-import com.kish2.hermitcrabapp.presenter.impl.LoginPresenterImpl;
+import com.kish2.hermitcrabapp.presenter.activities.LoginPresenter;
 import com.kish2.hermitcrabapp.utils.InputCheckUtil;
 import com.kish2.hermitcrabapp.utils.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
-import com.kish2.hermitcrabapp.view.IBaseActivity;
-import com.kish2.hermitcrabapp.view.LoginView;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import butterknife.BindView;
@@ -102,7 +99,7 @@ public class LoginActivity extends BaseActivity
     /*private int mLogoHeight;
     private int mLogoWidth;*/
 
-    private LoginPresenterImpl loginPresenter;
+    private LoginPresenter loginPresenter;
 
     /* 滑出时间 */
     private static final int glideTime = 200;
@@ -312,7 +309,7 @@ public class LoginActivity extends BaseActivity
 
     @Override
     public void attachPresenter() {
-        this.loginPresenter = new LoginPresenterImpl(this);
+        this.loginPresenter = new LoginPresenter(this);
     }
 
     @Override

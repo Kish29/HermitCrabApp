@@ -44,16 +44,11 @@ public class FLatest extends FHomeBase {
         this.mInformsAdapter = mInformsAdapter;
     }
 
-    private float mFirstY;
-    private float mTouchSlop;
-    private float mCurrentY;
-
     @SuppressLint("HandlerLeak")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         attachPresenter();
-        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -82,12 +77,13 @@ public class FLatest extends FHomeBase {
         ButterKnife.bind(this, view);
         /* 主线程 */
         getAndSetLayoutView();
-        mRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        new Thread() {
             @Override
-            public void onGlobalLayout() {
-                getLayoutComponentsAttr();
+            public void run() {
+                registerViewComponentsAffairs();
             }
-        });
+        }.start();
+        mRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(() -> getLayoutComponentsAttr());
         return view;
     }
 
@@ -104,12 +100,10 @@ public class FLatest extends FHomeBase {
         mInformList.setLayoutManager(layoutManager);
         /*StaggeredLayout不需要设置该项
         mInformList.setVerticalScrollBarEnabled(false);*/
-        mInformList.setAdapter(mInformsAdapter);
     }
 
     @Override
     public void loadData() {
-        registerViewComponentsAffairs();
         mRefreshLayout.setRefreshing(true);
         mPresenter.getData();
         mRefreshLayout.setRefreshing(false);
@@ -119,31 +113,7 @@ public class FLatest extends FHomeBase {
     @Override
     public void registerViewComponentsAffairs() {
         /* 因为onScrollChangedListener的onScrolled方法是回调方法，要等到item停下来时才调用，所以这儿直接监听touch事件 */
-        mInformList.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mFirstY = event.getY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        mCurrentY = event.getY();
-                        if (mCurrentY - mFirstY > mTouchSlop) {
-                            // 下滑 显示titleBar
-                            mHome.bottomBarHide(false);
-                        } else if (mFirstY - mCurrentY > mTouchSlop) {
-                            // 上滑 隐藏titleBar
-                            mHome.bottomBarHide(true);
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
-                }
-                /*因为要让listView继续滑动，所以这儿返回false
-                事件未被消费，向下传递，调用onTouchEvent*/
-                return false;
-            }
-        });
+        mInformList.setOnTouchListener(this::touchCheck);
 
         mRefreshLayout.setOnRefreshListener(() -> {
             mPresenter.getData();
@@ -159,11 +129,6 @@ public class FLatest extends FHomeBase {
     @Override
     public void detachPresenter() {
         this.mPresenter.detachView();
-    }
-
-    @Override
-    public void bottomBarHide(boolean hide) {
-
     }
 
     @Override

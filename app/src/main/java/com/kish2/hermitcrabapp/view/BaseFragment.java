@@ -1,9 +1,14 @@
 package com.kish2.hermitcrabapp.view;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.BoringLayout;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -17,6 +22,9 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
 
     /* 提供给Presenter使用 */
     public Handler mHandler;
+
+    private float mFirstY;
+    private float mTouchSlop;
 
     /* 父根布局 */
     /* 只需要在HomeFragment中实例一次就行 */
@@ -46,6 +54,12 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+    }
+
     /* 用CoordinatorLayout之后只需要下降底部Tab条即可 */
 
     /**
@@ -65,10 +79,6 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
         }
     }
 
-    /* 重写该方法，以便activity或者子fragment能够访问*/
-    public abstract void bottomBarHide(boolean hide);
-
-
     protected void setPaddingTopForStatusBarHeight(View view) {
         /* 设置虚拟statusBar高度 */
         int identifier = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -83,6 +93,29 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
         if (identifier > 0) {
             view.getLayoutParams().height = getResources().getDimensionPixelOffset(identifier);
         }
+    }
+
+    protected boolean touchCheck(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mFirstY = event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float distance = event.getY() - mFirstY;
+                if (distance > mTouchSlop) {
+                    // 下滑 显示titleBar
+                    bottomBarHide(false, mBottomTab, mBottomTabHeight);
+                } else if (-distance > mTouchSlop) {
+                    // 上滑 隐藏titleBar
+                    bottomBarHide(true, mBottomTab, mBottomTabHeight);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+            /*因为要让listView继续滑动，所以这儿返回false
+            事件未被消费，向下传递，调用onTouchEvent*/
+        return false;
     }
 
 }

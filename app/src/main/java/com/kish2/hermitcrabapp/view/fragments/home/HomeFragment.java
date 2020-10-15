@@ -24,7 +24,6 @@ import com.kish2.hermitcrabapp.adapters.viewpager.HomeFragmentAdapter;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
-import com.kish2.hermitcrabapp.view.IBaseFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class HomeFragment extends BaseFragment {
     ViewGroup mTopRetrieveBar;
     @BindView(R.id.ctl_banner_container)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
-    private static float mTopRetrieveBarHeight = 0;
+    private static float mCollapsingHeight = 0;
 
     /* 用户头像*/
     RoundedImageView mUserAvatar;
@@ -62,7 +61,6 @@ public class HomeFragment extends BaseFragment {
     ViewPager mVPSubHome;
 
     HomeFragmentAdapter homeFragmentAdapter;
-    private Handler mHandler;
 
     /* 这三个方法必须重写 */
 
@@ -108,28 +106,25 @@ public class HomeFragment extends BaseFragment {
         ButterKnife.bind(this, fragmentHome);
         /* 主线程*/
         getAndSetLayoutView();
+        new Thread() {
+            @Override
+            public void run() {
+                /* 注册事件 */
+                registerViewComponentsAffairs();
+            }
+        }.start();
         mCLFragmentContent.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentHome;
     }
 
     /**
-     * @因为onPause后，FragmentManager会对组件进行重绘，某些组件会回到原始的属性
-     * @而如果在之间调用了隐藏动画，那么会造成冲突，视图UI组件会消失
+     * 因为onPause后，FragmentManager会对组件进行重绘，某些组件会回到原始的属性
+     * 而如果在之间调用了隐藏动画，那么会造成冲突，视图UI组件会消失
+     * 已经放在了MainActivity中调用
      */
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void bottomBarHide(boolean hide) {
-        bottomBarHide(hide, mBottomTab, mBottomTabHeight);
-    }
 
     @Override
     public void loadData() {
-        /* 注册事件 */
-        registerViewComponentsAffairs();
         ArrayList<String> strings = new ArrayList<>();
         strings.add("最新");
         strings.add("教务处");
@@ -144,7 +139,7 @@ public class HomeFragment extends BaseFragment {
     public void getLayoutComponentsAttr() {
         /* 获取高度 */
         mBottomTabHeight = mBottomTab.getHeight();
-        mTopRetrieveBarHeight = mCollapsingToolbarLayout.getHeight();
+        mCollapsingHeight = mCollapsingToolbarLayout.getHeight();
     }
 
     @Override
@@ -154,6 +149,7 @@ public class HomeFragment extends BaseFragment {
         /* 设置AppBarLayout的颜色 */
         if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
             mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
+        else mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
         /* 父组件 */
         mDLParentView = requireActivity().findViewById(R.id.dl_maint_activity);
         mBottomTab = requireActivity().findViewById(R.id.cl_bottom_tab_bar);
@@ -170,8 +166,8 @@ public class HomeFragment extends BaseFragment {
             mDLParentView.openDrawer(GravityCompat.START);
         });
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            float offset = mTopRetrieveBarHeight + verticalOffset;
-            float ratio = offset / mTopRetrieveBarHeight;
+            float offset = mCollapsingHeight + verticalOffset;
+            float ratio = offset / mCollapsingHeight;
             mCollapsingToolbarLayout.setAlpha(ratio);
         });
     }

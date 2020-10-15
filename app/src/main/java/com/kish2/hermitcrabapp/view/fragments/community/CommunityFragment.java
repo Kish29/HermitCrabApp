@@ -22,7 +22,6 @@ import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.CommunityFragmentAdapter;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
-import com.kish2.hermitcrabapp.view.IBaseFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class CommunityFragment extends BaseFragment {
     @BindView(R.id.v_status_bar)
     View mStatusBar;
     /* 顶部导航条高度*/
-    private static int mTopRetrieveBarHeight = 0;
+    private static int mAppBarHeight = 0;
     /* 用户头像*/
     RoundedImageView mUserAvatar;
 
@@ -92,6 +91,12 @@ public class CommunityFragment extends BaseFragment {
         ButterKnife.bind(this, fragmentCommunity);
 
         getAndSetLayoutView();
+        new Thread() {
+            @Override
+            public void run() {
+                registerViewComponentsAffairs();
+            }
+        }.start();
         mVPSubCommunity.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentCommunity;
     }
@@ -112,6 +117,7 @@ public class CommunityFragment extends BaseFragment {
         /* 设置AppBarLayout的颜色 */
         if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
             mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
+        else mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
         /* 获取顶部retrieveBar的几个部件*/
         mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
         mCategoryTab = mTopRetrieveBar.findViewById(R.id.tl_category_tab);
@@ -119,7 +125,6 @@ public class CommunityFragment extends BaseFragment {
 
     @Override
     public void loadData() {
-        registerViewComponentsAffairs();
         mVPSubCommunity.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
         ArrayList<String> strings = new ArrayList<>();
         strings.add("易贝壳");
@@ -136,8 +141,8 @@ public class CommunityFragment extends BaseFragment {
             mDLParentView.openDrawer(GravityCompat.START);
         });
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            float offset = mTopRetrieveBarHeight + verticalOffset;
-            float ratio = offset / mTopRetrieveBarHeight;
+            float offset = mAppBarHeight + verticalOffset;
+            float ratio = offset / mAppBarHeight;
             mCollapsingToolbarLayout.setAlpha(ratio);
         });
     }
@@ -145,7 +150,7 @@ public class CommunityFragment extends BaseFragment {
     @Override
     public void getLayoutComponentsAttr() {
         /* 这里我们全部隐藏 */
-        mTopRetrieveBarHeight = mAppBarLayout.getHeight();
+        mAppBarHeight = mAppBarLayout.getHeight();
     }
 
     @Override
@@ -156,10 +161,5 @@ public class CommunityFragment extends BaseFragment {
     @Override
     public void detachPresenter() {
 
-    }
-
-    @Override
-    public void bottomBarHide(boolean hide) {
-        bottomBarHide(hide,mBottomTab,mBottomTabHeight);
     }
 }

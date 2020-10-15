@@ -116,31 +116,7 @@ public class FSecondHand extends FCommunityBase {
     @Override
     public void registerViewComponentsAffairs() {
         /* 因为onScrollChangedListener的onScrolled方法是回调方法，要等到item停下来时才调用，所以这儿直接监听touch事件 */
-        mProductsList.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mFirstY = event.getY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        mCurrentY = event.getY();
-                        if (mCurrentY - mFirstY > mTouchSlop) {
-                            // 下滑 显示titleBar
-                            mCommunity.bottomBarHide(false);
-                        } else if (mFirstY - mCurrentY > mTouchSlop) {
-                            // 上滑 隐藏titleBar
-                            mCommunity.bottomBarHide(true);
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
-                }
-                /*因为要让listView继续滑动，所以这儿返回false
-                事件未被消费，向下传递，调用onTouchEvent*/
-                return false;
-            }
-        });
+        mProductsList.setOnTouchListener(this::touchCheck);
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -159,10 +135,6 @@ public class FSecondHand extends FCommunityBase {
     @Override
     public void detachPresenter() {
         this.mPresenter.detachView();
-    }
-
-    @Override
-    public void bottomBarHide(boolean hide) {
     }
 
     @Override

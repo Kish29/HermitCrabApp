@@ -1,76 +1,97 @@
 package com.kish2.hermitcrabapp.view.fragments.service;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
+import com.kish2.hermitcrabapp.utils.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
-import com.kish2.hermitcrabapp.view.IBaseFragment;
-import com.kish2.hermitcrabapp.view.activities.MyTest;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ServiceFragment extends BaseFragment {
-    /* 父根布局 */
-    DrawerLayout mDLParentView;
+
+    /* 主内容*/
+    @BindView(R.id.gl_service_list)
+    GridLayout mGLFragmentContent;
 
     /* 顶部导航条*/
     @BindView(R.id.top_retrieve_bar)
     ViewGroup mTopRetrieveBar;
+    @BindView(R.id.ctl_banner_container)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private static float mCollapsingHeight = 0;
+    /* 顶部导航条AppBarLayout */
+    @BindView(R.id.abl_retrieve_bar_container)
+    AppBarLayout mAppBarLayout;
+
     /* 用户头像*/
     RoundedImageView mUserAvatar;
     /* 搜索栏*/
     SearchView mSearch;
-    /* 筛选栏*/
-    /*ImageButton mFilter*/
 
-    @BindView(R.id.tl_category_tab)
-    TabLayout mNavTabBar;
-    @BindView(R.id.vp_content_list)
-    ViewPager mVPSubService;
-    @BindView(R.id.fragment_sub_constraint_layout_for_padding_top)
-    ConstraintLayout mPaddingTop;
+    /* 服务列表的各项标题 */
+    private static String[] ITEM_TITLES;
+    private final int[] ITEM_IMAGE = new int[]{
 
-    @BindView(R.id.change_activity_test)
-    Button mBtnChange;
+    };
+    View[] mServiceItems;
+    GridLayout.LayoutParams[] mItemsParams;
 
     /* 这三个方法必须重写 */
+    @SuppressLint("HandlerLeak")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case MessageForHandler.LOCAL_DATA_LOADED:
+                        initGirdLayoutList();
+                        ToastUtil.showToast(getContext(), "服务列表获取成功", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
+                        break;
+                    case MessageForHandler.SYSTEM_FAILURE:
+                    default:
+                        break;
+                }
+            }
+        };
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("tag", "ServiceFragment createView run.");
-
         View fragmentService = inflater.inflate(R.layout.fragment_service, container, false);
         ButterKnife.bind(this, fragmentService);
 
-        /*setPaddingTopForStatusBar(fragmentService);*/
-        new Thread(new Runnable() {
+        getAndSetLayoutView();
+        new Thread() {
             @Override
             public void run() {
-                getLayoutComponentsAttr();
+                registerViewComponentsAffairs();
             }
-        }).start();
+        }.start();
+        mGLFragmentContent.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentService;
     }
 
@@ -79,46 +100,65 @@ public class ServiceFragment extends BaseFragment {
         super.onPause();
     }
 
+    private void initGirdLayoutList() {
+        int len = ITEM_TITLES.length;
+        for (int i = 0; i < len; i++) {
+            mGLFragmentContent.addView(mServiceItems[i], mItemsParams[i]);
+        }
+        /* 加上底部的tab条 */
+        mGLFragmentContent.setPadding(0, 0, 0, mBottomTabHeight);
+    }
+
     @Override
     public void getLayoutComponentsAttr() {
-        /* 获取page_titles */
-        /* 创建实例并作为ViewPager的适配器 */
-        /*subFmCAdapter = new SubFragmentContentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, page_titles);
-        mVPSubService.setAdapter(subFmCAdapter);*/
-        /* 绑定ViewPager */
-        mNavTabBar.setupWithViewPager(mVPSubService);
-
-        mDLParentView = requireActivity().findViewById(R.id.dl_maint_activity);
-
-        /* 获取顶部retrieveBar的几个部件*/
-        mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
-        mSearch = mTopRetrieveBar.findViewById(R.id.sv_search);
-
-        mUserAvatar.setOnClickListener(v -> {
-            mDLParentView.openDrawer(GravityCompat.START);
-        });
-        mBtnChange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), MyTest.class);
-                startActivity(intent);
-            }
-        });
+        mCollapsingHeight = mCollapsingToolbarLayout.getHeight();
     }
 
     @Override
     public void getAndSetLayoutView() {
-
+        setPaddingTopForStatusBarHeight(mAppBarLayout);
+        mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
+        /* 设置AppBarLayout的颜色 */
+        if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
+            mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
+        else mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public void loadData() {
-
+        /* 初始化 */
+        ITEM_TITLES = new String[0];
+        ITEM_TITLES = getResources().getStringArray(R.array.service_list_titles);
+        int len = ITEM_TITLES.length;
+        int columnLen = mGLFragmentContent.getColumnCount();
+        mServiceItems = new View[len];
+        mItemsParams = new GridLayout.LayoutParams[len];
+        for (int i = 0; i < len; i++) {
+            mServiceItems[i] = getLayoutInflater().inflate(R.layout.ly_item_general, null);
+            ImageView itemSurface = mServiceItems[i].findViewById(R.id.iv_item_surface);
+            itemSurface.setImageResource(R.drawable.ic_app_icon);
+            TextView itemDesc = mServiceItems[i].findViewById(R.id.tv_item_desc);
+            itemDesc.setText(ITEM_TITLES[i]);
+            mItemsParams[i] = new GridLayout.LayoutParams();
+            mItemsParams[i].width = mGLFragmentContent.getWidth() / columnLen;
+            mItemsParams[i].bottomMargin = getResources().getDimensionPixelSize(R.dimen.reg_page_ht_margin);
+        }
+        Message message = new Message();
+        message.what = MessageForHandler.LOCAL_DATA_LOADED;
+        mHandler.sendMessage(message);
     }
 
     @Override
     public void registerViewComponentsAffairs() {
-
+        mUserAvatar.setOnClickListener(v -> {
+            mDLParentView.openDrawer(GravityCompat.START);
+        });
+        mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            float offset = mCollapsingHeight + verticalOffset;
+            float ratio = offset / mCollapsingHeight;
+            mCollapsingToolbarLayout.setAlpha(ratio);
+        });
     }
 
     @Override
@@ -131,8 +171,4 @@ public class ServiceFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void bottomBarHide(boolean hide) {
-        bottomBarHide(hide,mBottomTab,mBottomTabHeight);
-    }
 }

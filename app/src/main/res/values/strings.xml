@@ -17,6 +17,39 @@
         <item>讲座</item>
     </string-array>
 
+    <string-array name="service_list_titles">
+        <item>服务项1</item>
+        <item>服务项2</item>
+        <item>服务项3</item>
+        <item>服务项4</item>
+        <item>服务项5</item>
+        <item>服务项6</item>
+        <item>服务项7</item>
+        <item>服务项8</item>
+        <item>服务项9</item>
+        <item>服务项11</item>
+        <item>服务项12</item>
+        <item>服务项13</item>
+        <item>服务项14</item>
+        <item>服务项15</item>
+        <item>服务项16</item>
+        <item>服务项17</item>
+        <item>服务项19</item>
+        <item>服务项20</item>
+        <item>服务项21</item>
+        <item>服务项22</item>
+        <item>服务项23</item>
+        <item>服务项24</item>
+        <item>服务项25</item>
+        <item>服务项26</item>
+        <item>服务项27</item>
+        <item>服务项28</item>
+        <item>服务项29</item>
+        <item>服务项30</item>
+        <item>服务项31</item>
+        <item>服务项32</item>
+    </string-array>
+
     <!--登录页面-->
     <string name="prompt_mobile">手机号</string>
     <string name="prompt_password">密码</string>

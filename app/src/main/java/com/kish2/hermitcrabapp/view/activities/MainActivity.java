@@ -26,10 +26,6 @@ import com.kish2.hermitcrabapp.utils.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
-import com.kish2.hermitcrabapp.view.fragments.community.CommunityFragment;
-import com.kish2.hermitcrabapp.view.fragments.home.HomeFragment;
-import com.kish2.hermitcrabapp.view.fragments.message.MessageFragment;
-import com.kish2.hermitcrabapp.view.fragments.personal.PersonalFragment;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 
 import butterknife.BindView;
@@ -73,6 +69,8 @@ public class MainActivity extends BaseActivity {
     /* 对应宽度*/
     private float mSideMenuWidth;
 
+    @BindView(R.id.iv_app_background)
+    ImageView mAppBackground;
     /* 主内容*/
     @BindView(R.id.fl_main_content)
     FrameLayout mFLMainContent;
@@ -109,15 +107,15 @@ public class MainActivity extends BaseActivity {
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case MessageForHandler.DATA_LOADED:
-                        /* 设置预加载fragment数量，提升流畅度 */
-                        mVPMain.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
-                        mVPMain.setAdapter(pagerAdapter);
-                        break;
-                    case MessageForHandler.ADAPTER_INIT:
                         //*******底部Tab初始化视图*********/
                         for (TabLayout.Tab mTab : mTabs) {
                             mTLMainNavBar.addTab(mTab);
                         }
+                        break;
+                    case MessageForHandler.ADAPTER_INIT:
+                        /* 设置预加载fragment数量，提升流畅度 */
+                        mVPMain.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
+                        mVPMain.setAdapter(pagerAdapter);
                 }
             }
         };
@@ -146,11 +144,16 @@ public class MainActivity extends BaseActivity {
         /* 设置颜色*/
         /*设置底部tabBar的透明度*/
         mTLMainNavBar.getBackground().setAlpha(216);
+        /* 用户使用自定义背景 */
+        if (ThemeUtil.Theme.colorId == -1) {
+            mAppBackground.setImageResource(R.mipmap.login_background);
+        }
         /*布局规则(xml中已设置)*/
         /*mTLMainNavBar.setTabMode(TabLayout.MODE_FIXED);
         mTLMainNavBar.setTabGravity(TabLayout.GRAVITY_FILL);*/
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public void loadData() {
         int len = TAB_IMG.length;
