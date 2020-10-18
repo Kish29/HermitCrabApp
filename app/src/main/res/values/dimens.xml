@@ -14,5 +14,6 @@
 
     <dimen name="lay_12">12dp</dimen>
     <dimen name="lay_16">16dp</dimen>
+    <dimen name="corner_radius">30dp</dimen>
 
 </resources>

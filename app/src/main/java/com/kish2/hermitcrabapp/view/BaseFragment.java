@@ -13,6 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.kish2.hermitcrabapp.utils.ThemeUtil;
+
 public abstract class BaseFragment extends Fragment implements IBaseView {
 
     /* viewpager预加载页面，提升流畅度 */
@@ -81,18 +83,12 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
 
     protected void setPaddingTopForStatusBarHeight(View view) {
         /* 设置虚拟statusBar高度 */
-        int identifier = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (identifier > 0) {
-            view.setPadding(0, getResources().getDimensionPixelOffset(identifier), 0, 0);
-        }
+        view.setPadding(0, ThemeUtil.STATUS_BAR_HEIGHT, 0, 0);
     }
 
     protected void setHeightForStatusBar(View view) {
         /* 设置虚拟statusBar高度 */
-        int identifier = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (identifier > 0) {
-            view.getLayoutParams().height = getResources().getDimensionPixelOffset(identifier);
-        }
+        view.getLayoutParams().height = ThemeUtil.STATUS_BAR_HEIGHT;
     }
 
     protected boolean touchCheck(View v, MotionEvent event) {

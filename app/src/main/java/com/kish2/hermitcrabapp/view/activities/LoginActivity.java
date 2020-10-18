@@ -4,12 +4,15 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.media.MediaPlayer;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -19,12 +22,17 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.FixedVideoView;
+import com.kish2.hermitcrabapp.custom.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.presenter.activities.LoginPresenter;
+import com.kish2.hermitcrabapp.utils.BitMapAndDrawableUtil;
 import com.kish2.hermitcrabapp.utils.InputCheckUtil;
+import com.kish2.hermitcrabapp.utils.StatusBarUtil;
+import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 
@@ -42,20 +50,17 @@ public class LoginActivity extends BaseActivity
 
     /* 背景视频 */
     @BindView(R.id.login_reg_video)
-    FixedVideoView bg;
+    FixedVideoView mBGVideo;
+
+    /* ToolBar*/
+    @BindView(R.id.mtb_toolbar)
+    StatusFixedToolBar mToolBar;
 
     /* 登录界面容器 */
     @BindView(R.id.ll_login_container)
     LinearLayout mLoginContainer;
     /* 登录界面具有组件 */
     // 返回按钮
-    @BindView(R.id.ib_navigate_back)
-    ImageButton mTopBarNavigationBack;
-    @BindView(R.id.ll_retrieve_bar)
-    LinearLayout mLayBackBar;
-    // 登录 logo
-    /*@BindView(R.id.iv_login_logo)
-    ImageView loginLogo;*/
 
     // 登录信息输入框
     @BindView(R.id.et_identify_input)
@@ -96,53 +101,79 @@ public class LoginActivity extends BaseActivity
     @BindView(R.id.ib_login_qq)
     ImageButton mLoginQQ;
 
-    /*private int mLogoHeight;
-    private int mLogoWidth;*/
-
-    private LoginPresenter loginPresenter;
+    private GradientDrawable mBGDrawable;
+    private String mVideoPath;
+    private Bitmap mBitMap;
+    private LoginPresenter mPresenter;
 
     /* 滑出时间 */
     private static final int glideTime = 200;
 
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_page);
+
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case LoginPresenter.LOGIN_SUCCESS:
+                        mLoginSubmit.doneLoadingAnimation(ThemeUtil.Theme.afterGetResourcesColorId, mBitMap);
+                        mPresenter.loginSuccess();
+                        break;
+                    case LAYOUT_SOURCE_LOADED:
+                        mLoginSubmit.setBackground(mBGDrawable);
+                        mBGVideo.setVideoPath(mVideoPath);
+                        mBGVideo.start();
+                        break;
+                    case LoginPresenter.LOGIN_FAILURE:
+                    default:
+                        break;
+                }
+            }
+        };
+
+        setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         /* 绑定presenter */
         attachPresenter();
-        ButterKnife.bind(this);
-        setSinkStatusBar(true, false, R.color.input_active_color);
-        getLayoutComponentsAttr();
-        setVideo();
-    }
-
-
-    private void setVideo() {
-        final String string = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg_video).toString();
-        Log.d("videoPath", string);
-        bg.setVideoPath(string);
-        bg.start();
-        bg.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        getAndSetLayoutView();
+        new Thread() {
             @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.start();
-                mp.setLooping(true);
+            public void run() {
+                loadData();
+                registerViewComponentsAffairs();
             }
-        });
-        bg.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                bg.setVideoPath(string);
-                bg.start();
-            }
-        });
+        }.start();
     }
 
     /* 注册视图组件的监听事件 */
-    @SuppressLint("ClickableViewAccessibility")
     public void getLayoutComponentsAttr() {
-        // 返回按钮
-        mTopBarNavigationBack.setOnClickListener(this);
+
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
+    public void getAndSetLayoutView() {
+        StatusBarUtil.setTranslucentStatus(this);
+        mToolBar.bindAndSetThisToolbar(this, true, null);
+    }
+
+    @Override
+    public void loadData() {
+        mBGDrawable = BitMapAndDrawableUtil.getGradientDrawable(this);
+        mBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_info_checked);
+        mVideoPath = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg_video).toString();
+        Message message = new Message();
+        message.what = LAYOUT_SOURCE_LOADED;
+        mHandler.sendMessage(message);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public void registerViewComponentsAffairs() {
+        mToolBar.setNavigationOnClickListener(v -> finish());
         // 登录信息部分
         /* 登录信息 */
         // 点击事件
@@ -176,21 +207,15 @@ public class LoginActivity extends BaseActivity
         // 按钮的touch动效
         mLoginWeChat.setOnTouchListener(this);
         mLoginQQ.setOnTouchListener(this);
-    }
 
-    @Override
-    public void getAndSetLayoutView() {
-
-    }
-
-    @Override
-    public void loadData() {
-
-    }
-
-    @Override
-    public void registerViewComponentsAffairs() {
-
+        mBGVideo.setOnPreparedListener(mp -> {
+            mp.start();
+            mp.setLooping(true);
+        });
+        mBGVideo.setOnCompletionListener(mp -> {
+            mBGVideo.setVideoPath(mVideoPath);
+            mBGVideo.start();
+        });
     }
 
     public String getIdentify() {
@@ -309,12 +334,12 @@ public class LoginActivity extends BaseActivity
 
     @Override
     public void attachPresenter() {
-        this.loginPresenter = new LoginPresenter(this);
+        this.mPresenter = new LoginPresenter(this);
     }
 
     @Override
     public void detachPresenter() {
-        this.loginPresenter.detachView();
+        this.mPresenter.detachView();
     }
 
     @Override
@@ -328,10 +353,6 @@ public class LoginActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ib_navigate_back:
-                /*返回*/
-                navigationBack();
-                break;
             /*焦点处于此处*/
             case R.id.et_identify_input:
                 mPassword.clearFocus();
@@ -351,17 +372,17 @@ public class LoginActivity extends BaseActivity
                 break;
             case R.id.btn_login_submit:
                 mLoginSubmit.startAnimation();
-                this.loginPresenter.login();
+                this.mPresenter.login();
                 break;
             case R.id.btn_register_submit:
                 mLoginSubmit.revertAnimation();
-                this.loginPresenter.register();
+                this.mPresenter.register();
                 break;
             case R.id.cb_remember_account:
-                this.loginPresenter.rememberUser(mRememberUser.isChecked());
+                this.mPresenter.rememberUser(mRememberUser.isChecked());
                 break;
             case R.id.tv_forget_pwd:
-                this.loginPresenter.forgetPassword();
+                this.mPresenter.forgetPassword();
                 break;
             case R.id.ll_login_layer:
                 glide(mLoginOptions.getHeight(), 1, glideTime);
@@ -370,10 +391,10 @@ public class LoginActivity extends BaseActivity
                 pullOtherLoginView();
                 break;
             case R.id.ib_login_wx:
-                this.loginPresenter.loginByWeChat();
+                this.mPresenter.loginByWeChat();
                 break;
             case R.id.ib_login_qq:
-                this.loginPresenter.loginByQQ();
+                this.mPresenter.loginByQQ();
                 break;
             default:
                 break;
@@ -394,10 +415,6 @@ public class LoginActivity extends BaseActivity
     /* 用户输入了字符串 */
     @Override
     public void afterTextChanged(Editable s) {
-        /* 检测输入是否合法 */
-        /*isValidIdentify();
-        isValidPassword();*/
-
         String inputIdentify = mIdentify.getText().toString().trim();
         String inputPassword = mPassword.getText().toString().trim();
 
@@ -463,3 +480,4 @@ public class LoginActivity extends BaseActivity
         }
     }
 }
+

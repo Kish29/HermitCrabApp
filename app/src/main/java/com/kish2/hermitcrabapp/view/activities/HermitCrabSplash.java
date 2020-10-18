@@ -2,6 +2,7 @@ package com.kish2.hermitcrabapp.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.internal.http2.Http2Reader;
 
 public class HermitCrabSplash extends BaseActivity {
 
@@ -41,16 +43,10 @@ public class HermitCrabSplash extends BaseActivity {
             }
         }.start();
         /* intent必须为final */
-        final Intent intent = new Intent(this, MainActivity.class);
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                startActivity(intent);
-                finish();
-            }
-        };
-        timer.schedule(task, DELAY);
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(HermitCrabSplash.this, MainActivity.class));
+            finish();
+        }, DELAY);
     }
 
     @Override

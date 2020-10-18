@@ -124,8 +124,6 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         /* 主线程执行*/
         getAndSetLayoutView();
-        /* 透明状态栏*/
-        StatusBarUtil.setSinkStatusBar(this, ThemeUtil.Theme.isDarkTheme, -1);
         /* 子线程注册事务 */
         new Thread() {
             @Override
@@ -141,6 +139,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void getAndSetLayoutView() {
+        /* 透明状态栏*/
+        StatusBarUtil.setSinkStatusBar(this, ThemeUtil.Theme.isDarkTheme, -1);
         /* 设置颜色*/
         /*设置底部tabBar的透明度*/
         mTLMainNavBar.getBackground().setAlpha(216);
@@ -151,26 +151,28 @@ public class MainActivity extends BaseActivity {
         /*布局规则(xml中已设置)*/
         /*mTLMainNavBar.setTabMode(TabLayout.MODE_FIXED);
         mTLMainNavBar.setTabGravity(TabLayout.GRAVITY_FILL);*/
+        int len = TAB_IMG.length;
+        mTabs = new TabLayout.Tab[len];
+        for (int i = 0; i < len; i++) {
+            mTabs[i] = mTLMainNavBar.newTab();
+        }
     }
 
     @SuppressLint("InflateParams")
     @Override
     public void loadData() {
         int len = TAB_IMG.length;
-        mTabs = new TabLayout.Tab[len];
         for (int i = 0; i < len; i++) {
-            TabLayout.Tab newTab = mTLMainNavBar.newTab();
             View tabBarBasic = getLayoutInflater().inflate(R.layout.ly_tab_bottom, null);
 
             // 使用自定义视图，目的是为了便于修改
-            newTab.setCustomView(tabBarBasic);
+            mTabs[i].setCustomView(tabBarBasic);
 
             // 设置各个页面的标签图片和文本
             ImageView imgTab = tabBarBasic.findViewById(R.id.nav_tab_img);
             imgTab.setImageResource(TAB_IMG[i]);
             TextView tabTitle = tabBarBasic.findViewById(R.id.nav_tab_title);
             tabTitle.setText(TAB_TITLES[i]);
-            mTabs[i] = newTab;
         }
         Message message = new Message();
         message.what = MessageForHandler.DATA_LOADED;
@@ -231,32 +233,27 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
+    public void onBackPressed() {
         /* 如果按下了返回键 */
         /* 先判断底部导航条是否是收起的状态 */
         /* 收起状态*/
         if (mCLBottomTab.getTranslationY() > 0) {
             mCLBottomTab.animate().translationYBy(mCLBottomTab.getTranslationY()).translationY(0).setDuration(BaseFragment.glideTime);
-            return true;
+            return;
         }
         if (mDLRootView.isDrawerOpen(GravityCompat.START)) {
             mDLRootView.closeDrawer(GravityCompat.START);
-            return true;
+            return;
         }
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK &&
-                event.getAction() == KeyEvent.ACTION_DOWN &&
-                event.getRepeatCount() == 0) {
-            // 重写键盘事件分发，onKeyDown方法某些情况下捕获不到，只能在这里写
-            if (System.currentTimeMillis() - exitTime > 2000) {
-                ToastUtil.showToast(this, "再按一次退出程序", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
-                exitTime = System.currentTimeMillis();
-            } else {
-                finish();
-            }
-            return true;
+        // 重写键盘事件分发，onKeyDown方法某些情况下捕获不到，只能在这里写
+        if (System.currentTimeMillis() - exitTime > 2000) {
+            ToastUtil.showToast(this, "再按一次退出程序", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
         }
-        return super.dispatchKeyEvent(event);
     }
 
     @Override

@@ -44,4 +44,9 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <!-- ToolBar的menu弹出样式 -->
+    <style name="toolbar_menu_popup" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+    </style>
+
 </resources>

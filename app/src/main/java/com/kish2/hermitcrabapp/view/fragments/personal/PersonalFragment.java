@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -82,10 +80,6 @@ public class PersonalFragment extends BaseFragment {
     /* 快速入口*/
     /* 学生服务*/
 
-    private float mFirstY;
-    private float mTouchSlop;
-    private float mCurrentY;
-
     /* 这三个方法必须重写 */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,12 +101,7 @@ public class PersonalFragment extends BaseFragment {
                 registerViewComponentsAffairs();
             }
         }.start();
-        mUserBanner.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                getLayoutComponentsAttr();
-            }
-        });
+        mUserBanner.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentPersonal;
     }
 
@@ -133,10 +122,10 @@ public class PersonalFragment extends BaseFragment {
     @Override
     public void getAndSetLayoutView() {
         setPaddingTopForStatusBarHeight(mAppBarLayout);
-        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
             mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
         else mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
+        mSideMenu = mTopRetrieveBar.findViewById(R.id.ib_personal_side_menu);
     }
 
     @Override
@@ -154,7 +143,9 @@ public class PersonalFragment extends BaseFragment {
         });
 
         mNSPersonalMain.setOnTouchListener(this::touchCheck);
-
+        mSideMenu.setOnClickListener((v) -> {
+            mDLParentView.openDrawer(GravityCompat.START);
+        });
         mOldPublish.setOnClickListener(v -> System.out.println("发布旧商品"));
 
         mUsername.setOnClickListener(v -> {

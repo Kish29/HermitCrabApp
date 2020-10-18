@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -50,7 +51,7 @@ public class HomeFragment extends BaseFragment {
     /* 用户头像*/
     RoundedImageView mUserAvatar;
     /* 搜索栏*/
-    SearchView mSearch;
+    LinearLayout mSearch;
     /* 筛选栏*/
     /*ImageButton mFilter*/
 
@@ -155,7 +156,7 @@ public class HomeFragment extends BaseFragment {
         mBottomTab = requireActivity().findViewById(R.id.cl_bottom_tab_bar);
         /* 获取顶部retrieveBar的几个部件*/
         mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
-        mSearch = mTopRetrieveBar.findViewById(R.id.sv_search);
+        mSearch = mTopRetrieveBar.findViewById(R.id.ll_search);
         /* 设置最大缓存fragment */
         mVPSubHome.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
     }

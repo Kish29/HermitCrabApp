@@ -91,7 +91,7 @@ public class SystemBarTintManager {
         ViewGroup decorViewGroup = (ViewGroup) win.getDecorView();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // check theme attrs
+            // ic_check theme attrs
             int[] attrs = {android.R.attr.windowTranslucentStatus,
                     android.R.attr.windowTranslucentNavigation};
             TypedArray a = activity.obtainStyledAttributes(attrs);
@@ -102,7 +102,7 @@ public class SystemBarTintManager {
                 a.recycle();
             }
 
-            // check window flags
+            // ic_check window flags
             WindowManager.LayoutParams winParams = win.getAttributes();
             int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
             if ((winParams.flags & bits) != 0) {
@@ -431,7 +431,7 @@ public class SystemBarTintManager {
             int resourceId = res.getIdentifier(SHOW_NAV_BAR_RES_NAME, "bool", "android");
             if (resourceId != 0) {
                 boolean hasNav = res.getBoolean(resourceId);
-                // check override flag (see static block)
+                // ic_check override flag (see static block)
                 if ("1".equals(sNavBarOverride)) {
                     hasNav = false;
                 } else if ("0".equals(sNavBarOverride)) {

@@ -1,7 +1,8 @@
 package com.kish2.hermitcrabapp.presenter.activities;
 
 import android.content.Intent;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
 
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.kish2.hermitcrabapp.view.activities.MainActivity;
@@ -9,51 +10,61 @@ import com.kish2.hermitcrabapp.presenter.ILoginPresenter;
 
 public class LoginPresenter implements ILoginPresenter {
 
-    private LoginActivity loginView;
+    private LoginActivity mLoginView;
+    public static final int LOGIN_SUCCESS = 0;
+    public static final int LOGIN_FAILURE = 1;
+    private static int LOGIN_STATUS;
 
-    public LoginPresenter(LoginActivity loginView) {
-        this.loginView = loginView;
+    public LoginPresenter(LoginActivity loginActivity) {
+        this.mLoginView = loginActivity;
     }
-
-    private static final String TAG = "login presenter";
 
     @Override
     public void detachView() {
         /* 让CG回收内存 */
-        this.loginView = null;
-        Log.d(TAG, "detachView and set view=null");
+        this.mLoginView = null;
     }
 
     @Override
     public void login() {
-        Log.d(TAG, "login method");
-        Log.d(TAG, loginView.getIdentify() + "\tpwd->" + loginView.getPassword());
-        loginView.startActivity(new Intent(loginView.baseActivityGetContext(), MainActivity.class));
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Message message = new Message();
+                message.what = LOGIN_SUCCESS;
+                LOGIN_STATUS = LOGIN_SUCCESS;
+                mLoginView.mHandler.sendMessage(message);
+            }
+        }.start();
+    }
+
+    @Override
+    public void loginSuccess() {
+        new Handler().postDelayed(() -> mLoginView.startActivity(new Intent(mLoginView, MainActivity.class)), 500);
     }
 
     @Override
     public void register() {
-        Log.d(TAG, "register method");
     }
 
     @Override
     public void rememberUser(boolean isRemember) {
-        Log.d(TAG, "rememberUser method");
-        Log.d(TAG, String.valueOf(isRemember));
     }
 
     @Override
     public void forgetPassword() {
-        Log.d(TAG, "forgetPassword method");
     }
 
     @Override
     public void loginByWeChat() {
-        Log.d(TAG, "loginByWeChat method");
     }
 
     @Override
     public void loginByQQ() {
-        Log.d(TAG, "loginByQQ method");
     }
 }

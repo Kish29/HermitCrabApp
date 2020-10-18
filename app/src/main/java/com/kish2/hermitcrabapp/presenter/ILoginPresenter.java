@@ -5,6 +5,8 @@ public interface ILoginPresenter extends IBasePresenter {
     /* 登录按钮事件 */
     public void login();
 
+    public void loginSuccess();
+
     /* 注册按钮事件 */
     public void register();
 
