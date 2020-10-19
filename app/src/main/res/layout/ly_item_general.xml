@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="@string/app_name_zh"
-        android:textColor="@drawable/cl_tab_txt"
+        android:textColor="@drawable/cl_txt_selector"
         android:textSize="@dimen/font_12" />
 </LinearLayout>

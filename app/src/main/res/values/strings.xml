@@ -51,7 +51,7 @@
     </string-array>
 
     <!--登录页面-->
-    <string name="prompt_mobile">手机号</string>
+    <string name="prompt_mobile">手机号或用户名</string>
     <string name="prompt_password">密码</string>
 
     <string name="login_title">登录</string>

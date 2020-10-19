@@ -8,7 +8,7 @@
     <color name="line_grey">#dcdcdc</color>
 
     <!--底部TabBar颜色-->
-    <color name="text_grey">#8a8a8a</color>
+    <color name="cl_text_default">#8a8a8a</color>
     <color name="text_green">#45c01a</color>
 
     <!--登录模块颜色-->

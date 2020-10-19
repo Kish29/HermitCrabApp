@@ -55,12 +55,12 @@
             <!--登录logo-->
             <ImageView
                 android:id="@+id/iv_identify_input_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:layout_marginStart="12.5dp"
+                android:layout_marginEnd="12.5dp"
                 android:contentDescription="@null"
-                app:srcCompat="@mipmap/login_identify_icon" />
+                android:src="@drawable/ic_user" />
 
             <!--小竖线-->
             <View
@@ -92,7 +92,7 @@
                 android:minLines="1"
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
-                android:textColor="@color/black"
+                android:textColor="@color/cl_text_default"
                 android:textColorHint="@color/black"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/font_16"
@@ -128,12 +128,12 @@
 
             <ImageView
                 android:id="@+id/iv_password_input_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_marginStart="14dp"
                 android:layout_marginEnd="14dp"
                 android:contentDescription="@null"
-                app:srcCompat="@mipmap/login_password_icon" />
+                android:src="@drawable/ic_password" />
 
             <!--小竖线-->
             <View
@@ -157,7 +157,7 @@
                 android:minLines="1"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:textColor="@color/black"
+                android:textColor="@color/cl_text_default"
                 android:textColorHint="@color/black"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/font_16"
@@ -194,8 +194,8 @@
             android:textSize="@dimen/font_18"
             app:initialCornerAngle="@dimen/corner_radius"
             app:spinning_bar_color="@color/white"
-            app:spinning_bar_padding="6dp"
-            app:spinning_bar_width="4dp"
+            app:spinning_bar_padding="10dp"
+            app:spinning_bar_width="2dp"
             tools:targetApi="Q" />
 
         <TextView
@@ -221,7 +221,7 @@
             android:elevation="0dp"
             android:outlineProvider="none"
             android:text="@string/register_title"
-            android:textColor="@color/black"
+            android:textColor="@color/cl_text_default"
             android:textSize="@dimen/font_18"
             tools:targetApi="Q" />
 
@@ -264,7 +264,7 @@
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:text="@string/forget_password"
-                android:textColor="@drawable/cl_text_touch"
+                android:textColor="@color/cl_text_default"
                 android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>

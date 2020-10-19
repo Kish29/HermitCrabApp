@@ -1,12 +1,39 @@
 package com.kish2.hermitcrabapp.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.view.ViewGroup;
+
+import androidx.annotation.RequiresApi;
 
 import com.kish2.hermitcrabapp.R;
 
+import java.util.Objects;
+
 public class ThemeUtil {
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @SuppressLint({"UseCompatLoadingForDrawables", "ResourceType"})
+    public static ColorStateList setThemeTabSelectors(Context context) {
+        Objects.requireNonNull(context.getDrawable(R.drawable.ic_home_active)).setTint(ThemeUtil.Theme.afterGetResourcesColorId);
+        Objects.requireNonNull(context.getDrawable(R.drawable.ic_community_active)).setTint(ThemeUtil.Theme.afterGetResourcesColorId);
+        Objects.requireNonNull(context.getDrawable(R.drawable.ic_service_active)).setTint(ThemeUtil.Theme.afterGetResourcesColorId);
+        Objects.requireNonNull(context.getDrawable(R.drawable.ic_message_active)).setTint(ThemeUtil.Theme.afterGetResourcesColorId);
+        Objects.requireNonNull(context.getDrawable(R.drawable.ic_personal_active)).setTint(ThemeUtil.Theme.afterGetResourcesColorId);
+
+        int[][] state = new int[][]{
+                new int[]{-android.R.attr.state_selected}, new int[]{android.R.attr.state_selected}
+        };
+        int[] color = new int[]{
+                context.getResources().getColor(R.color.cl_text_default),
+                ThemeUtil.Theme.afterGetResourcesColorId
+        };
+
+        return new ColorStateList(state, color);
+    }
 
     private static final String KEY_COLOR = "colorId";
     private static final String KEY_BG_IMG = "bgImgSrc";
@@ -18,7 +45,7 @@ public class ThemeUtil {
 
     public static void setInstance(Context context) {
         SharedPreferences theme_config = context.getSharedPreferences("theme_config", Context.MODE_PRIVATE);
-        Theme.colorId = theme_config.getInt(KEY_COLOR, 8);
+        Theme.colorId = theme_config.getInt(KEY_COLOR, 6);
         /* 如果不是用户用图片作为背景的情况下，设置颜色主题 */
         if (Theme.colorId != -1) {
             Theme.colorId = AppTheme[Theme.colorId];

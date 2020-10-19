@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.FixedVideoView;
@@ -35,6 +37,8 @@ import com.kish2.hermitcrabapp.utils.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
+
+import java.util.Objects;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import butterknife.BindView;
@@ -109,6 +113,7 @@ public class LoginActivity extends BaseActivity
     /* 滑出时间 */
     private static final int glideTime = 200;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -153,17 +158,20 @@ public class LoginActivity extends BaseActivity
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void getAndSetLayoutView() {
         StatusBarUtil.setTranslucentStatus(this);
         mToolBar.bindAndSetThisToolbar(this, true, null);
+        Objects.requireNonNull(mRememberUser.getButtonDrawable()).setTint(ThemeUtil.Theme.afterGetResourcesColorId);
+        mForgetPassword.setTextColor(ThemeUtil.Theme.afterGetResourcesColorId);
     }
 
     @Override
     public void loadData() {
         mBGDrawable = BitMapAndDrawableUtil.getGradientDrawable(this);
-        mBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_info_checked);
+        mBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_check_white);
         mVideoPath = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg_video).toString();
         Message message = new Message();
         message.what = LAYOUT_SOURCE_LOADED;

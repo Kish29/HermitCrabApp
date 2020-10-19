@@ -1,16 +1,21 @@
 package com.kish2.hermitcrabapp.view.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -27,6 +32,9 @@ import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.BaseActivity;
+
+import java.nio.channels.Selector;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +58,9 @@ public class MainActivity extends BaseActivity {
             R.drawable.ic_tab_message_selector,
             R.drawable.ic_tab_personal_selector
     };
+
+    /* 主题字体颜色选择器 */
+    private static ColorStateList colorStateList;
 
     /* 根布局DrawerLayout*/
     @BindView(R.id.dl_maint_activity)
@@ -97,11 +108,11 @@ public class MainActivity extends BaseActivity {
     private static int tabPos = 0;
 
     /* 在onCreate中调用3个属性*/
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -128,6 +139,7 @@ public class MainActivity extends BaseActivity {
         new Thread() {
             @Override
             public void run() {
+                colorStateList = ThemeUtil.setThemeTabSelectors(MainActivity.this);
                 registerViewComponentsAffairs();
                 loadData();
             }
@@ -172,6 +184,7 @@ public class MainActivity extends BaseActivity {
             ImageView imgTab = tabBarBasic.findViewById(R.id.nav_tab_img);
             imgTab.setImageResource(TAB_IMG[i]);
             TextView tabTitle = tabBarBasic.findViewById(R.id.nav_tab_title);
+            tabTitle.setTextColor(colorStateList);
             tabTitle.setText(TAB_TITLES[i]);
         }
         Message message = new Message();
