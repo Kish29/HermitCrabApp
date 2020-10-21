@@ -3,7 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".view.activities.LoginActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_register" />
 
     <com.kish2.hermitcrabapp.custom.FixedVideoView
         android:id="@+id/login_reg_video"
@@ -25,15 +34,16 @@
 
 
         <com.kish2.hermitcrabapp.custom.StatusFixedToolBar
-            android:id="@+id/mtb_toolbar"
+            android:id="@+id/sft_action_bar"
             android:layout_width="match_parent"
-            android:layout_height="56dp" />
+            android:layout_height="@dimen/retrieve_bar_height" />
 
         <ImageView
             android:id="@+id/iv_login_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             android:contentDescription="@null"
             android:paddingTop="20dp"
             android:scaleType="centerInside"
@@ -54,13 +64,13 @@
 
             <!--登录logo-->
             <ImageView
-                android:id="@+id/iv_identify_input_icon"
-                android:layout_width="29dp"
-                android:layout_height="29dp"
-                android:layout_marginStart="12.5dp"
-                android:layout_marginEnd="12.5dp"
+                android:id="@+id/iv_user_icon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_user" />
+                android:src="@drawable/ai_user" />
 
             <!--小竖线-->
             <View
@@ -81,10 +91,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
-                android:autofillHints="@string/prompt_mobile"
+                android:autofillHints="@string/prompt_identify"
                 android:background="@null"
                 android:focusable="true"
-                android:hint="@string/prompt_mobile"
+                android:hint="@string/prompt_identify"
                 android:imeOptions="actionNext"
                 android:inputType="textPhonetic"
                 android:lines="1"
@@ -92,7 +102,7 @@
                 android:minLines="1"
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
-                android:textColor="@color/cl_text_default"
+                android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/font_16"
@@ -102,12 +112,12 @@
 
             <!-- 删除输入内容的小按钮 -->
             <ImageButton
-                android:id="@+id/ib_login_identify_input_del"
+                android:id="@+id/ib_identify_clear"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@mipmap/input_clear_bg"
+                android:background="@drawable/ai_input_clear"
                 android:contentDescription="@null"
                 android:scaleType="fitCenter"
                 android:visibility="invisible" />
@@ -116,7 +126,7 @@
 
         <!--密码输入框-->
         <LinearLayout
-            android:id="@+id/ll_lay_password"
+            android:id="@+id/ll_password"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginStart="24dp"
@@ -127,13 +137,14 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/iv_password_input_icon"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginStart="14dp"
-                android:layout_marginEnd="14dp"
+                android:id="@+id/iv_password_icon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_password" />
+                android:padding="2dp"
+                android:src="@drawable/ai_password" />
 
             <!--小竖线-->
             <View
@@ -157,7 +168,7 @@
                 android:minLines="1"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:textColor="@color/cl_text_default"
+                android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/font_16"
@@ -167,24 +178,49 @@
 
             <!-- 删除输入内容的小按钮 -->
             <ImageButton
-                android:id="@+id/ib_login_password_input_del"
+                android:id="@+id/ib_password_clear"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@mipmap/input_clear_bg"
+                android:background="@drawable/ai_input_clear"
                 android:contentDescription="@null"
                 android:scaleType="fitCenter"
                 android:visibility="invisible" />
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_forget_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingStart="4dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="4dp"
+                android:text="@string/forget_password"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry" />
+        </RelativeLayout>
+
         <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-            android:id="@+id/btn_login_submit"
+            android:id="@+id/cpb_login_submit"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginStart="94dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="94dp"
             android:background="@drawable/bg_login_button"
             android:elevation="0dp"
@@ -195,8 +231,7 @@
             app:initialCornerAngle="@dimen/corner_radius"
             app:spinning_bar_color="@color/white"
             app:spinning_bar_padding="10dp"
-            app:spinning_bar_width="2dp"
-            tools:targetApi="Q" />
+            app:spinning_bar_width="2dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -211,7 +246,7 @@
 
         <!--注册按钮-->
         <Button
-            android:id="@+id/btn_register_submit"
+            android:id="@+id/btn_register_jump"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="94dp"
@@ -221,9 +256,8 @@
             android:elevation="0dp"
             android:outlineProvider="none"
             android:text="@string/register_title"
-            android:textColor="@color/cl_text_default"
-            android:textSize="@dimen/font_18"
-            tools:targetApi="Q" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_18" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -256,20 +290,19 @@
                 android:visibility="visible" />
 
             <TextView
-                android:id="@+id/tv_forget_pwd"
+                android:id="@+id/tv_login_by_verify_code"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:paddingStart="4dp"
                 android:paddingTop="4dp"
+                android:paddingEnd="4dp"
                 android:paddingBottom="4dp"
-                android:text="@string/forget_password"
-                android:textColor="@color/cl_text_default"
+                android:text="@string/login_by_verify_code"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>
-
-
     </LinearLayout>
 
     <FrameLayout
@@ -318,21 +351,21 @@
 
                 <ImageButton
                     android:id="@+id/ib_login_wx"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_marginStart="@dimen/lay_12"
                     android:layout_marginEnd="@dimen/lay_12"
-                    android:background="@mipmap/ic_login_3party_wechat"
+                    android:background="@drawable/ai_wechat"
                     android:contentDescription="@null"
                     android:scaleType="centerCrop" />
 
                 <ImageButton
                     android:id="@+id/ib_login_qq"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_marginStart="@dimen/lay_12"
                     android:layout_marginEnd="@dimen/lay_12"
-                    android:background="@mipmap/ic_login_3party_qq"
+                    android:background="@drawable/ai_qq"
                     android:contentDescription="@null"
                     android:scaleType="centerCrop" />
             </LinearLayout>

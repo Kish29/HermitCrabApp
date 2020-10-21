@@ -13,15 +13,19 @@ import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.HomeFragmentAdapter;
+import com.kish2.hermitcrabapp.bean.VectorIllustrations;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
@@ -57,7 +61,7 @@ public class HomeFragment extends BaseFragment {
 
     /* 分类Tab*/
     @BindView(R.id.tl_category_tab)
-    TabLayout mCategoryTab;
+    SlidingTabLayout mCategoryTab;
     @BindView(R.id.vp_content_list)
     ViewPager mVPSubHome;
 
@@ -79,8 +83,9 @@ public class HomeFragment extends BaseFragment {
                     case MessageForHandler.ADAPTER_INIT:
                         mVPSubHome.setAdapter(homeFragmentAdapter);
                         /* 绑定ViewPager */
-                        mCategoryTab.setupWithViewPager(mVPSubHome);
+                        mCategoryTab.setViewPager(mVPSubHome);
                         break;
+                    case MessageForHandler.DATA_LOADED:
                     default:
                         break;
                 }
@@ -131,9 +136,7 @@ public class HomeFragment extends BaseFragment {
         strings.add("教务处");
         /* 创建实例并作为ViewPager的适配器 */
         homeFragmentAdapter = new HomeFragmentAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, strings);
-        Message msg = new Message();
-        msg.what = MessageForHandler.ADAPTER_INIT;
-        mHandler.sendMessage(msg);
+        mHandler.sendEmptyMessage(MessageForHandler.ADAPTER_INIT);
     }
 
     @Override
@@ -148,9 +151,7 @@ public class HomeFragment extends BaseFragment {
         /* 用padding设置StatusBar的占位高度 */
         setPaddingTopForStatusBarHeight(mAppBarLayout);
         /* 设置AppBarLayout的颜色 */
-        if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
-            mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
-        else mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
+        mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
         /* 父组件 */
         mDLParentView = requireActivity().findViewById(R.id.dl_maint_activity);
         mBottomTab = requireActivity().findViewById(R.id.cl_bottom_tab_bar);
@@ -159,6 +160,9 @@ public class HomeFragment extends BaseFragment {
         mSearch = mTopRetrieveBar.findViewById(R.id.ll_search);
         /* 设置最大缓存fragment */
         mVPSubHome.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
+        mCategoryTab.setIndicatorColor(ThemeUtil.Theme.afterGetResourcesColorId);
+        mCategoryTab.setTextSelectColor(ThemeUtil.Theme.afterGetResourcesColorId);
+        mCategoryTab.setTabSpaceEqual(true);
     }
 
     @Override

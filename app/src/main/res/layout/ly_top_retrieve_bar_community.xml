@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
+    android:layout_height="@dimen/retrieve_bar_height"
     android:stretchColumns="1">
 
     <TableRow
@@ -24,12 +24,16 @@
             app:riv_border_width="1dp"
             app:riv_oval="true" />
 
-        <com.google.android.material.tabs.TabLayout
+        <com.flyco.tablayout.SlidingTabLayout
             android:id="@+id/tl_category_tab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:tabGravity="fill"
-            app:tabMode="fixed" />
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            app:layout_constraintBottom_toTopOf="@+id/vp_content_list"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tl_indicator_style="TRIANGLE"
+            app:tl_textBold="SELECT"
+            app:tl_textUnselectColor="@color/black_light"
+            app:tl_textsize="@dimen/font_16" />
 
         <ImageButton
             android:layout_width="40dp"

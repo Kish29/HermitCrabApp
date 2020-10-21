@@ -11,8 +11,7 @@
         android:id="@+id/nav_tab_img"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_tab_home_selector" />
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/nav_tab_title"
@@ -20,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="@string/app_name_zh"
-        android:textColor="@drawable/cl_txt_selector"
         android:textSize="11sp"
         tools:ignore="SmallSp" />
 </LinearLayout>

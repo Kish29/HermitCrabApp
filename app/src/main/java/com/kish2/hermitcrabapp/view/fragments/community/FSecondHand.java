@@ -118,12 +118,9 @@ public class FSecondHand extends FCommunityBase {
         /* 因为onScrollChangedListener的onScrolled方法是回调方法，要等到item停下来时才调用，所以这儿直接监听touch事件 */
         mProductsList.setOnTouchListener(this::touchCheck);
 
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPresenter.getData();
-                mRefreshLayout.setRefreshing(false);
-            }
+        mRefreshLayout.setOnRefreshListener(() -> {
+            mPresenter.getData();
+            mRefreshLayout.setRefreshing(false);
         });
     }
 

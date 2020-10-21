@@ -2,6 +2,7 @@ package com.kish2.hermitcrabapp.view.fragments.personal;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,9 +21,11 @@ import androidx.core.widget.NestedScrollView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.bean.VectorIllustrations;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
+import com.kish2.hermitcrabapp.view.activities.ThemeActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
@@ -62,6 +65,9 @@ public class PersonalFragment extends BaseFragment {
     TextView mUsername;
     @BindView(R.id.tv_user_student_id)
     TextView mUserStdId;
+    /* 遮罩 */
+    @BindView(R.id.iv_mask_bg)
+    RoundedImageView mMask;
     @BindView(R.id.iv_user_gender)
     RoundedImageView mUserGender;
 
@@ -122,10 +128,14 @@ public class PersonalFragment extends BaseFragment {
     @Override
     public void getAndSetLayoutView() {
         setPaddingTopForStatusBarHeight(mAppBarLayout);
-        if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
-            mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
-        else mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
+        mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
         mSideMenu = mTopRetrieveBar.findViewById(R.id.ib_personal_side_menu);
+        mTheme = mTopRetrieveBar.findViewById(R.id.ib_personal_theme);
+        mSetting = mTopRetrieveBar.findViewById(R.id.ib_personal_setting);
+        mSideMenu.setImageDrawable(VectorIllustrations.VI_MENU);
+        mTheme.setImageDrawable(VectorIllustrations.VI_THEME);
+        mSetting.setImageDrawable(VectorIllustrations.VI_SETTING);
+        mMask.setImageDrawable(VectorIllustrations.VI_CIRCLE);
     }
 
     @Override
@@ -141,9 +151,12 @@ public class PersonalFragment extends BaseFragment {
             float ratio = offset / mCollapsingHeight;
             mCollapsingToolbarLayout.setAlpha(ratio);
         });
+        mTheme.setOnClickListener(v -> {
+            startActivity(new Intent(requireActivity(), ThemeActivity.class));
+        });
 
         mNSPersonalMain.setOnTouchListener(this::touchCheck);
-        mSideMenu.setOnClickListener((v) -> {
+        mSideMenu.setOnClickListener(v -> {
             mDLParentView.openDrawer(GravityCompat.START);
         });
         mOldPublish.setOnClickListener(v -> System.out.println("发布旧商品"));

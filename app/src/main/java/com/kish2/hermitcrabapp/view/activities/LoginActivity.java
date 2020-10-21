@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,25 +19,23 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.bean.VectorIllustrations;
 import com.kish2.hermitcrabapp.custom.FixedVideoView;
 import com.kish2.hermitcrabapp.custom.StatusFixedToolBar;
+import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.activities.LoginPresenter;
 import com.kish2.hermitcrabapp.utils.BitMapAndDrawableUtil;
-import com.kish2.hermitcrabapp.utils.InputCheckUtil;
 import com.kish2.hermitcrabapp.utils.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
-import com.kish2.hermitcrabapp.utils.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
-
-import java.util.Objects;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import butterknife.BindView;
@@ -57,39 +54,43 @@ public class LoginActivity extends BaseActivity
     FixedVideoView mBGVideo;
 
     /* ToolBar*/
-    @BindView(R.id.mtb_toolbar)
+    @BindView(R.id.sft_action_bar)
     StatusFixedToolBar mToolBar;
 
     /* 登录界面容器 */
     @BindView(R.id.ll_login_container)
     LinearLayout mLoginContainer;
     /* 登录界面具有组件 */
-    // 返回按钮
 
     // 登录信息输入框
+    @BindView(R.id.iv_user_icon)
+    ImageView mICUserInput;
+    @BindView(R.id.iv_password_icon)
+    ImageView mICPasswordInput;
+
     @BindView(R.id.et_identify_input)
     EditText mIdentify;
     // 清空输入
-    @BindView(R.id.ib_login_identify_input_del)
+    @BindView(R.id.ib_identify_clear)
     ImageButton mClearIdentify;
     // 密码
     @BindView(R.id.et_password_input)
     EditText mPassword;
     // 清空密码
-    @BindView(R.id.ib_login_password_input_del)
+    @BindView(R.id.ib_password_clear)
     ImageButton mClearPassword;
     // 登录/注册按钮
-    @BindView(R.id.btn_login_submit)
+    @BindView(R.id.cpb_login_submit)
     CircularProgressButton mLoginSubmit;
-    @BindView(R.id.btn_register_submit)
+    @BindView(R.id.btn_register_jump)
     Button mRegisterSubmit;
 
     // 自动登录
     @BindView(R.id.cb_remember_account)
     CheckBox mRememberUser;
     // 忘记密码
-    @BindView(R.id.tv_forget_pwd)
-    TextView mForgetPassword;
+    @BindView(R.id.tv_login_by_verify_code)
+    TextView mLoginByVerifyCode;
 
     // 下拉层、其他登录方式层
     @BindView(R.id.ll_login_layer)
@@ -113,7 +114,6 @@ public class LoginActivity extends BaseActivity
     /* 滑出时间 */
     private static final int glideTime = 200;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,10 +127,10 @@ public class LoginActivity extends BaseActivity
                         mLoginSubmit.doneLoadingAnimation(ThemeUtil.Theme.afterGetResourcesColorId, mBitMap);
                         mPresenter.loginSuccess();
                         break;
-                    case LAYOUT_SOURCE_LOADED:
+                    case MessageForHandler.DATA_LOADED:
                         mLoginSubmit.setBackground(mBGDrawable);
-                        mBGVideo.setVideoPath(mVideoPath);
-                        mBGVideo.start();
+                        /*mBGVideo.setVideoPath(mVideoPath);
+                        mBGVideo.start();*/
                         break;
                     case LoginPresenter.LOGIN_FAILURE:
                     default:
@@ -153,19 +153,20 @@ public class LoginActivity extends BaseActivity
         }.start();
     }
 
-    /* 注册视图组件的监听事件 */
     public void getLayoutComponentsAttr() {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void getAndSetLayoutView() {
         StatusBarUtil.setTranslucentStatus(this);
-        mToolBar.bindAndSetThisToolbar(this, true, null);
-        Objects.requireNonNull(mRememberUser.getButtonDrawable()).setTint(ThemeUtil.Theme.afterGetResourcesColorId);
-        mForgetPassword.setTextColor(ThemeUtil.Theme.afterGetResourcesColorId);
+        mToolBar.bindAndSetThisToolbar(this, false, null);
+        mRememberUser.setButtonDrawable(ThemeUtil.CHECK_BOX_SELECTOR);
+        mICUserInput.setImageDrawable(VectorIllustrations.VI_USER);
+        mICPasswordInput.setImageDrawable(VectorIllustrations.VI_PASSWORD);
+        mClearIdentify.setBackground(VectorIllustrations.VI_CLEAR);
+        mClearPassword.setBackground(VectorIllustrations.VI_CLEAR);
     }
 
     @Override
@@ -173,11 +174,10 @@ public class LoginActivity extends BaseActivity
         mBGDrawable = BitMapAndDrawableUtil.getGradientDrawable(this);
         mBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_check_white);
         mVideoPath = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg_video).toString();
-        Message message = new Message();
-        message.what = LAYOUT_SOURCE_LOADED;
-        mHandler.sendMessage(message);
+        mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
     }
 
+    /* 注册视图组件的监听事件 */
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void registerViewComponentsAffairs() {
@@ -205,7 +205,9 @@ public class LoginActivity extends BaseActivity
 
         /* 自动登录和忘记密码 */
         mRememberUser.setOnClickListener(this);
-        mForgetPassword.setOnClickListener(this);
+        mLoginByVerifyCode.setOnClickListener(v -> {
+
+        });
 
         // 其它登录方式下拉层
         mLoginPull.setOnClickListener(this);
@@ -216,18 +218,18 @@ public class LoginActivity extends BaseActivity
         mLoginWeChat.setOnTouchListener(this);
         mLoginQQ.setOnTouchListener(this);
 
-        mBGVideo.setOnPreparedListener(mp -> {
+        /*mBGVideo.setOnPreparedListener(mp -> {
             mp.start();
             mp.setLooping(true);
         });
         mBGVideo.setOnCompletionListener(mp -> {
             mBGVideo.setVideoPath(mVideoPath);
             mBGVideo.start();
-        });
+        });*/
     }
 
     public String getIdentify() {
-        return this.mIdentify.getText().toString().trim();
+        return this.mIdentify.getText().toString();
     }
 
     public String getPassword() {
@@ -372,24 +374,24 @@ public class LoginActivity extends BaseActivity
                 mPassword.setFocusableInTouchMode(true);
                 mPassword.requestFocus();
                 break;
-            case R.id.ib_login_identify_input_del:
+            case R.id.ib_identify_clear:
                 mIdentify.setText(null);
                 break;
-            case R.id.ib_login_password_input_del:
+            case R.id.ib_password_clear:
                 mPassword.setText(null);
                 break;
-            case R.id.btn_login_submit:
+            case R.id.cpb_login_submit:
                 mLoginSubmit.startAnimation();
                 this.mPresenter.login();
                 break;
-            case R.id.btn_register_submit:
+            case R.id.btn_register_jump:
                 mLoginSubmit.revertAnimation();
                 this.mPresenter.register();
                 break;
             case R.id.cb_remember_account:
                 this.mPresenter.rememberUser(mRememberUser.isChecked());
                 break;
-            case R.id.tv_forget_pwd:
+            case R.id.tv_login_by_verify_code:
                 this.mPresenter.forgetPassword();
                 break;
             case R.id.ll_login_layer:
@@ -423,8 +425,8 @@ public class LoginActivity extends BaseActivity
     /* 用户输入了字符串 */
     @Override
     public void afterTextChanged(Editable s) {
-        String inputIdentify = mIdentify.getText().toString().trim();
-        String inputPassword = mPassword.getText().toString().trim();
+        String inputIdentify = mIdentify.getText().toString();
+        String inputPassword = mPassword.getText().toString();
 
         /* 是否显示清除按钮 */
         if (inputIdentify.length() > 0) {
@@ -451,9 +453,6 @@ public class LoginActivity extends BaseActivity
             }
         } else {
             if (hasFocus) {
-                if (!InputCheckUtil.isValidMobile(getIdentify())) {
-                    ToastUtil.showToast(this, "您输入的是无效的手机号哦~", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
-                }
                 mPassword.setActivated(true);
                 mIdentify.setActivated(false);
             }

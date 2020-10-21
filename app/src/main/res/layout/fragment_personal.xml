@@ -48,10 +48,23 @@
                             android:layout_height="70dp"
                             android:layout_centerInParent="true"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/login_background"
-                            app:riv_border_color="@color/black"
-                            app:riv_border_width="2dp"
+                            android:src="@drawable/bg_register"
+                            app:riv_border_color="@color/white"
+                            app:riv_border_width="1dp"
                             app:riv_oval="true" />
+
+                        <!-- 底色遮罩 -->
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/iv_mask_bg"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:contentDescription="@null"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ai_circle"
+                            app:riv_oval="true" />
+
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/iv_user_gender"
@@ -61,9 +74,7 @@
                             android:layout_alignParentBottom="true"
                             android:contentDescription="@null"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_app_icon"
-                            app:riv_border_color="@color/white"
-                            app:riv_border_width="1dp"
+                            android:src="@drawable/ai_unknown"
                             app:riv_oval="true" />
 
 
@@ -93,6 +104,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical|end"
                                 android:text="未登录"
+                                android:textColor="@color/white"
                                 android:textSize="@dimen/font_18"
                                 tools:ignore="NestedWeights" />
 
@@ -103,6 +115,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center|start"
                                 android:text="(41824233)"
+                                android:textColor="@color/white"
                                 android:textSize="@dimen/font_14"
                                 tools:ignore="NestedWeights" />
 
@@ -131,6 +144,7 @@
                                     android:layout_weight="3"
                                     android:gravity="center"
                                     android:text="110"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/font_16" />
 
                                 <TextView
@@ -139,6 +153,7 @@
                                     android:layout_weight="2"
                                     android:gravity="top|center"
                                     android:text="好友"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/font_12" />
                             </LinearLayout>
 
@@ -155,6 +170,7 @@
                                     android:layout_weight="3"
                                     android:gravity="center"
                                     android:text="100"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/font_16" />
 
                                 <TextView
@@ -163,6 +179,7 @@
                                     android:layout_weight="2"
                                     android:gravity="top|center"
                                     android:text="我的旧贝壳"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/font_12" />
                             </LinearLayout>
 
@@ -180,6 +197,7 @@
                                     android:gravity="center"
                                     android:text="100"
                                     android:textAlignment="center"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/font_16" />
 
                                 <TextView
@@ -188,6 +206,7 @@
                                     android:layout_weight="2"
                                     android:gravity="top|center"
                                     android:text="帖子"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/font_12" />
                             </LinearLayout>
                         </LinearLayout>

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.kish2.hermitcrabapp"
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -39,7 +39,7 @@ dependencies {
     implementation 'br.com.simplepass:loading-button-android:2.2.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.makeramen:roundedimageview:2.2.1'
-    /* 下拉刷新 */
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'cn.bingoogolapple:bga-refreshlayout-androidx:2.0.0@aar'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    //垂直的tablayout
+    implementation 'q.rorbin:VerticalTabLayout:1.2.5'
 }

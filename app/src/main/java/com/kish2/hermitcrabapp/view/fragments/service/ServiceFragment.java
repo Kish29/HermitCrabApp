@@ -119,9 +119,7 @@ public class ServiceFragment extends BaseFragment {
         setPaddingTopForStatusBarHeight(mAppBarLayout);
         mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
         /* 设置AppBarLayout的颜色 */
-        if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
-            mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
-        else mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
+        mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
     }
 
     @SuppressLint("InflateParams")
@@ -144,9 +142,7 @@ public class ServiceFragment extends BaseFragment {
             mItemsParams[i].width = mGLFragmentContent.getWidth() / columnLen;
             mItemsParams[i].bottomMargin = getResources().getDimensionPixelSize(R.dimen.reg_page_ht_margin);
         }
-        Message message = new Message();
-        message.what = MessageForHandler.LOCAL_DATA_LOADED;
-        mHandler.sendMessage(message);
+        mHandler.sendEmptyMessage(MessageForHandler.LOCAL_DATA_LOADED);
     }
 
     @Override

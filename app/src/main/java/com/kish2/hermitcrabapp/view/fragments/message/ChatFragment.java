@@ -139,23 +139,16 @@ public class ChatFragment extends BaseFragment {
         /* 获取顶部retrieveBar的几个部件*/
         mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
         /* 设置AppBarLayout的颜色 */
-        if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
-            mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
-        else mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
+        mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mChatList.setLayoutManager(layoutManager);
     }
 
     @Override
     public void loadData() {
-        Message message = new Message();
-        message.what = MessageForHandler.DATA_LOADING;
-        mHandler.sendMessage(message);
+        mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADING);
         mPresenter.getData();
-        mRefreshLayout.setRefreshing(false);
-        Message message1 = new Message();
-        message1.what = MessageForHandler.DATA_LOADED;
-        mHandler.sendMessage(message1);
+        mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
     }
 
     @SuppressLint("ClickableViewAccessibility")

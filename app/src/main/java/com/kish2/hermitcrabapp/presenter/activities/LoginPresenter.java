@@ -7,12 +7,13 @@ import android.os.Message;
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.kish2.hermitcrabapp.view.activities.MainActivity;
 import com.kish2.hermitcrabapp.presenter.ILoginPresenter;
+import com.kish2.hermitcrabapp.view.activities.RegisterActivity;
 
 public class LoginPresenter implements ILoginPresenter {
 
     private LoginActivity mLoginView;
-    public static final int LOGIN_SUCCESS = 0;
-    public static final int LOGIN_FAILURE = 1;
+    public static final int LOGIN_SUCCESS = 100;
+    public static final int LOGIN_FAILURE = 99;
     private static int LOGIN_STATUS;
 
     public LoginPresenter(LoginActivity loginActivity) {
@@ -38,18 +39,30 @@ public class LoginPresenter implements ILoginPresenter {
                 Message message = new Message();
                 message.what = LOGIN_SUCCESS;
                 LOGIN_STATUS = LOGIN_SUCCESS;
-                mLoginView.mHandler.sendMessage(message);
+                if (mLoginView != null)
+                    mLoginView.mHandler.sendMessage(message);
             }
         }.start();
     }
 
     @Override
     public void loginSuccess() {
-        new Handler().postDelayed(() -> mLoginView.startActivity(new Intent(mLoginView, MainActivity.class)), 500);
+        new Handler().postDelayed(() -> {
+            if (mLoginView != null) {
+                mLoginView.startActivity(new Intent(mLoginView, MainActivity.class));
+                mLoginView.finish();
+            }
+        }, 500);
     }
 
     @Override
     public void register() {
+        mLoginView.startActivity(new Intent(mLoginView, RegisterActivity.class));
+    }
+
+    @Override
+    public void registerSuccess() {
+
     }
 
     @Override

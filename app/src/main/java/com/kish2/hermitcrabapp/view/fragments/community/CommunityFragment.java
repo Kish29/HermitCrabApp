@@ -14,12 +14,15 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.CommunityFragmentAdapter;
+import com.kish2.hermitcrabapp.bean.VectorIllustrations;
+import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -51,7 +54,7 @@ public class CommunityFragment extends BaseFragment {
     /* 筛选栏*/
     /*ImageButton mFilter*/
 
-    TabLayout mCategoryTab;
+    SlidingTabLayout mCategoryTab;
 
     @BindView(R.id.vp_content_list)
     ViewPager mVPSubCommunity;
@@ -68,10 +71,10 @@ public class CommunityFragment extends BaseFragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
-                    case 1:
+                    case MessageForHandler.ADAPTER_INIT:
                         mVPSubCommunity.setAdapter(communityFragmentAdapter);
                         /* 绑定ViewPager */
-                        mCategoryTab.setupWithViewPager(mVPSubCommunity);
+                        mCategoryTab.setViewPager(mVPSubCommunity);
                         break;
                     case 2:
                     case 3:
@@ -115,24 +118,23 @@ public class CommunityFragment extends BaseFragment {
         /* 设置StatusBar的占位高度 */
         setHeightForStatusBar(mStatusBar);
         /* 设置AppBarLayout的颜色 */
-        if (ThemeUtil.Theme.colorId != -1)  // -1表示使用透明主题
-            mAppBarLayout.setBackgroundColor(getResources().getColor(ThemeUtil.Theme.colorId));
-        else mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
+        mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
         /* 获取顶部retrieveBar的几个部件*/
         mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
         mCategoryTab = mTopRetrieveBar.findViewById(R.id.tl_category_tab);
+        mVPSubCommunity.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
+        mCategoryTab.setIndicatorColor(VectorIllustrations.colorWhite);
+        mCategoryTab.setTextSelectColor(VectorIllustrations.colorWhite);
+        mCategoryTab.setTabSpaceEqual(true);
     }
 
     @Override
     public void loadData() {
-        mVPSubCommunity.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
         ArrayList<String> strings = new ArrayList<>();
         strings.add("易贝壳");
         strings.add("话题");
         communityFragmentAdapter = new CommunityFragmentAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, strings);
-        Message msg = new Message();
-        msg.what = 1;
-        mHandler.sendMessage(msg);
+        mHandler.sendEmptyMessage(MessageForHandler.ADAPTER_INIT);
     }
 
     @Override

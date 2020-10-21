@@ -83,7 +83,7 @@ public class FLatest extends FHomeBase {
                 registerViewComponentsAffairs();
             }
         }.start();
-        mRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(() -> getLayoutComponentsAttr());
+        mRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return view;
     }
 

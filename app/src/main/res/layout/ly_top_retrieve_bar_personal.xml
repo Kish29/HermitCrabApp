@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
+    android:layout_height="@dimen/retrieve_bar_height"
     android:orientation="horizontal">
 
     <ImageButton
@@ -18,22 +18,27 @@
         android:contentDescription="@null"
         android:padding="4dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ai_action_menu_black" />
+        android:src="@drawable/ai_menu" />
+
 
     <ImageButton
         android:id="@+id/ib_personal_theme"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:contentDescription="@null" />
+        android:layout_toStartOf="@+id/ib_personal_setting"
+        android:background="@color/transparent"
+        android:contentDescription="@null"
+        android:src="@drawable/ai_theme" />
 
     <ImageButton
         android:id="@+id/ib_personal_setting"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/ib_personal_theme"
-        android:contentDescription="@null" />
+        android:background="@color/transparent"
+        android:contentDescription="@null"
+        android:src="@drawable/ai_personal_setting" />
 
 </RelativeLayout>

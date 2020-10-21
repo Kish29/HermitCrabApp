@@ -50,7 +50,7 @@ public class StatusBarUtil {
             }
         }
         if (colorId != DEFAULT_COLOR_ID) {
-            StatusBarUtil.setStatusBarColor(activity, activity.getResources().getColor(colorId));
+            StatusBarUtil.setStatusBarColor(activity, colorId);
         }
     }
 
@@ -60,16 +60,15 @@ public class StatusBarUtil {
      * @param colorId 颜色
      */
     public static void setStatusBarColor(Activity activity, int colorId) {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
-            window.setStatusBarColor(activity.getResources().getColor(colorId));
+            window.setStatusBarColor(colorId);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //使用SystemBarTintManager,需要先将状态栏设置为透明
             setTranslucentStatus(activity);
             SystemBarTintManager systemBarTintManager = new SystemBarTintManager(activity);
             systemBarTintManager.setStatusBarTintEnabled(true);//显示状态栏
-            systemBarTintManager.setStatusBarTintColor(activity.getResources().getColor(colorId));//设置状态栏颜色
+            systemBarTintManager.setStatusBarTintColor(colorId);//设置状态栏颜色
         }
     }
 

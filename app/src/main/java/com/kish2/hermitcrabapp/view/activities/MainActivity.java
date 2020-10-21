@@ -3,15 +3,13 @@ package com.kish2.hermitcrabapp.view.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,9 +31,6 @@ import com.kish2.hermitcrabapp.utils.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 
-import java.nio.channels.Selector;
-import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -49,18 +44,6 @@ public class MainActivity extends BaseActivity {
             R.string.nav_message_title,
             R.string.nav_personal
     };
-
-    /* 菜单图标 */
-    private final int[] TAB_IMG = new int[]{
-            R.drawable.ic_tab_home_selector,
-            R.drawable.ic_tab_community_selector,
-            R.drawable.ic_tab_service_selector,
-            R.drawable.ic_tab_message_selector,
-            R.drawable.ic_tab_personal_selector
-    };
-
-    /* 主题字体颜色选择器 */
-    private static ColorStateList colorStateList;
 
     /* 根布局DrawerLayout*/
     @BindView(R.id.dl_maint_activity)
@@ -109,7 +92,7 @@ public class MainActivity extends BaseActivity {
 
     /* 在onCreate中调用3个属性*/
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @SuppressLint("HandlerLeak")
+    @SuppressLint({"HandlerLeak", "ResourceType"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,7 +122,6 @@ public class MainActivity extends BaseActivity {
         new Thread() {
             @Override
             public void run() {
-                colorStateList = ThemeUtil.setThemeTabSelectors(MainActivity.this);
                 registerViewComponentsAffairs();
                 loadData();
             }
@@ -156,16 +138,11 @@ public class MainActivity extends BaseActivity {
         /* 设置颜色*/
         /*设置底部tabBar的透明度*/
         mTLMainNavBar.getBackground().setAlpha(216);
-        /* 用户使用自定义背景 */
-        if (ThemeUtil.Theme.colorId == -1) {
-            mAppBackground.setImageResource(R.mipmap.login_background);
-        }
         /*布局规则(xml中已设置)*/
         /*mTLMainNavBar.setTabMode(TabLayout.MODE_FIXED);
         mTLMainNavBar.setTabGravity(TabLayout.GRAVITY_FILL);*/
-        int len = TAB_IMG.length;
-        mTabs = new TabLayout.Tab[len];
-        for (int i = 0; i < len; i++) {
+        mTabs = new TabLayout.Tab[ThemeUtil.BOTTOM_TAB_NUM];
+        for (int i = 0; i < ThemeUtil.BOTTOM_TAB_NUM; i++) {
             mTabs[i] = mTLMainNavBar.newTab();
         }
     }
@@ -173,8 +150,7 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("InflateParams")
     @Override
     public void loadData() {
-        int len = TAB_IMG.length;
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < ThemeUtil.BOTTOM_TAB_NUM; i++) {
             View tabBarBasic = getLayoutInflater().inflate(R.layout.ly_tab_bottom, null);
 
             // 使用自定义视图，目的是为了便于修改
@@ -182,21 +158,17 @@ public class MainActivity extends BaseActivity {
 
             // 设置各个页面的标签图片和文本
             ImageView imgTab = tabBarBasic.findViewById(R.id.nav_tab_img);
-            imgTab.setImageResource(TAB_IMG[i]);
+            imgTab.setImageDrawable(ThemeUtil.BOTTOM_TAB_SELECTOR[i]);
             TextView tabTitle = tabBarBasic.findViewById(R.id.nav_tab_title);
-            tabTitle.setTextColor(colorStateList);
+            tabTitle.setTextColor(ThemeUtil.TEXT_SELECTOR);
             tabTitle.setText(TAB_TITLES[i]);
         }
-        Message message = new Message();
-        message.what = MessageForHandler.DATA_LOADED;
-        mHandler.sendMessage(message);
+        mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
 
         /* adapter也应当在子线程中执行 */
         /*设置适配器，并与当前Activity的fragmentManager绑定*/
         pagerAdapter = new MainFragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        Message message1 = new Message();
-        message1.what = MessageForHandler.ADAPTER_INIT;
-        mHandler.sendMessage(message1);
+        mHandler.sendEmptyMessage(MessageForHandler.ADAPTER_INIT);
 
         /* 因为我们要使用自己定义的tab来点击切换，而setupWithViewPager方法默认使用标题*/
         /*mTLMainNavBar.setupWithViewPager(mVPMain);*/
@@ -237,12 +209,9 @@ public class MainActivity extends BaseActivity {
                 mFLMainContent.setTranslationX(mSideMenuWidth * slideOffset);
             }
         });
-        mLYSideMenuUserCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDLRootView.closeDrawer(GravityCompat.START);
-                mTLMainNavBar.selectTab(mTLMainNavBar.getTabAt(4));
-            }
+        mLYSideMenuUserCard.setOnClickListener(v -> {
+            mDLRootView.closeDrawer(GravityCompat.START);
+            mTLMainNavBar.selectTab(mTLMainNavBar.getTabAt(4));
         });
     }
 

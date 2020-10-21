@@ -21,8 +21,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseAct
 
     protected int VIEW_PAGER_OF_SCREEN_LIMIT = 10;
 
-    protected final int LAYOUT_SOURCE_LOADED = 100;
-
     /* 提供给Presenter使用 */
     public Handler mHandler;
 }

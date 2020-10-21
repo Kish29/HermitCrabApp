@@ -10,6 +10,8 @@ public interface ILoginPresenter extends IBasePresenter {
     /* 注册按钮事件 */
     public void register();
 
+    public void registerSuccess();
+
     public void rememberUser(boolean isRemember);
 
     public void forgetPassword();

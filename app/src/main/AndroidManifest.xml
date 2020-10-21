@@ -43,6 +43,12 @@
         <activity
             android:name=".view.activities.LoginActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activities.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activities.ThemeActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.activities.MyTest"
