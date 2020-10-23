@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.VectorIllustrations;
+import com.kongzue.dialog.util.TextInfo;
 
 public class ThemeUtil {
     public static final int BOTTOM_TAB_NUM = 5;
@@ -25,6 +26,8 @@ public class ThemeUtil {
 
     /* checkBox 选择器 */
     public static StateListDrawable CHECK_BOX_SELECTOR;
+
+    public static TextInfo FONT_COLOR;
 
     @SuppressLint({"UseCompatLoadingForDrawables", "ResourceType"})
     public static void setThemeTabSelectors(Context context) {
@@ -65,6 +68,10 @@ public class ThemeUtil {
         CHECK_BOX_SELECTOR = new StateListDrawable();
         CHECK_BOX_SELECTOR.addState(new int[]{android.R.attr.state_checked}, VectorIllustrations.VI_CHECK);
         CHECK_BOX_SELECTOR.addState(new int[]{-android.R.attr.state_checked}, VectorIllustrations.VI_NOT_CHECK);
+
+        /* dialog字体颜色*/
+        FONT_COLOR = new TextInfo();
+        FONT_COLOR.setFontColor(Theme.afterGetResourcesColorId);
     }
 
     public static final String THEME_CONFIG_FILE_NAME = "theme_config";

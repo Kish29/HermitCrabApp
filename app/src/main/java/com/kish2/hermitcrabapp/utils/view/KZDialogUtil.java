@@ -11,9 +11,9 @@ import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
 import com.kongzue.dialog.v3.MessageDialog;
 
-public class KZDialogUtil {
+import static com.kish2.hermitcrabapp.utils.view.ThemeUtil.FONT_COLOR;
 
-    private static TextInfo FONT_COLOR = new TextInfo().setFontColor(ThemeUtil.Theme.afterGetResourcesColorId);
+public class KZDialogUtil {
 
     /* 竖直排列的messageDialog，要得到水平排列的话，在获取后设置orientation即可 */
     public static MessageDialog IOS_LIGHT_VER_ONE_BUTTON_MESSAGE(Context context, String title, String msg, String okBtnMsg) {

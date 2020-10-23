@@ -226,8 +226,7 @@ public class PersonalFragment extends BaseFragment {
         userBindInfo.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                Intent intent = new Intent(requireActivity(), LoginActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(requireActivity(), UserProfileActivity.class));
             }
         });
         mUserFriend.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
