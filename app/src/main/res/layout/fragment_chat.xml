@@ -64,7 +64,7 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout
             android:id="@+id/srl_refresh_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

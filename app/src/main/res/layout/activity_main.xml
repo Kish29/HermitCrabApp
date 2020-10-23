@@ -22,7 +22,7 @@
             android:scaleType="centerCrop" />
 
         <!-- 页面ViewPager -->
-        <com.kish2.hermitcrabapp.custom.NoScrollViewPager
+        <com.kish2.hermitcrabapp.custom.view.NoScrollViewPager
             android:id="@+id/vp_main_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

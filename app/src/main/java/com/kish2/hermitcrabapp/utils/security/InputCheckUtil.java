@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.utils;
+package com.kish2.hermitcrabapp.utils.security;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

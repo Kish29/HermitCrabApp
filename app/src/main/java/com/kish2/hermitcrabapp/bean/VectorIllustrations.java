@@ -6,7 +6,7 @@ import android.graphics.drawable.VectorDrawable;
 import androidx.core.content.ContextCompat;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 
 public class VectorIllustrations {
 

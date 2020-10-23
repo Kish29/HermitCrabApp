@@ -2,6 +2,7 @@
 
     <!--<string name="app_name_en">HermitCrabApp</string>-->
     <string name="app_name_zh">寄居蟹</string>
+    <string name="app_name_en">HermitCrab</string>
 
     <!--navigation bar title-->
     <string name="nav_home_title">首页</string>
@@ -66,5 +67,12 @@
     <string name="resister_hint">还没有账号？马上注册一个吧！</string>
     <string name="other_login_method">第三方登录</string>
     <string name="prompt_password_check">请再次输入密码确认</string>
+    <string name="username_hint">未登录</string>
+    <string name="user_bind_hint">(未绑定学生信息)</string>
+    <string name="txt_default_hint">-</string>
+    <string name="user_product_hint">我的旧贝壳</string>
+    <string name="user_topic_hint">帖子</string>
+    <string name="user_friend_hint">好友</string>
+    <string name="btn_save">保存</string>
 
 </resources>

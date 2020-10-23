@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,11 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
+import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.ChatPresenter;
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
-import com.kish2.hermitcrabapp.utils.ToastUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -48,7 +48,7 @@ public class ChatFragment extends BaseFragment {
     @BindView(R.id.ly_message_category)
     LinearLayout mChatCategory;
     @BindView(R.id.srl_refresh_list)
-    SwipeRefreshLayout mRefreshLayout;
+    CustomSwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_messages_list)
     RecyclerView mChatList;
 

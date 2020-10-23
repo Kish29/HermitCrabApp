@@ -8,26 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.HomeFragmentAdapter;
-import com.kish2.hermitcrabapp.bean.VectorIllustrations;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -186,5 +181,4 @@ public class HomeFragment extends BaseFragment {
     public void detachPresenter() {
 
     }
-
 }

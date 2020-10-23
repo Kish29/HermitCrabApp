@@ -18,12 +18,11 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.CommunityFragmentAdapter;
 import com.kish2.hermitcrabapp.bean.VectorIllustrations;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
 

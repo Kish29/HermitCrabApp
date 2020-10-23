@@ -2,8 +2,6 @@ package com.kish2.hermitcrabapp.view;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.text.BoringLayout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -13,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 
 public abstract class BaseFragment extends Fragment implements IBaseView {
 

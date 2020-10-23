@@ -20,15 +20,15 @@ import androidx.annotation.Nullable;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.VectorIllustrations;
-import com.kish2.hermitcrabapp.custom.CustomCountDownTimer;
-import com.kish2.hermitcrabapp.custom.StatusFixedToolBar;
+import com.kish2.hermitcrabapp.custom.view.CustomCountDownTimer;
+import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.activities.RegisterPresenter;
-import com.kish2.hermitcrabapp.utils.BitMapAndDrawableUtil;
-import com.kish2.hermitcrabapp.utils.InputCheckUtil;
-import com.kish2.hermitcrabapp.utils.StatusBarUtil;
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
-import com.kish2.hermitcrabapp.utils.ToastUtil;
+import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
+import com.kish2.hermitcrabapp.utils.security.InputCheckUtil;
+import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 
 public class RegisterActivity extends BaseActivity {
 
-    @BindView(R.id.sft_action_bar)
+    @BindView(R.id.sft_toolbar_top)
     StatusFixedToolBar mToolBar;
 
     /* 三个图标*/
@@ -123,7 +123,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-        mBGDrawable = BitMapAndDrawableUtil.getGradientDrawable(this);
+        mBGDrawable = BitMapAndDrawableUtil.getGradientCircleDrawable(this);
         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_check_white);
         mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
     }

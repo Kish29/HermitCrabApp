@@ -28,13 +28,14 @@ import androidx.annotation.Nullable;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.VectorIllustrations;
-import com.kish2.hermitcrabapp.custom.FixedVideoView;
-import com.kish2.hermitcrabapp.custom.StatusFixedToolBar;
+import com.kish2.hermitcrabapp.custom.view.FixedVideoView;
+import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
+import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.activities.LoginPresenter;
-import com.kish2.hermitcrabapp.utils.BitMapAndDrawableUtil;
-import com.kish2.hermitcrabapp.utils.StatusBarUtil;
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
+import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
@@ -54,7 +55,7 @@ public class LoginActivity extends BaseActivity
     FixedVideoView mBGVideo;
 
     /* ToolBar*/
-    @BindView(R.id.sft_action_bar)
+    @BindView(R.id.sft_toolbar_top)
     StatusFixedToolBar mToolBar;
 
     /* 登录界面容器 */
@@ -83,7 +84,7 @@ public class LoginActivity extends BaseActivity
     @BindView(R.id.cpb_login_submit)
     CircularProgressButton mLoginSubmit;
     @BindView(R.id.btn_register_jump)
-    Button mRegisterSubmit;
+    Button mRegister;
 
     // 自动登录
     @BindView(R.id.cb_remember_account)
@@ -171,7 +172,7 @@ public class LoginActivity extends BaseActivity
 
     @Override
     public void loadData() {
-        mBGDrawable = BitMapAndDrawableUtil.getGradientDrawable(this);
+        mBGDrawable = BitMapAndDrawableUtil.getGradientCircleDrawable(this);
         mBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_check_white);
         mVideoPath = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg_video).toString();
         mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
@@ -201,7 +202,12 @@ public class LoginActivity extends BaseActivity
         /* 登录按钮 */
         mLoginSubmit.setOnClickListener(this);
         /* 注册按钮 */
-        mRegisterSubmit.setOnClickListener(this);
+        mRegister.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
+            @Override
+            public void onMayTriggerFastRepeatClick(View v) {
+                mPresenter.register();
+            }
+        });
 
         /* 自动登录和忘记密码 */
         mRememberUser.setOnClickListener(this);
@@ -383,10 +389,6 @@ public class LoginActivity extends BaseActivity
             case R.id.cpb_login_submit:
                 mLoginSubmit.startAnimation();
                 this.mPresenter.login();
-                break;
-            case R.id.btn_register_jump:
-                mLoginSubmit.revertAnimation();
-                this.mPresenter.register();
                 break;
             case R.id.cb_remember_account:
                 this.mPresenter.rememberUser(mRememberUser.isChecked());

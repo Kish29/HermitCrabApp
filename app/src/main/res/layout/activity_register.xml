@@ -13,10 +13,11 @@
         android:scaleType="centerCrop"
         android:src="@drawable/bg_register" />
 
-    <com.kish2.hermitcrabapp.custom.StatusFixedToolBar
-        android:id="@+id/sft_action_bar"
+    <com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar
+        android:id="@+id/sft_toolbar_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/retrieve_bar_height"
+        android:theme="@style/ToolbarItemThem"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout

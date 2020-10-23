@@ -6,11 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,9 +17,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
+import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.LatestPresenter;
-import com.kish2.hermitcrabapp.utils.ToastUtil;
+import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +31,7 @@ public class FLatest extends FHomeBase {
     TextView textView;*/
 
     @BindView(R.id.srl_refresh_list)
-    SwipeRefreshLayout mRefreshLayout;
+    CustomSwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_container_items)
     RecyclerView mInformList;
 

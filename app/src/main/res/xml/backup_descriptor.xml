@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- TODO Remove the following "exclude" elements to make them a part of the auto backup -->
+    <!-- exclude 标签表示备份时被排除在外 -->
+    <exclude
+        domain="database"
+        path="search_history.db" />
+    <!-- Exclude the shared preferences file that contains the GCM registrationId -->
+    <exclude
+        domain="sharedpref"
+        path="theme_config.xml" />
+    <exclude
+        domain="sharedpref"
+        path="device_info.xml" />
+</full-backup-content>

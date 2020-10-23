@@ -16,7 +16,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.custom.CustomRefreshView;
+import com.kish2.hermitcrabapp.custom.view.CustomRefreshView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

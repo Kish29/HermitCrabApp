@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.utils;
+package com.kish2.hermitcrabapp.utils.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

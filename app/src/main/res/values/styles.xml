@@ -20,6 +20,11 @@
         <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
     </style>
 
+    <style name="ToolbarItemThem" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="colorControlHighlight">@color/transparent</item>
+        <item name="overlapAnchor">false</item>
+    </style>
+
     <!-- 右进左出 -->
     <style name="anim_RILO" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/in_from_right</item>

@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -20,16 +19,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
+import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.SecondHandPresenter;
-import com.kish2.hermitcrabapp.utils.ToastUtil;
+import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FSecondHand extends FCommunityBase {
     @BindView(R.id.srl_refresh_list)
-    SwipeRefreshLayout mRefreshLayout;
+    CustomSwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_container_items)
     RecyclerView mProductsList;
 

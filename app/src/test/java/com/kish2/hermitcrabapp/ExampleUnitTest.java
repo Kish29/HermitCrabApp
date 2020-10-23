@@ -1,7 +1,7 @@
 package com.kish2.hermitcrabapp;
 
 import com.kish2.hermitcrabapp.sqlite.SearchHistory;
-import com.kish2.hermitcrabapp.utils.InputCheckUtil;
+import com.kish2.hermitcrabapp.utils.security.InputCheckUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.kish2.hermitcrabapp.view.activities.MainActivity;

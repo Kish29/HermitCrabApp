@@ -23,7 +23,7 @@
 // 修改于 完整项目代码: https://github.com/linsea/MatrixScale
 ///////////////////////////////////////////////////////////////////////////
 
-package com.kish2.hermitcrabapp.custom;
+package com.kish2.hermitcrabapp.custom.view;
 
 import android.app.AlertDialog;
 import android.content.Context;

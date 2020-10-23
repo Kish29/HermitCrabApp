@@ -1,0 +1,161 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_user_brief"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
+                android:text="@string/username_hint"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_18"
+                tools:ignore="NestedWeights" />
+
+            <TextView
+                android:id="@+id/tv_user_bind_info"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:text="@string/user_bind_hint"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14"
+                tools:ignore="NestedWeights" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="NestedWeights">
+
+            <LinearLayout
+                android:id="@+id/ll_friends"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+
+                <TextView
+                    android:id="@+id/tv_user_friend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/txt_default_hint"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_16"
+                    tools:ignore="TooDeepLayout" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:gravity="top|center"
+                    android:text="@string/user_friend_hint"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_12" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_products"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+
+                <TextView
+                    android:id="@+id/tv_user_product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/txt_default_hint"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:gravity="top|center"
+                    android:text="@string/user_product_hint"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_12" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_topics"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+
+                <TextView
+                    android:id="@+id/tv_user_topic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/txt_default_hint"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:gravity="top|center"
+                    android:text="@string/user_topic_hint"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_12" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

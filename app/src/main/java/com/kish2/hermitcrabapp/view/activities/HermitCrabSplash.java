@@ -2,7 +2,6 @@ package com.kish2.hermitcrabapp.view.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,19 +9,15 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
+import com.bumptech.glide.Glide;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.internal.http2.Http2Reader;
 
 public class HermitCrabSplash extends BaseActivity {
 
@@ -77,7 +72,7 @@ public class HermitCrabSplash extends BaseActivity {
 
     @Override
     public void getAndSetLayoutView() {
-        mSplashPicture.setImageResource(R.drawable.background);
+        Glide.with(this).load(R.drawable.background).into(mSplashPicture);
     }
 
     @Override

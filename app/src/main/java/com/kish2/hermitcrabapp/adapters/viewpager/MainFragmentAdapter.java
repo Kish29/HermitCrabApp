@@ -26,7 +26,6 @@ public class MainFragmentAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        Log.d("position", String.valueOf(position));
         /* fragment具有预加载功能，并且最多预加载3个（左、中、右）*/
         Fragment fragment;
         switch (position) {

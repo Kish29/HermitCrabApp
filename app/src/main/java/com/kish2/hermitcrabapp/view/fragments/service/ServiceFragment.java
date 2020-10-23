@@ -20,8 +20,8 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
-import com.kish2.hermitcrabapp.utils.ToastUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
 

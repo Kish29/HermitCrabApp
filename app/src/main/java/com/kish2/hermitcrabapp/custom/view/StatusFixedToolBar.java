@@ -1,17 +1,15 @@
-package com.kish2.hermitcrabapp.custom;
+package com.kish2.hermitcrabapp.custom.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.VectorIllustrations;
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 
 public class StatusFixedToolBar extends MaterialToolbar {
 
@@ -33,23 +31,7 @@ public class StatusFixedToolBar extends MaterialToolbar {
             setTitle(title);
             setTitleTextColor(setColor ? VectorIllustrations.colorWhite : ThemeUtil.Theme.afterGetResourcesColorId);
         }
-
-        /*activity.setSupportActionBar(this);
-        ActionBar actionBar = activity.getSupportActionBar();
-        assert actionBar != null;
-        if (setColor) {
-            actionBar.setHomeAsUpIndicator(VectorIllustrations.VI_BACK_WHITE);
-            setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
-        } else {
-            actionBar.setHomeAsUpIndicator(VectorIllustrations.VI_BACK);
-        }
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        if (title != null) {
-            actionBar.setTitle(title);
-        } else
-            actionBar.setDisplayShowTitleEnabled(false);
-        setPopupTheme(R.style.toolbar_menu_popup);*/
+        /*setPopupTheme(R.style.toolbar_menu_popup);*/
     }
 
     public StatusFixedToolBar(@NonNull Context context) {

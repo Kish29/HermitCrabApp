@@ -14,7 +14,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/bg_register" />
 
-    <com.kish2.hermitcrabapp.custom.FixedVideoView
+    <com.kish2.hermitcrabapp.custom.view.FixedVideoView
         android:id="@+id/login_reg_video"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,10 +33,11 @@
         android:paddingBottom="16dp">
 
 
-        <com.kish2.hermitcrabapp.custom.StatusFixedToolBar
-            android:id="@+id/sft_action_bar"
+        <com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar
+            android:id="@+id/sft_toolbar_top"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/retrieve_bar_height" />
+            android:layout_height="@dimen/retrieve_bar_height"
+            android:theme="@style/ToolbarItemThem" />
 
         <ImageView
             android:id="@+id/iv_login_logo"

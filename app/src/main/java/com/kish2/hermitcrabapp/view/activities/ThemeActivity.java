@@ -14,26 +14,33 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.custom.StatusFixedToolBar;
+import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
-import com.kish2.hermitcrabapp.utils.StatusBarUtil;
-import com.kish2.hermitcrabapp.utils.ThemeUtil;
-import com.kish2.hermitcrabapp.utils.ToastUtil;
+import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import q.rorbin.verticaltablayout.VerticalTabLayout;
+import q.rorbin.verticaltablayout.widget.QTabView;
 
 public class ThemeActivity extends BaseActivity {
 
-    @BindView(R.id.sft_action_bar)
+    @BindView(R.id.sft_toolbar_top)
     StatusFixedToolBar mToolBar;
     @BindView(R.id.tl_color_list)
     TabLayout mThemeList;
+
+    @BindView(R.id.vtl_color_list)
+    VerticalTabLayout mColorList;
+    QTabView[] mColors;
+
     @BindView(R.id.btn_theme_save)
     Button mSave;
 
-    private static int THEME_SELECT_ID = -1;
+    private static int THEME_SELECT_ID = 0;
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -74,8 +81,12 @@ public class ThemeActivity extends BaseActivity {
         StatusBarUtil.setSinkStatusBar(this, false, ThemeUtil.Theme.afterGetResourcesColorId);
         mToolBar.bindAndSetThisToolbar(this, true, "主题颜色");
         mItems = new TabLayout.Tab[9];
+        mColors = new QTabView[9];
+        mColorList.setTabMargin(100);
         for (int i = 0; i < 9; i++) {
             mItems[i] = mThemeList.newTab();
+            mColors[i] = new QTabView(this);
+            mColors[i].setBackgroundColor(ContextCompat.getColor(this, ThemeUtil.AppTheme[i]));
         }
     }
 
@@ -83,6 +94,7 @@ public class ThemeActivity extends BaseActivity {
     private void initColorList() {
         for (int i = 0; i < 9; i++) {
             mThemeList.addTab(mItems[i]);
+            mColorList.addTab(mColors[i]);
         }
     }
 
@@ -125,14 +137,13 @@ public class ThemeActivity extends BaseActivity {
                 @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = theme_config.edit();
                 editor.putInt(ThemeUtil.KEY_COLOR, THEME_SELECT_ID);
                 if (editor.commit()) {
-                    ToastUtil.showToast(this, "修改主题成功，重启后生效", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
+                    ToastUtil.showToast(ThemeActivity.this, "修改主题成功，重启后生效", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
                 } else {
                     ToastUtil.showToast(this, "修改主题失败", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
                 }
             }
         });
     }
-
 
     @Override
     public void getLayoutComponentsAttr() {

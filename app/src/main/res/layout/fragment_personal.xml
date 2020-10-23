@@ -28,9 +28,16 @@
                     layout="@layout/ly_top_retrieve_bar_personal" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/ll_personal_user"
                     android:layout_width="match_parent"
                     android:layout_height="100dp">
+
+                    <include
+                        android:id="@+id/ll_user_brief"
+                        layout="@layout/ly_user_brief"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toStartOf="@+id/rl_user_avatar"
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <RelativeLayout
                         android:id="@+id/rl_user_avatar"
@@ -39,7 +46,7 @@
                         android:layout_marginEnd="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/ll_personal_user_brief"
+                        app:layout_constraintStart_toEndOf="@+id/ll_user_brief"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <com.makeramen.roundedimageview.RoundedImageView
@@ -65,7 +72,6 @@
                             android:src="@drawable/ai_circle"
                             app:riv_oval="true" />
 
-
                         <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/iv_user_gender"
                             android:layout_width="20dp"
@@ -76,141 +82,7 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/ai_unknown"
                             app:riv_oval="true" />
-
-
                     </RelativeLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_personal_user_brief"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/rl_user_avatar"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="2"
-                            android:paddingEnd="10dp"
-                            tools:ignore="RtlSymmetry">
-
-                            <TextView
-                                android:id="@+id/tv_username"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center_vertical|end"
-                                android:text="未登录"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/font_18"
-                                tools:ignore="NestedWeights" />
-
-                            <TextView
-                                android:id="@+id/tv_user_student_id"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center|start"
-                                android:text="(41824233)"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/font_14"
-                                tools:ignore="NestedWeights" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="3"
-                            android:baselineAligned="false"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                tools:ignore="NestedWeights">
-
-
-                                <TextView
-                                    android:id="@+id/tv_user_friend"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="3"
-                                    android:gravity="center"
-                                    android:text="110"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/font_16" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="2"
-                                    android:gravity="top|center"
-                                    android:text="好友"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/font_12" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_user_product"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="3"
-                                    android:gravity="center"
-                                    android:text="100"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/font_16" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="2"
-                                    android:gravity="top|center"
-                                    android:text="我的旧贝壳"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/font_12" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tv_user_topic"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="3"
-                                    android:gravity="center"
-                                    android:text="100"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/font_16" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="2"
-                                    android:gravity="top|center"
-                                    android:text="帖子"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/font_12" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -418,6 +290,9 @@
                     android:id="@+id/ll_service_switch"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:background="?android:selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:orientation="horizontal"
                     app:layout_constraintTop_toTopOf="parent">
 

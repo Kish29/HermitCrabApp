@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.utils;
+package com.kish2.hermitcrabapp.utils.dev;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -12,9 +12,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.IntDef;
-import androidx.fragment.app.Fragment;
-
-import com.kish2.hermitcrabapp.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
