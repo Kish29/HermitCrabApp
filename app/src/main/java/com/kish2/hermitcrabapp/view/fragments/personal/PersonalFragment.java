@@ -3,6 +3,9 @@ package com.kish2.hermitcrabapp.view.fragments.personal;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +23,12 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.widget.NestedScrollView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
@@ -27,17 +36,21 @@ import com.kish2.hermitcrabapp.bean.VectorIllustrations;
 import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
+import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.kish2.hermitcrabapp.view.activities.ThemeActivity;
 import com.kish2.hermitcrabapp.view.activities.UserProfileActivity;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class PersonalFragment extends BaseFragment {
 
@@ -195,6 +208,21 @@ public class PersonalFragment extends BaseFragment {
                     "使用头像",
                     "相册");
             messageDialog.show();
+            CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
+                @Override
+                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                    mAppBarLayout.setBackground(resource);
+                }
+
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                }
+            };
+            messageDialog.setOnCancelButtonClickListener((baseDialog, v1) -> {
+                Glide.with(this).load(R.drawable.bg_register).apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 3))).into(customTarget);
+                return false;
+            });
         });
         mSetting.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
@@ -205,6 +233,9 @@ public class PersonalFragment extends BaseFragment {
         mUserAvatar.setOnClickListener(v -> {
             MessageDialog messageDialog = KZDialogUtil.IOS_LIGHT_VER_TWO_BUTTON_MESSAGE(mContext, "更换头像", "选择一种方式更换头像", "拍照", "相册");
             messageDialog.show();
+            messageDialog.setOnCancelButtonClickListener((baseDialog, v1) -> {
+                return false;
+            });
         });
         mTheme.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
