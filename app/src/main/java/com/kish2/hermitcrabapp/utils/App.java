@@ -4,25 +4,23 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
+public class App extends Application {
 
-import java.io.PushbackInputStream;
+    private static App app;
 
-public class ContextUtil extends Application {
-
-    private static ContextUtil contextUtil;
+    public static boolean IS_USER_LOG_IN = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        contextUtil = this;
+        app = this;
     }
 
     public static Context getAppContext() {
-        return contextUtil;
+        return app;
     }
 
     public static Resources getAppResources() {
-        return contextUtil.getResources();
+        return app.getResources();
     }
 }

@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.widget.NestedScrollView;
@@ -45,7 +47,9 @@ import com.kish2.hermitcrabapp.view.activities.ThemeActivity;
 import com.kish2.hermitcrabapp.view.activities.UserProfileActivity;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.MessageDialog;
+import com.kongzue.dialog.v3.TipDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
@@ -231,7 +235,12 @@ public class PersonalFragment extends BaseFragment {
             }
         });
         mUserAvatar.setOnClickListener(v -> {
-            MessageDialog messageDialog = KZDialogUtil.IOS_LIGHT_VER_TWO_BUTTON_MESSAGE(mContext, "更换头像", "选择一种方式更换头像", "拍照", "相册");
+            MessageDialog messageDialog = KZDialogUtil.IOS_LIGHT_VER_THREE_BUTTON_MESSAGE(mContext,
+                    "更换头像",
+                    "选择一种方式更换头像",
+                    "拍照",
+                    "相册",
+                    "查看头像");
             messageDialog.show();
             messageDialog.setOnCancelButtonClickListener((baseDialog, v1) -> {
                 return false;

@@ -74,5 +74,6 @@
     <string name="user_topic_hint">帖子</string>
     <string name="user_friend_hint">好友</string>
     <string name="btn_save">保存</string>
+    <string name="fragment_service_title">服务中心</string>
 
 </resources>

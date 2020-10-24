@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
+import com.kish2.hermitcrabapp.utils.UserInfoUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 
@@ -51,13 +52,14 @@ public class HermitCrabSplash extends BaseActivity {
 
         ButterKnife.bind(this);
         /* 获取主题设置 */
-        ThemeUtil.setInstance(HermitCrabSplash.this);
-        ThemeUtil.setThemeTabSelectors(HermitCrabSplash.this);
         getAndSetLayoutView();
         /* 子线程获取布局参数 */
         new Thread() {
             @Override
             public void run() {
+                ThemeUtil.setInstance(HermitCrabSplash.this);
+                ThemeUtil.setThemeTabSelectors(HermitCrabSplash.this);
+                UserInfoUtil.loadUserInfo();
                 /* 资源也应当在子线程中设置 */
                 registerViewComponentsAffairs();
                 loadData();

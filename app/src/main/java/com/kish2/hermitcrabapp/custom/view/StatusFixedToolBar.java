@@ -1,11 +1,15 @@
 package com.kish2.hermitcrabapp.custom.view;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.Gravity;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.kish2.hermitcrabapp.bean.VectorIllustrations;
@@ -30,8 +34,21 @@ public class StatusFixedToolBar extends MaterialToolbar {
         if (title != null) {
             setTitle(title);
             setTitleTextColor(setColor ? VectorIllustrations.colorWhite : ThemeUtil.Theme.afterGetResourcesColorId);
+            /* 设置了title之后，childAt(1)就是当前标题，所以我们需要居中显示 */
+            setTileShowAtCenter();
         }
         /*setPopupTheme(R.style.toolbar_menu_popup);*/
+    }
+
+    private void setTileShowAtCenter() {
+        TextView title = (TextView) getChildAt(1);
+        if (title != null) {
+            Toolbar.LayoutParams params = new Toolbar.LayoutParams(title.getLayoutParams());
+            params.gravity = Gravity.CENTER;
+            title.setLayoutParams(params);
+            title.setGravity(Gravity.CENTER);
+            title.setTypeface(Typeface.SANS_SERIF);
+        }
     }
 
     public StatusFixedToolBar(@NonNull Context context) {

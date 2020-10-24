@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kongzue.dialog.util.DialogSettings;
-import com.kongzue.dialog.util.TextInfo;
+import com.kongzue.dialog.v3.InputDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 
 import static com.kish2.hermitcrabapp.utils.view.ThemeUtil.FONT_COLOR;
@@ -74,6 +74,18 @@ public class KZDialogUtil {
         CustomTipDialog errorDialog = IOS_LIGHT_WAIT_DIALOG(context, tip, msg, tipTime, true);
         errorDialog.setTip(CustomTipDialog.TYPE.ERROR);
         return errorDialog;
+    }
+
+    public static InputDialog IOS_LIGHT_INPUT(Context context, String msg) {
+        MessageDialog inputDialog = InputDialog.build((AppCompatActivity) context)
+                .setOkButton("确定")
+                .setCancelButton("取消")
+                .setTheme(DialogSettings.THEME.LIGHT)
+                .setStyle(DialogSettings.STYLE.STYLE_IOS);
+        if (msg != null)
+            inputDialog.setMessage(msg);
+        inputDialog.setButtonTextInfo(FONT_COLOR);
+        return (InputDialog) inputDialog;
     }
 
 }

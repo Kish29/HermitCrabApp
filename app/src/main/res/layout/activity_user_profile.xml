@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/grey_general_grey">
 
     <com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar
         android:id="@+id/sft_toolbar_top"
@@ -13,15 +13,61 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/ll_user_profile_part1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/ll_user_profile_part2"
         app:layout_constraintTop_toBottomOf="@+id/sft_toolbar_top">
 
-        <ProgressBar
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center" />
+        <include
+            android:id="@+id/ll_user_avatar"
+            layout="@layout/ly_user_profile_item_avatar" />
+
+        <include
+            android:id="@+id/ll_username"
+            layout="@layout/ly_user_profile_item" />
+
+        <include
+            android:id="@+id/ll_user_gender"
+            layout="@layout/ly_user_profile_item" />
+
+        <include
+            android:id="@+id/ll_bind_mobile"
+            layout="@layout/ly_user_profile_item" />
+
+        <include
+            android:id="@+id/ll_bind_email"
+            layout="@layout/ly_user_profile_item" />
+
+        <include
+            android:id="@+id/ll_change_password"
+            layout="@layout/ly_user_profile_item" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_user_profile_part2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/ll_user_profile_part1">
+
+        <include
+            android:id="@+id/ll_bind_student_id"
+            layout="@layout/ly_user_profile_item" />
+
+        <include
+            android:id="@+id/ll_bind_user_grade"
+            layout="@layout/ly_user_profile_item" />
+
+        <include
+            android:id="@+id/ll_bind_student_department"
+            layout="@layout/ly_user_profile_item" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

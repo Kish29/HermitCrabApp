@@ -24,6 +24,8 @@
     <color name="bg_press_material">#d4d4d4</color>
 
 
+    <color name="grey_general_grey">#eeeeee</color>
+    <color name="grey_icon">#999999</color>
     <color name="cyanea_primary_reference">#0288D1</color>
     <color name="cyanea_accent_reference">#FFA000</color>
     <color name="colorPrimary">#39BAE8</color>

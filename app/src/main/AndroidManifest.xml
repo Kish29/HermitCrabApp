@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".utils.ContextUtil"
+        android:name=".utils.App"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@drawable/ic_app_icon"

@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.MainFragmentAdapter;
@@ -58,6 +59,8 @@ public class MainActivity extends BaseActivity {
     /* 侧边栏*/
     @BindView(R.id.cl_left_side_menu)
     ConstraintLayout mCLSideMenu;
+    @BindView(R.id.iv_side_menu_bg)
+    ImageView mSideMenuBG;
     /* 对应宽度*/
     private float mSideMenuWidth;
 
@@ -143,6 +146,7 @@ public class MainActivity extends BaseActivity {
         for (int i = 0; i < ThemeUtil.BOTTOM_TAB_NUM; i++) {
             mTabs[i] = mTLMainNavBar.newTab();
         }
+        Glide.with(this).load(R.mipmap.bg_side_menu).into(mSideMenuBG);
     }
 
     @SuppressLint("InflateParams")
