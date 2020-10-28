@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 import javax.xml.transform.Source;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+
 public class LatestPresenter extends FBasePresenter<FLatest> {
 
     private LatestModel mLatestModel;
@@ -26,7 +29,7 @@ public class LatestPresenter extends FBasePresenter<FLatest> {
         mInforms = new ArrayList<>();
     }
 
-    public void getData() {
+    public void loadDataFromServer() {
         mLatestModel.updateInforms(mInforms);
         Message message = new Message();
         if (mInforms.size() != 0) {
@@ -44,5 +47,50 @@ public class LatestPresenter extends FBasePresenter<FLatest> {
     @Override
     public void detachView() {
         this.mLatest = null;
+    }
+
+    @Override
+    public void onServerError(Object object) {
+
+    }
+
+    @Override
+    public void onServerSuccess(Object object) {
+
+    }
+
+    @Override
+    public void dataUpdate(Call<ResponseBody> call) {
+
+    }
+
+    @Override
+    public void onFragmentPause() {
+
+    }
+
+    @Override
+    public void onFragmentCreate() {
+
+    }
+
+    @Override
+    public void onFragmentResume() {
+
+    }
+
+    @Override
+    public void onFragmentDestroy() {
+
+    }
+
+    @Override
+    public void onFragmentStart() {
+
+    }
+
+    @Override
+    public void onFragmentStop() {
+
     }
 }

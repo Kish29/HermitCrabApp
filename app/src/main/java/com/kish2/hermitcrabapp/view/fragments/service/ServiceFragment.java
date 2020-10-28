@@ -146,6 +146,11 @@ public class ServiceFragment extends BaseFragment {
     }
 
     @Override
+    public void refreshData() {
+
+    }
+
+    @Override
     public void registerViewComponentsAffairs() {
         mUserAvatar.setOnClickListener(v -> {
             mDLParentView.openDrawer(GravityCompat.START);

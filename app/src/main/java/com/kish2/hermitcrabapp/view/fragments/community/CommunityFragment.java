@@ -20,7 +20,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.CommunityFragmentAdapter;
-import com.kish2.hermitcrabapp.bean.VectorIllustrations;
+import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
@@ -122,8 +122,8 @@ public class CommunityFragment extends BaseFragment {
         mUserAvatar = mTopRetrieveBar.findViewById(R.id.riv_side_menu);
         mCategoryTab = mTopRetrieveBar.findViewById(R.id.tl_category_tab);
         mVPSubCommunity.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
-        mCategoryTab.setIndicatorColor(VectorIllustrations.colorWhite);
-        mCategoryTab.setTextSelectColor(VectorIllustrations.colorWhite);
+        mCategoryTab.setIndicatorColor(HermitCrabVectorIllustrations.colorWhite);
+        mCategoryTab.setTextSelectColor(HermitCrabVectorIllustrations.colorWhite);
         mCategoryTab.setTabSpaceEqual(true);
     }
 
@@ -134,6 +134,11 @@ public class CommunityFragment extends BaseFragment {
         strings.add("话题");
         communityFragmentAdapter = new CommunityFragmentAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, strings);
         mHandler.sendEmptyMessage(MessageForHandler.ADAPTER_INIT);
+    }
+
+    @Override
+    public void refreshData() {
+
     }
 
     @Override

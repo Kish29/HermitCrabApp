@@ -5,4 +5,7 @@ public interface IBasePresenter {
 
     public void detachView();
 
+    void onServerError(Object object);
+
+    void onServerSuccess(Object object);
 }

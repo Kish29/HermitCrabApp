@@ -2,61 +2,53 @@ package com.kish2.hermitcrabapp.presenter.activities;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Message;
 
+import com.kish2.hermitcrabapp.bean.HermitCrabBitMaps;
+import com.kish2.hermitcrabapp.model.IUserModel;
+import com.kish2.hermitcrabapp.model.impl.UserModelImpl;
+import com.kish2.hermitcrabapp.presenter.ABasePresenter;
 import com.kish2.hermitcrabapp.presenter.ILoginPresenter;
-import com.kish2.hermitcrabapp.view.activities.LoginActivity;
+import com.kish2.hermitcrabapp.utils.AppAndJSONUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.activities.MainActivity;
 import com.kish2.hermitcrabapp.view.activities.RegisterActivity;
 
-public class RegisterPresenter implements ILoginPresenter {
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    private RegisterActivity mRegisterView;
-    public static final int REGISTER_SUCCESS = 100;
-    public static final int REGISTER_FAILURE = 99;
-    private static int REGISTER_STATUS;
+public class RegisterPresenter extends ABasePresenter<RegisterActivity> implements ILoginPresenter {
+
+    private RegisterActivity mView;
+    private IUserModel mModel;
 
     public RegisterPresenter(RegisterActivity activity) {
-        this.mRegisterView = activity;
+        this.mView = activity;
+        this.mModel = new UserModelImpl();
     }
 
     @Override
-    public void login() {
-
-    }
-
-    @Override
-    public void loginSuccess() {
+    public void loginByUsername() {
 
     }
 
     @Override
     public void register() {
-        new Thread() {
+        Call<ResponseBody> bodyCall = mModel.userRegister(mView.getMobile());
+        bodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void run() {
-                try {
-                    sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Message message = new Message();
-                message.what = REGISTER_SUCCESS;
-                REGISTER_STATUS = REGISTER_SUCCESS;
-                if (mRegisterView != null)
-                    mRegisterView.mHandler.sendMessage(message);
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    handleResponse(mView, AppAndJSONUtil.DO_JSON_TYPE.SET_USER, response);
+                } else onFailure(call, new Throwable());
             }
-        }.start();
-    }
 
-    @Override
-    public void registerSuccess() {
-        new Handler().postDelayed(() -> {
-            if (mRegisterView != null) {
-                mRegisterView.startActivity(new Intent(mRegisterView, MainActivity.class));
-                mRegisterView.finish();
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                onServerError(null);
             }
-        }, 500);
+        });
     }
 
     @Override
@@ -80,7 +72,65 @@ public class RegisterPresenter implements ILoginPresenter {
     }
 
     @Override
+    public void loadDataFromServer() {
+
+    }
+
+    @Override
     public void detachView() {
-        this.mRegisterView = null;
+        this.mView = null;
+    }
+
+    @Override
+    public void onServerError(Object object) {
+        if (mView != null) {
+            mView.mRegisterSubmit.revertAnimation();
+        }
+    }
+
+    @Override
+    public void onServerSuccess(Object object) {
+        if (mView != null) {
+            mView.mRegisterSubmit.doneLoadingAnimation(ThemeUtil.Theme.afterGetResourcesColorId, HermitCrabBitMaps.mChecked);
+            new Handler().postDelayed(() -> {
+                intent = new Intent(mView, MainActivity.class);
+                mView.startActivity(intent);
+                mView.finish();
+            }, 500);
+        }
+    }
+
+    @Override
+    public void dataUpdate(Call<ResponseBody> call) {
+
+    }
+
+    @Override
+    public void onActivityPause() {
+
+    }
+
+    @Override
+    public void onActivityCreate() {
+
+    }
+
+    @Override
+    public void onActivityResume() {
+
+    }
+
+    @Override
+    public void onActivityDestroy() {
+    }
+
+    @Override
+    public void onActivityStart() {
+
+    }
+
+    @Override
+    public void onActivityStop() {
+
     }
 }

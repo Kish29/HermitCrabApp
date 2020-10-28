@@ -2,18 +2,70 @@ package com.kish2.hermitcrabapp.bean;
 
 public class User {
 
+    private long uid;
     private String token;
     private String username;
-
-    public enum GENDER {
-        UNKNOWN,
-        MALE,
-        FEMALE
-    }
-
     private String grade;
+    private String regDate;
     private String mobile;
     private String email;
+    private String gender;
+    private String avatarPath;
+    private String userType;
+    private String status;
+    /* 除了头像，其他一律保存在本地 */
+    private String bannerBgPath;
+    private String personalBannerBgPath;
+    private String sideMenuBgPath;
+    private boolean infoBind = false;
+
+    public boolean isInfoBind() {
+        return infoBind;
+    }
+
+    public void setInfoBind(boolean infoBind) {
+        this.infoBind = infoBind;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public String getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
+    }
 
     public String getStudentId() {
         return studentId;
@@ -58,31 +110,6 @@ public class User {
     }
 
     private String department;
-
-    public String getGender() {
-        switch (gender) {
-            case MALE:
-                return "男";
-            case FEMALE:
-                return "女";
-            default:
-            case UNKNOWN:
-                return "未设置";
-        }
-    }
-
-    public void setGender(GENDER gender) {
-        this.gender = gender;
-    }
-
-    private GENDER gender;
-
-    private String avatarPath;
-    /* 除了头像，其他一律保存在本地 */
-    private String bannerBgPath;
-    private String personalBannerBgPath;
-    private String sideMenuBgPath;
-
 
     public String getToken() {
         return token;

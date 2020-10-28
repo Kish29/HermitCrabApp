@@ -4,8 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,15 +25,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.bean.VectorIllustrations;
+import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.custom.view.FixedVideoView;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.activities.LoginPresenter;
+import com.kish2.hermitcrabapp.utils.security.InputCheckUtil;
 import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
@@ -82,7 +82,7 @@ public class LoginActivity extends BaseActivity
     ImageButton mClearPassword;
     // 登录/注册按钮
     @BindView(R.id.cpb_login_submit)
-    CircularProgressButton mLoginSubmit;
+    public CircularProgressButton mLoginSubmit;
     @BindView(R.id.btn_register_jump)
     Button mRegister;
 
@@ -109,7 +109,6 @@ public class LoginActivity extends BaseActivity
 
     private GradientDrawable mBGDrawable;
     private String mVideoPath;
-    private Bitmap mBitMap;
     private LoginPresenter mPresenter;
 
     /* 滑出时间 */
@@ -119,21 +118,15 @@ public class LoginActivity extends BaseActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
-                    case LoginPresenter.LOGIN_SUCCESS:
-                        mLoginSubmit.doneLoadingAnimation(ThemeUtil.Theme.afterGetResourcesColorId, mBitMap);
-                        mPresenter.loginSuccess();
-                        break;
                     case MessageForHandler.DATA_LOADED:
                         mLoginSubmit.setBackground(mBGDrawable);
                         /*mBGVideo.setVideoPath(mVideoPath);
                         mBGVideo.start();*/
                         break;
-                    case LoginPresenter.LOGIN_FAILURE:
                     default:
                         break;
                 }
@@ -148,8 +141,8 @@ public class LoginActivity extends BaseActivity
         new Thread() {
             @Override
             public void run() {
-                loadData();
                 registerViewComponentsAffairs();
+                loadData();
             }
         }.start();
     }
@@ -164,18 +157,22 @@ public class LoginActivity extends BaseActivity
         StatusBarUtil.setTranslucentStatus(this);
         mToolBar.bindAndSetThisToolbar(this, false, null);
         mRememberUser.setButtonDrawable(ThemeUtil.CHECK_BOX_SELECTOR);
-        mICUserInput.setImageDrawable(VectorIllustrations.VI_USER);
-        mICPasswordInput.setImageDrawable(VectorIllustrations.VI_PASSWORD);
-        mClearIdentify.setBackground(VectorIllustrations.VI_CLEAR);
-        mClearPassword.setBackground(VectorIllustrations.VI_CLEAR);
+        mICUserInput.setImageDrawable(HermitCrabVectorIllustrations.VI_USER);
+        mICPasswordInput.setImageDrawable(HermitCrabVectorIllustrations.VI_PASSWORD);
+        mClearIdentify.setBackground(HermitCrabVectorIllustrations.VI_CLEAR);
+        mClearPassword.setBackground(HermitCrabVectorIllustrations.VI_CLEAR);
     }
 
     @Override
     public void loadData() {
         mBGDrawable = BitMapAndDrawableUtil.getGradientCircleDrawable(this);
-        mBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_check_white);
         mVideoPath = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg_video).toString();
         mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
+    }
+
+    @Override
+    public void refreshData() {
+
     }
 
     /* 注册视图组件的监听事件 */
@@ -205,6 +202,7 @@ public class LoginActivity extends BaseActivity
         mRegister.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
+
                 mPresenter.register();
             }
         });
@@ -234,12 +232,12 @@ public class LoginActivity extends BaseActivity
         });*/
     }
 
-    public String getIdentify() {
+    public String getUsername() {
         return this.mIdentify.getText().toString();
     }
 
     public String getPassword() {
-        return this.mPassword.getText().toString().trim();
+        return this.mPassword.getText().toString();
     }
 
     public void pullOtherLoginView() {
@@ -351,6 +349,8 @@ public class LoginActivity extends BaseActivity
     @Override
     public void attachPresenter() {
         this.mPresenter = new LoginPresenter(this);
+        /* 添加观察者*/
+        getLifecycle().addObserver(this.mPresenter);
     }
 
     @Override
@@ -369,7 +369,7 @@ public class LoginActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            /*焦点处于此处*/
+            /* 焦点处于此处*/
             case R.id.et_identify_input:
                 mPassword.clearFocus();
                 mIdentify.setFocusableInTouchMode(true);
@@ -387,8 +387,14 @@ public class LoginActivity extends BaseActivity
                 mPassword.setText(null);
                 break;
             case R.id.cpb_login_submit:
+                String username = getUsername().trim();
+                String password = getPassword().trim();
+                if (username.equals("") || password.equals("")) {
+                    ToastUtil.showToast(this, "未输入用户名或密码", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
+                    break;
+                }
                 mLoginSubmit.startAnimation();
-                this.mPresenter.login();
+                this.mPresenter.loginByUsername();
                 break;
             case R.id.cb_remember_account:
                 this.mPresenter.rememberUser(mRememberUser.isChecked());

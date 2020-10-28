@@ -70,6 +70,10 @@ public class KZDialogUtil {
         return tipDialog;
     }
 
+    public static CustomTipDialog IOS_LIGHT_WAIT_NO_STOP_DIALOG(Context context) {
+        return IOS_LIGHT_WAIT_DIALOG(context, null, "请求中...", -1, false);
+    }
+
     public static CustomTipDialog IOS_LIGHT_ERROR_DIALOG(Context context, Drawable tip, String msg, int tipTime) {
         CustomTipDialog errorDialog = IOS_LIGHT_WAIT_DIALOG(context, tip, msg, tipTime, true);
         errorDialog.setTip(CustomTipDialog.TYPE.ERROR);

@@ -123,6 +123,7 @@ public class MainActivity extends BaseActivity {
         new Thread() {
             @Override
             public void run() {
+                /* loadData放在最后面*/
                 registerViewComponentsAffairs();
                 loadData();
             }
@@ -138,7 +139,7 @@ public class MainActivity extends BaseActivity {
         StatusBarUtil.setSinkStatusBar(this, ThemeUtil.Theme.isDarkTheme, -1);
         /* 设置颜色*/
         /*设置底部tabBar的透明度*/
-        mTLMainNavBar.getBackground().setAlpha(216);
+        mTLMainNavBar.getBackground().setAlpha(ThemeUtil.TAB_TRANSPARENT);
         /*布局规则(xml中已设置)*/
         /*mTLMainNavBar.setTabMode(TabLayout.MODE_FIXED);
         mTLMainNavBar.setTabGravity(TabLayout.GRAVITY_FILL);*/
@@ -174,6 +175,11 @@ public class MainActivity extends BaseActivity {
 
         /* 因为我们要使用自己定义的tab来点击切换，而setupWithViewPager方法默认使用标题*/
         /*mTLMainNavBar.setupWithViewPager(mVPMain);*/
+    }
+
+    @Override
+    public void refreshData() {
+
     }
 
     @Override
@@ -252,6 +258,11 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         detachPresenter();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

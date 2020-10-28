@@ -3,8 +3,6 @@ package com.kish2.hermitcrabapp.view.fragments.personal;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,37 +17,30 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.bean.VectorIllustrations;
+import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
-import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
+import com.kish2.hermitcrabapp.presenter.fragments.PersonalPresenter;
+import com.kish2.hermitcrabapp.utils.App;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.kish2.hermitcrabapp.view.activities.ThemeActivity;
 import com.kish2.hermitcrabapp.view.activities.UserProfileActivity;
-import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
-import com.kongzue.dialog.util.BaseDialog;
-import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.MessageDialog;
-import com.kongzue.dialog.v3.TipDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
@@ -107,14 +98,15 @@ public class PersonalFragment extends BaseFragment {
     View mOldPublish;
     /* 快速入口*/
     /* 学生服务*/
-
     private Context mContext;
+    private PersonalPresenter mPresenter;
 
     /* 这三个方法必须重写 */
     @SuppressLint("HandlerLeak")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        attachPresenter();
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -158,6 +150,11 @@ public class PersonalFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void getLayoutComponentsAttr() {
         mCollapsingHeight = mCollapsingToolbarLayout.getHeight();
         /* 锁定appBarLayout高度 */
@@ -185,15 +182,24 @@ public class PersonalFragment extends BaseFragment {
         userProduct = mUserProduct.findViewById(R.id.tv_user_product);
         userTopic = mUserTopic.findViewById(R.id.tv_user_topic);
         /* Vector图片资源 */
-        mSideMenu.setImageDrawable(VectorIllustrations.VI_MENU);
-        mTheme.setImageDrawable(VectorIllustrations.VI_THEME);
-        mSetting.setImageDrawable(VectorIllustrations.VI_SETTING);
-        mMask.setImageDrawable(VectorIllustrations.VI_CIRCLE);
+        mSideMenu.setImageDrawable(HermitCrabVectorIllustrations.VI_MENU);
+        mTheme.setImageDrawable(HermitCrabVectorIllustrations.VI_THEME);
+        mSetting.setImageDrawable(HermitCrabVectorIllustrations.VI_SETTING);
+        mMask.setImageDrawable(HermitCrabVectorIllustrations.VI_CIRCLE);
     }
 
     @Override
     public void loadData() {
+    }
 
+    @Override
+    public void refreshData() {
+        if (App.IS_USER_LOG_IN && App.LOAD_USER_SUCCESS) {
+            username.setText(App.USER.getUsername());
+            if (!App.USER.isInfoBind())
+                userBindInfo.setText("(未绑定学生信息)");
+            else userBindInfo.setText(App.USER.getDepartment());
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -231,7 +237,9 @@ public class PersonalFragment extends BaseFragment {
         mSetting.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                startActivity(new Intent(requireActivity(), UserProfileActivity.class));
+                if (!App.IS_USER_LOG_IN)
+                    startActivity(new Intent(requireActivity(), LoginActivity.class));
+                else startActivity(new Intent(requireActivity(), UserProfileActivity.class));
             }
         });
         mUserAvatar.setOnClickListener(v -> {
@@ -259,32 +267,41 @@ public class PersonalFragment extends BaseFragment {
         username.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                Intent intent = new Intent(requireActivity(), LoginActivity.class);
-                startActivity(intent);
+                if (!App.IS_USER_LOG_IN) {
+                    startActivity(new Intent(requireActivity(), LoginActivity.class));
+                } else startActivity(new Intent(requireActivity(), UserProfileActivity.class));
             }
         });
         userBindInfo.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                startActivity(new Intent(requireActivity(), UserProfileActivity.class));
+                if (!App.IS_USER_LOG_IN)
+                    startActivity(new Intent(requireActivity(), LoginActivity.class));
+                else startActivity(new Intent(requireActivity(), UserProfileActivity.class));
             }
         });
         mUserFriend.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
+                if (!App.IS_USER_LOG_IN) {
 
+                }
             }
         });
         mUserProduct.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
+                if (!App.IS_USER_LOG_IN) {
 
+                }
             }
         });
         mUserTopic.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
+                if (!App.IS_USER_LOG_IN) {
 
+                }
             }
         });
         mUserGender.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
@@ -299,7 +316,6 @@ public class PersonalFragment extends BaseFragment {
 
     @Override
     public void attachPresenter() {
-
     }
 
     @Override

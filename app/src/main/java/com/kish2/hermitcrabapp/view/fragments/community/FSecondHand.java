@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
@@ -108,8 +107,13 @@ public class FSecondHand extends FCommunityBase {
     public void loadData() {
         registerViewComponentsAffairs();
         mRefreshLayout.setRefreshing(true);
-        mPresenter.getData();
+        mPresenter.loadDataFromServer();
         mRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void refreshData() {
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -119,7 +123,7 @@ public class FSecondHand extends FCommunityBase {
         mProductsList.setOnTouchListener(this::touchCheck);
 
         mRefreshLayout.setOnRefreshListener(() -> {
-            mPresenter.getData();
+            mPresenter.loadDataFromServer();
             mRefreshLayout.setRefreshing(false);
         });
     }

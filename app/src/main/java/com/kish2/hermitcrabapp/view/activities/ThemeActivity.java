@@ -111,6 +111,11 @@ public class ThemeActivity extends BaseActivity {
     }
 
     @Override
+    public void refreshData() {
+
+    }
+
+    @Override
     public void registerViewComponentsAffairs() {
         mToolBar.setNavigationOnClickListener(v -> {
             finish();

@@ -11,6 +11,9 @@ import com.kish2.hermitcrabapp.view.fragments.message.ChatFragment;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+
 public class ChatPresenter extends FBasePresenter<ChatFragment> {
 
     private ChatFragment mChatFragment;
@@ -25,7 +28,7 @@ public class ChatPresenter extends FBasePresenter<ChatFragment> {
     }
 
     @Override
-    public void getData() {
+    public void loadDataFromServer() {
         mChatModel.updateInforms(mChats);
         Message message = new Message();
         if (mChats.size() != 0) {
@@ -43,5 +46,50 @@ public class ChatPresenter extends FBasePresenter<ChatFragment> {
     @Override
     public void detachView() {
         this.mChatFragment = null;
+    }
+
+    @Override
+    public void onServerError(Object object) {
+
+    }
+
+    @Override
+    public void onServerSuccess(Object object) {
+
+    }
+
+    @Override
+    public void dataUpdate(Call<ResponseBody> call) {
+
+    }
+
+    @Override
+    public void onFragmentPause() {
+
+    }
+
+    @Override
+    public void onFragmentCreate() {
+
+    }
+
+    @Override
+    public void onFragmentResume() {
+
+    }
+
+    @Override
+    public void onFragmentDestroy() {
+
+    }
+
+    @Override
+    public void onFragmentStart() {
+
+    }
+
+    @Override
+    public void onFragmentStop() {
+
     }
 }

@@ -1,16 +1,12 @@
 package com.kish2.hermitcrabapp.presenter;
 
-public interface ILoginPresenter extends IBasePresenter {
+public interface ILoginPresenter {
 
     /* 登录按钮事件 */
-    public void login();
-
-    public void loginSuccess();
+    public void loginByUsername();
 
     /* 注册按钮事件 */
     public void register();
-
-    public void registerSuccess();
 
     public void rememberUser(boolean isRemember);
 

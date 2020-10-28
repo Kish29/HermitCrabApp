@@ -135,6 +135,11 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
+    public void refreshData() {
+
+    }
+
+    @Override
     public void getLayoutComponentsAttr() {
         /* 获取高度 */
         mBottomTabHeight = mBottomTab.getHeight();

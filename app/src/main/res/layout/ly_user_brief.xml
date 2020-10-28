@@ -32,8 +32,9 @@
                 android:id="@+id/tv_user_bind_info"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center|start"
+                android:gravity="center"
                 android:text="@string/user_bind_hint"
+                android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_14"
                 tools:ignore="NestedWeights" />

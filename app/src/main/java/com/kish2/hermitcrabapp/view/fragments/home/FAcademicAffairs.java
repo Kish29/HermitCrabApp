@@ -20,6 +20,11 @@ public class FAcademicAffairs extends FHomeBase {
     }
 
     @Override
+    public void refreshData() {
+
+    }
+
+    @Override
     public void registerViewComponentsAffairs() {
 
     }

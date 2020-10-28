@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.kish2.hermitcrabapp.bean.VectorIllustrations;
+import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 
 public class StatusFixedToolBar extends MaterialToolbar {
@@ -25,15 +25,15 @@ public class StatusFixedToolBar extends MaterialToolbar {
     public void bindAndSetThisToolbar(AppCompatActivity activity, boolean setColor, String title) {
         fixStatusBar();
         if (setColor) {
-            setNavigationIcon(VectorIllustrations.VI_BACK_WHITE);
+            setNavigationIcon(HermitCrabVectorIllustrations.VI_BACK_WHITE);
             setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
         } else {
-            setNavigationIcon(VectorIllustrations.VI_BACK);
+            setNavigationIcon(HermitCrabVectorIllustrations.VI_BACK);
         }
 
         if (title != null) {
             setTitle(title);
-            setTitleTextColor(setColor ? VectorIllustrations.colorWhite : ThemeUtil.Theme.afterGetResourcesColorId);
+            setTitleTextColor(setColor ? HermitCrabVectorIllustrations.colorWhite : ThemeUtil.Theme.afterGetResourcesColorId);
             /* 设置了title之后，childAt(1)就是当前标题，所以我们需要居中显示 */
             setTileShowAtCenter();
         }

@@ -12,8 +12,8 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.bean.HermitCrabBitMaps;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
-import com.kish2.hermitcrabapp.utils.UserInfoUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 
@@ -57,9 +57,9 @@ public class HermitCrabSplash extends BaseActivity {
         new Thread() {
             @Override
             public void run() {
-                ThemeUtil.setInstance(HermitCrabSplash.this);
-                ThemeUtil.setThemeTabSelectors(HermitCrabSplash.this);
-                UserInfoUtil.loadUserInfo();
+                ThemeUtil.loadThemeAndColorsVI();
+                ThemeUtil.setThemeTabSelectors();
+                HermitCrabBitMaps.loadBitMaps();
                 /* 资源也应当在子线程中设置 */
                 registerViewComponentsAffairs();
                 loadData();
@@ -79,6 +79,11 @@ public class HermitCrabSplash extends BaseActivity {
 
     @Override
     public void loadData() {
+    }
+
+    @Override
+    public void refreshData() {
+
     }
 
     @Override

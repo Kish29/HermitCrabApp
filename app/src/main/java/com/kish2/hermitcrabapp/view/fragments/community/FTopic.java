@@ -21,6 +21,11 @@ public class FTopic extends FCommunityBase{
     }
 
     @Override
+    public void refreshData() {
+
+    }
+
+    @Override
     public void registerViewComponentsAffairs() {
 
     }

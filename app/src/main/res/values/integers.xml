@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="anim_RILO_duration">300</integer>
+    <integer name="anim_RILO_duration">250</integer>
     <!-- 设置2秒比较合理 -->
-    <integer name="anim_fade_in_duration">2000</integer>
+    <integer name="anim_fade_in_duration">1500</integer>
     <!-- 退出可以快一点 -->
-    <integer name="anim_fade_out_duration">2000</integer>
+    <integer name="anim_fade_out_duration">1500</integer>
     <!-- 底部Tab的透明度 0~255 -->
+    <integer name="tab_transparent">216</integer>
 </resources>

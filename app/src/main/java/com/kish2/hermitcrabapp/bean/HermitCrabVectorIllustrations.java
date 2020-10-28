@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 
-public class VectorIllustrations {
+public class HermitCrabVectorIllustrations {
 
     public static VectorDrawable[] BOTTOM_TABS_ACTIVE;
     public static VectorDrawable[] BOTTOM_TABS_DEFAULT;

@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -127,7 +126,7 @@ public class ChatFragment extends BaseFragment {
         });
         mChatList.setOnTouchListener(this::touchCheck);
         mRefreshLayout.setOnRefreshListener(() -> {
-            mPresenter.getData();
+            mPresenter.loadDataFromServer();
             mRefreshLayout.setRefreshing(false);
         });
         mCollapsingHeight = mCollapsingToolbarLayout.getHeight();
@@ -147,8 +146,13 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void loadData() {
         mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADING);
-        mPresenter.getData();
+        mPresenter.loadDataFromServer();
         mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
+    }
+
+    @Override
+    public void refreshData() {
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -158,7 +162,7 @@ public class ChatFragment extends BaseFragment {
         mChatList.setOnTouchListener(this::touchCheck);
 
         mRefreshLayout.setOnRefreshListener(() -> {
-            mPresenter.getData();
+            mPresenter.loadDataFromServer();
             mRefreshLayout.setRefreshing(false);
         });
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {

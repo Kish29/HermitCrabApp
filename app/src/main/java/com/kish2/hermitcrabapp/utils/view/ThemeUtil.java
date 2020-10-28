@@ -9,11 +9,14 @@ import android.graphics.drawable.StateListDrawable;
 import androidx.core.content.ContextCompat;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.bean.VectorIllustrations;
+import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
+import com.kish2.hermitcrabapp.utils.App;
 import com.kongzue.dialog.util.TextInfo;
 
 public class ThemeUtil {
     public static final int BOTTOM_TAB_NUM = 5;
+
+    public static int TAB_TRANSPARENT = 255;
 
     /* 主题字体颜色选择器 */
     public static ColorStateList TEXT_SELECTOR;
@@ -30,26 +33,27 @@ public class ThemeUtil {
     public static TextInfo FONT_COLOR;
 
     @SuppressLint({"UseCompatLoadingForDrawables", "ResourceType"})
-    public static void setThemeTabSelectors(Context context) {
+    public static void setThemeTabSelectors() {
         /* 初始化AI图标类 */
-        VectorIllustrations.getAIResources(context);
-        VectorIllustrations.setAIResources(Theme.afterGetResourcesColorId);
+        HermitCrabVectorIllustrations.getAIResources(App.getAppContext());
+        HermitCrabVectorIllustrations.setAIResources(Theme.afterGetResourcesColorId);
+        TAB_TRANSPARENT = App.getAppResources().getInteger(R.integer.tab_transparent);
         /* tab图标Selector */
         BOTTOM_TAB_SELECTOR = new StateListDrawable[BOTTOM_TAB_NUM];
         for (int i = 0; i < BOTTOM_TAB_NUM; i++) {
             /* 普通模式下的颜色*/
             BOTTOM_TAB_SELECTOR[i] = new StateListDrawable();
-            BOTTOM_TAB_SELECTOR[i].addState(new int[]{-android.R.attr.state_selected}, VectorIllustrations.BOTTOM_TABS_DEFAULT[i]);
+            BOTTOM_TAB_SELECTOR[i].addState(new int[]{-android.R.attr.state_selected}, HermitCrabVectorIllustrations.BOTTOM_TABS_DEFAULT[i]);
             /* 添加选中模式的颜色 */
-            BOTTOM_TAB_SELECTOR[i].addState(new int[]{android.R.attr.state_selected}, VectorIllustrations.BOTTOM_TABS_ACTIVE[i]);
-            BOTTOM_TAB_SELECTOR[i].addState(new int[]{android.R.attr.state_pressed}, VectorIllustrations.BOTTOM_TABS_ACTIVE[i]);
+            BOTTOM_TAB_SELECTOR[i].addState(new int[]{android.R.attr.state_selected}, HermitCrabVectorIllustrations.BOTTOM_TABS_ACTIVE[i]);
+            BOTTOM_TAB_SELECTOR[i].addState(new int[]{android.R.attr.state_pressed}, HermitCrabVectorIllustrations.BOTTOM_TABS_ACTIVE[i]);
         }
         /* 字体颜色选择器 */
         int[][] state = new int[][]{
                 new int[]{-android.R.attr.state_selected}, new int[]{android.R.attr.state_selected}
         };
         int[] color = new int[]{
-                ContextCompat.getColor(context, R.color.cl_text_default),
+                ContextCompat.getColor(App.getAppContext(), R.color.cl_text_default),
                 ThemeUtil.Theme.afterGetResourcesColorId
         };
         TEXT_SELECTOR = new ColorStateList(state, color);
@@ -59,15 +63,15 @@ public class ThemeUtil {
                 new int[]{-android.R.attr.state_pressed}, new int[]{android.R.attr.state_pressed}
         };
         color = new int[]{
-                ContextCompat.getColor(context, R.color.transparent),
+                ContextCompat.getColor(App.getAppContext(), R.color.transparent),
                 ThemeUtil.Theme.afterGetResourcesColorId
         };
         TAB_RIPPLE_SELECTOR = new ColorStateList(state, color);
 
         /* checkbox*/
         CHECK_BOX_SELECTOR = new StateListDrawable();
-        CHECK_BOX_SELECTOR.addState(new int[]{android.R.attr.state_checked}, VectorIllustrations.VI_CHECK);
-        CHECK_BOX_SELECTOR.addState(new int[]{-android.R.attr.state_checked}, VectorIllustrations.VI_NOT_CHECK);
+        CHECK_BOX_SELECTOR.addState(new int[]{android.R.attr.state_checked}, HermitCrabVectorIllustrations.VI_CHECK);
+        CHECK_BOX_SELECTOR.addState(new int[]{-android.R.attr.state_checked}, HermitCrabVectorIllustrations.VI_NOT_CHECK);
 
         /* dialog字体颜色*/
         FONT_COLOR = new TextInfo();
@@ -85,19 +89,19 @@ public class ThemeUtil {
     /* 顶部status bar 的高度，全局使用 */
     public static int STATUS_BAR_HEIGHT = 0;
 
-    public static void setInstance(Context context) {
-        SharedPreferences theme_config = context.getSharedPreferences(THEME_CONFIG_FILE_NAME, Context.MODE_PRIVATE);
+    public static void loadThemeAndColorsVI() {
+        SharedPreferences theme_config = App.getAppContext().getSharedPreferences(THEME_CONFIG_FILE_NAME, Context.MODE_PRIVATE);
         THEME_ID = Theme.colorId = theme_config.getInt(KEY_COLOR, 6);
         /* 如果不是用户用图片作为背景的情况下，设置颜色主题 */
         Theme.colorId = AppTheme[Theme.colorId];
-        Theme.afterGetResourcesColorId = ContextCompat.getColor(context, Theme.colorId);
+        Theme.afterGetResourcesColorId = ContextCompat.getColor(App.getAppContext(), Theme.colorId);
         Theme.bgImgSrc = theme_config.getString(KEY_BG_IMG, null);
         Theme.sideBgImgSrc = theme_config.getString(KEY_SIDE_BG_IMG, null);
         Theme.isDarkTheme = theme_config.getBoolean(KEY_DARK_THEME, false);
 
         /* 获取顶部status bar高度 */
-        int identifier = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        STATUS_BAR_HEIGHT = context.getResources().getDimensionPixelOffset(identifier);
+        int identifier = App.getAppResources().getIdentifier("status_bar_height", "dimen", "android");
+        STATUS_BAR_HEIGHT = App.getAppResources().getDimensionPixelOffset(identifier);
     }
 
     public static int[] AppTheme = {

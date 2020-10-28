@@ -12,7 +12,10 @@ import com.kish2.hermitcrabapp.view.fragments.community.FSecondHand;
 
 import java.util.ArrayList;
 
-public class SecondHandPresenter extends FBasePresenter {
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+
+public class SecondHandPresenter extends FBasePresenter<FSecondHand> {
 
     private FSecondHand mSecondHand;
     private SecondHandModel mSecondHandModel;
@@ -26,7 +29,7 @@ public class SecondHandPresenter extends FBasePresenter {
     }
 
     @Override
-    public void getData() {
+    public void loadDataFromServer() {
         mSecondHandModel.updateInforms(mProducts);
         Message message = new Message();
         if (mProducts.size() != 0) {
@@ -44,5 +47,50 @@ public class SecondHandPresenter extends FBasePresenter {
     @Override
     public void detachView() {
         this.mSecondHandModel = null;
+    }
+
+    @Override
+    public void onServerError(Object object) {
+
+    }
+
+    @Override
+    public void onServerSuccess(Object object) {
+
+    }
+
+    @Override
+    public void dataUpdate(Call<ResponseBody> call) {
+
+    }
+
+    @Override
+    public void onFragmentPause() {
+
+    }
+
+    @Override
+    public void onFragmentCreate() {
+
+    }
+
+    @Override
+    public void onFragmentResume() {
+
+    }
+
+    @Override
+    public void onFragmentDestroy() {
+
+    }
+
+    @Override
+    public void onFragmentStart() {
+
+    }
+
+    @Override
+    public void onFragmentStop() {
+
     }
 }

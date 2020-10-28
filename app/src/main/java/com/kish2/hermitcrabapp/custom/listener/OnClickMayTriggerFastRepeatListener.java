@@ -9,9 +9,13 @@ public abstract class OnClickMayTriggerFastRepeatListener extends BaseOnClickLis
     }
 
     private static final long CLICK_INTERVAL = 1000;
-    private static long LAST_CLICK_TIME;
+    private static long LAST_CLICK_TIME = -1;
 
     private boolean isFastRepeatClick() {
+        if (LAST_CLICK_TIME == -1) {    // 如果是第一次点击，直接返回false
+            LAST_CLICK_TIME = System.currentTimeMillis();
+            return false;
+        }
         long time = System.currentTimeMillis();
         long interval = time - LAST_CLICK_TIME;
         if (0 < interval && interval < CLICK_INTERVAL)

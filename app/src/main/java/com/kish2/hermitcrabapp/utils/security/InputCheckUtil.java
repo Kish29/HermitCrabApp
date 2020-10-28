@@ -9,7 +9,7 @@ public class InputCheckUtil {
 
     private final static String EMAIL_STANDARD = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
 
-    public static boolean isValidMobile(String mobile) {
+    public static boolean isValidIdentify(String mobile) {
         Pattern pattern = Pattern.compile(MOBILE_STANDARD);
         Matcher matcher = pattern.matcher(mobile);
         return matcher.matches();
