@@ -40,4 +40,5 @@ FrameLayout，yyds！
 10天已过，写完了用户前后端交接以及与presenter的整体框架
 
 # 2020-11-1
+修改了一下github上裁剪库uCrop的页面风格，作为自己的lib使用
 完善了用户的一些基本功能
