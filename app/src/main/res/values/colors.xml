@@ -46,6 +46,9 @@
     <color name="miku">#20c5a7</color>
     <color name="mikuDark">#06c19f</color>
     <color name="black">#000000</color>
+    <color name="dark_grey1">#515151</color>
+    <color name="dark_grey2">#707070</color>
+    <color name="dark_grey3">#8a8a8a</color>
     <color name="black_light">#2c2c2c</color>
     <color name="transparent">#00000000</color>
     <color name="blue">#84B1ED</color>

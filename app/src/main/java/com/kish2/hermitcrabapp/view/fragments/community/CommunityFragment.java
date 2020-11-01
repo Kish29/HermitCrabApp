@@ -93,12 +93,7 @@ public class CommunityFragment extends BaseFragment {
         ButterKnife.bind(this, fragmentCommunity);
 
         getAndSetLayoutView();
-        new Thread() {
-            @Override
-            public void run() {
-                registerViewComponentsAffairs();
-            }
-        }.start();
+        registerViewComponentsAffairs();
         mVPSubCommunity.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentCommunity;
     }

@@ -3,11 +3,14 @@ package com.kish2.hermitcrabapp.utils;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Environment;
+
+import androidx.core.content.ContextCompat;
 
 import com.kish2.hermitcrabapp.bean.User;
+import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Arrays;
 
 public class App extends Application {
 
@@ -25,6 +28,12 @@ public class App extends Application {
         super.onCreate();
         app = this;
         USER = new User();
+        new Thread() {
+            @Override
+            public void run() {
+                FileStorageManager.initApplicationDirs(getAppContext());
+            }
+        }.start();
     }
 
     public static Context getAppContext() {

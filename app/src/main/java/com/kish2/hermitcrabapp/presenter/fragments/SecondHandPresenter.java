@@ -1,7 +1,6 @@
 package com.kish2.hermitcrabapp.presenter.fragments;
 
 import android.os.Message;
-import android.widget.ArrayAdapter;
 
 import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
 import com.kish2.hermitcrabapp.bean.Inform;
@@ -50,7 +49,7 @@ public class SecondHandPresenter extends FBasePresenter<FSecondHand> {
     }
 
     @Override
-    public void onServerError(Object object) {
+    public void onServerDoOperationFailed(Object object) {
 
     }
 
@@ -60,7 +59,17 @@ public class SecondHandPresenter extends FBasePresenter<FSecondHand> {
     }
 
     @Override
+    public void onSysNetworkError(Throwable t) {
+
+    }
+
+    @Override
     public void dataUpdate(Call<ResponseBody> call) {
+
+    }
+
+    @Override
+    public void afterHandleServerError() {
 
     }
 

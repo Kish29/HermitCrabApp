@@ -10,8 +10,11 @@ import com.kish2.hermitcrabapp.presenter.ABasePresenter;
 import com.kish2.hermitcrabapp.presenter.ILoginPresenter;
 import com.kish2.hermitcrabapp.utils.AppAndJSONUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.activities.MainActivity;
 import com.kish2.hermitcrabapp.view.activities.RegisterActivity;
+
+import java.net.SocketTimeoutException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -29,24 +32,27 @@ public class RegisterPresenter extends ABasePresenter<RegisterActivity> implemen
     }
 
     @Override
-    public void loginByUsername() {
+    public void loginByUsername(String username, String password) {
 
     }
 
     @Override
-    public void register() {
-        Call<ResponseBody> bodyCall = mModel.userRegister(mView.getMobile());
+    public void loginByMobile(String mobile, String checkCode) {
+
+    }
+
+    @Override
+    public void register(String mobile, String code) {
+        Call<ResponseBody> bodyCall = mModel.userRegister(mobile, code);
         bodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.code() == 200) {
-                    handleResponse(mView, AppAndJSONUtil.DO_JSON_TYPE.SET_USER, response);
-                } else onFailure(call, new Throwable());
+                handleResponse(mView, AppAndJSONUtil.DO_JSON_TYPE.SET_USER, response);
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                onServerError(null);
+                onSysNetworkError(t);
             }
         });
     }
@@ -82,7 +88,7 @@ public class RegisterPresenter extends ABasePresenter<RegisterActivity> implemen
     }
 
     @Override
-    public void onServerError(Object object) {
+    public void onServerDoOperationFailed(Object object) {
         if (mView != null) {
             mView.mRegisterSubmit.revertAnimation();
         }
@@ -101,8 +107,26 @@ public class RegisterPresenter extends ABasePresenter<RegisterActivity> implemen
     }
 
     @Override
+    public void onSysNetworkError(Throwable t) {
+        if (mView != null) {
+            mView.mRegisterSubmit.revertAnimation();
+            if (t instanceof SocketTimeoutException)
+                ToastUtil.showSysNetworkErrorToast(mView, ToastUtil.NET_ERROR_TYPE.TIMEOUT);
+            else
+                ToastUtil.showSysNetworkErrorToast(mView, ToastUtil.NET_ERROR_TYPE.CONNECT_EXCEPTION);
+        }
+    }
+
+    @Override
     public void dataUpdate(Call<ResponseBody> call) {
 
+    }
+
+    @Override
+    public void afterHandleServerError() {
+        if (mView != null) {
+            mView.mRegisterSubmit.revertAnimation();
+        }
     }
 
     @Override

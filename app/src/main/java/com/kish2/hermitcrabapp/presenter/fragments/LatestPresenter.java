@@ -11,8 +11,6 @@ import com.kish2.hermitcrabapp.view.fragments.home.FLatest;
 
 import java.util.ArrayList;
 
-import javax.xml.transform.Source;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
@@ -50,7 +48,7 @@ public class LatestPresenter extends FBasePresenter<FLatest> {
     }
 
     @Override
-    public void onServerError(Object object) {
+    public void onServerDoOperationFailed(Object object) {
 
     }
 
@@ -60,7 +58,17 @@ public class LatestPresenter extends FBasePresenter<FLatest> {
     }
 
     @Override
+    public void onSysNetworkError(Throwable t) {
+
+    }
+
+    @Override
     public void dataUpdate(Call<ResponseBody> call) {
+
+    }
+
+    @Override
+    public void afterHandleServerError() {
 
     }
 

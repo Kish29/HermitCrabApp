@@ -53,15 +53,15 @@ public class HermitCrabSplash extends BaseActivity {
         ButterKnife.bind(this);
         /* 获取主题设置 */
         getAndSetLayoutView();
+        registerViewComponentsAffairs();
         /* 子线程获取布局参数 */
         new Thread() {
             @Override
             public void run() {
+                /* 资源也应当在子线程中设置 */
                 ThemeUtil.loadThemeAndColorsVI();
                 ThemeUtil.setThemeTabSelectors();
                 HermitCrabBitMaps.loadBitMaps();
-                /* 资源也应当在子线程中设置 */
-                registerViewComponentsAffairs();
                 loadData();
                 mHandler.sendEmptyMessage(MessageForHandler.LOCAL_DATA_LOADED);
             }

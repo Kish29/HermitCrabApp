@@ -49,7 +49,7 @@ public class ChatPresenter extends FBasePresenter<ChatFragment> {
     }
 
     @Override
-    public void onServerError(Object object) {
+    public void onServerDoOperationFailed(Object object) {
 
     }
 
@@ -59,7 +59,17 @@ public class ChatPresenter extends FBasePresenter<ChatFragment> {
     }
 
     @Override
+    public void onSysNetworkError(Throwable t) {
+
+    }
+
+    @Override
     public void dataUpdate(Call<ResponseBody> call) {
+
+    }
+
+    @Override
+    public void afterHandleServerError() {
 
     }
 

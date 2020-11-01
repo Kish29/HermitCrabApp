@@ -1,8 +1,11 @@
 package com.kish2.hermitcrabapp.view.fragments.personal;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -34,14 +39,25 @@ import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListen
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.PersonalPresenter;
 import com.kish2.hermitcrabapp.utils.App;
+import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
+import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
+import com.kish2.hermitcrabapp.utils.dev.SysInteractUtil;
+import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
+import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
+import com.kish2.hermitcrabapp.view.activities.MainActivity;
 import com.kish2.hermitcrabapp.view.activities.ThemeActivity;
 import com.kish2.hermitcrabapp.view.activities.UserProfileActivity;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.yalantis.ucrop.UCrop;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +79,8 @@ public class PersonalFragment extends BaseFragment {
     RelativeLayout mTopRetrieveBar;
     @BindView(R.id.ctl_banner_container)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.iv_banner_bkg)
+    ImageView mBannerBkg;
     private static float mCollapsingHeight = 0;
 
     // 左上角菜单
@@ -72,8 +90,8 @@ public class PersonalFragment extends BaseFragment {
 
 
     // 用户头像部分
-    @BindView(R.id.rl_user_avatar)
-    RelativeLayout mUserAvatar;
+    @BindView(R.id.riv_avatar)
+    RoundedImageView mUserAvatar;
     /* 遮罩 */
     @BindView(R.id.iv_mask_bg)
     RoundedImageView mMask;
@@ -87,10 +105,13 @@ public class PersonalFragment extends BaseFragment {
     TextView userBindInfo;
     LinearLayout mUserFriend;
     TextView userFriend;
+    TextView friendText;
     LinearLayout mUserProduct;
     TextView userProduct;
+    TextView productText;
     LinearLayout mUserTopic;
     TextView userTopic;
+    TextView topicText;
 
 
     /* 发布中心*/
@@ -130,20 +151,11 @@ public class PersonalFragment extends BaseFragment {
         ButterKnife.bind(this, fragmentPersonal);
 
         getAndSetLayoutView();
-        new Thread() {
-            @Override
-            public void run() {
-                registerViewComponentsAffairs();
-            }
-        }.start();
+        registerViewComponentsAffairs();
         mAppBarLayout.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentPersonal;
     }
 
-    /**
-     * @因为onPause后，FragmentManager会对组件进行重绘，某些组件会回到原始的属性
-     * @而如果在之间调用了隐藏动画，那么会造成冲突，视图UI组件会消失
-     */
     @Override
     public void onPause() {
         super.onPause();
@@ -179,8 +191,11 @@ public class PersonalFragment extends BaseFragment {
         mUserProduct = mUserBrief.findViewById(R.id.ll_products);
         mUserTopic = mUserBrief.findViewById(R.id.ll_topics);
         userFriend = mUserFriend.findViewById(R.id.tv_user_friend);
+        friendText = mUserFriend.findViewById(R.id.tv_friend_text);
         userProduct = mUserProduct.findViewById(R.id.tv_user_product);
+        productText = mUserProduct.findViewById(R.id.tv_product_text);
         userTopic = mUserTopic.findViewById(R.id.tv_user_topic);
+        topicText = mUserTopic.findViewById(R.id.tv_topic_text);
         /* Vector图片资源 */
         mSideMenu.setImageDrawable(HermitCrabVectorIllustrations.VI_MENU);
         mTheme.setImageDrawable(HermitCrabVectorIllustrations.VI_THEME);
@@ -250,7 +265,41 @@ public class PersonalFragment extends BaseFragment {
                     "相册",
                     "查看头像");
             messageDialog.show();
+            /* 相册 */
             messageDialog.setOnCancelButtonClickListener((baseDialog, v1) -> {
+                ArrayList<String> list = new ArrayList<>();
+                list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                UCrop.Options cropOptions = new UCrop.Options();
+                cropOptions.withAspectRatio(1, 1);
+                cropOptions.setCircleDimmedLayer(true);
+                ((MainActivity) requireActivity()).setCropOption(cropOptions);
+                ((MainActivity) requireActivity()).setFileOperatePurpose(BaseActivity.FILE_OPERATE_PURPOSE.USER_AVATAR);
+                if (SysInteractUtil.checkAndRequestPermissions(requireActivity(), list, SysInteractUtil.request_file_pick_permission)) {
+                    try {
+                        SysInteractUtil.uploadPicture(requireActivity(), FileStorageManager.user_avatar_file_name, FileStorageManager.DIR_TYPE.USER_AVATAR);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return false;
+            });
+            /* 拍照 */
+            messageDialog.setOnOkButtonClickListener((baseDialog, v1) -> {
+                ArrayList<String> list = new ArrayList<>();
+                list.add(Manifest.permission.CAMERA);
+                list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                UCrop.Options cropOptions = new UCrop.Options();
+                cropOptions.withAspectRatio(1, 1);
+                cropOptions.setCircleDimmedLayer(true);
+                ((MainActivity) requireActivity()).setCropOption(cropOptions);
+                ((MainActivity) requireActivity()).setFileOperatePurpose(BaseActivity.FILE_OPERATE_PURPOSE.USER_AVATAR);
+                if (SysInteractUtil.checkAndRequestPermissions(requireActivity(), list, SysInteractUtil.request_camera_permission)) {
+                    try {
+                        SysInteractUtil.takePhoto(requireActivity(), FileStorageManager.user_avatar_file_name, FileStorageManager.DIR_TYPE.USER_AVATAR);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 return false;
             });
         });
@@ -322,5 +371,52 @@ public class PersonalFragment extends BaseFragment {
     public void detachPresenter() {
 
     }
+
+    public void onUserAvatarUploadSuccess(Bitmap bitmap) {
+        if (bitmap != null)
+            mUserAvatar.setImageBitmap(bitmap);
+
+    }
+
+    @Override
+    public void setDarkThemeColor() {
+        StatusBarUtil.setStatusBarDarkTheme(requireActivity(), true);
+        username.setTextColor(HermitCrabVectorIllustrations.colorBlack);
+        userBindInfo.setTextColor(HermitCrabVectorIllustrations.colorBlack);
+        userTopic.setTextColor(HermitCrabVectorIllustrations.colorBlack);
+        userProduct.setTextColor(HermitCrabVectorIllustrations.colorBlack);
+        userFriend.setTextColor(HermitCrabVectorIllustrations.colorBlack);
+        HermitCrabVectorIllustrations.setAiColorBlack();
+        friendText.setTextColor(HermitCrabVectorIllustrations.colorBlack);
+        productText.setTextColor(HermitCrabVectorIllustrations.colorBlack);
+        topicText.setTextColor(HermitCrabVectorIllustrations.colorBlack);
+    }
+
+    @Override
+    public void setLightThemeColor() {
+        StatusBarUtil.setStatusBarDarkTheme(requireActivity(), false);
+        username.setTextColor(HermitCrabVectorIllustrations.colorWhite);
+        userBindInfo.setTextColor(HermitCrabVectorIllustrations.colorWhite);
+        userTopic.setTextColor(HermitCrabVectorIllustrations.colorWhite);
+        userProduct.setTextColor(HermitCrabVectorIllustrations.colorWhite);
+        userFriend.setTextColor(HermitCrabVectorIllustrations.colorWhite);
+        HermitCrabVectorIllustrations.setAIColorWhite();
+        friendText.setTextColor(HermitCrabVectorIllustrations.colorWhite);
+        productText.setTextColor(HermitCrabVectorIllustrations.colorWhite);
+        topicText.setTextColor(HermitCrabVectorIllustrations.colorWhite);
+    }
+
+    public void onBannerBackgroundUploadSuccess(Bitmap bitmap) {
+        if (bitmap != null) {
+            bitmap = BitMapAndDrawableUtil.centerCropBitmapToFitView(bitmap, mAppBarLayout);
+            Palette.from(bitmap).generate(palette -> {
+                if (ThemeUtil.isLightTone(palette, 0xb)) {
+                    setDarkThemeColor();
+                } else setLightThemeColor();
+            });
+            mAppBarLayout.setBackground(new BitmapDrawable(getResources(), bitmap));
+        }
+    }
+
 
 }

@@ -1,13 +1,19 @@
 package com.kish2.hermitcrabapp.view.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,21 +23,34 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.custom.view.NoScrollViewPager;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
+import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
+import com.kish2.hermitcrabapp.utils.dev.GlideResourceRecycleManager;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
+import com.kish2.hermitcrabapp.utils.dev.SysInteractUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.BaseActivity;
+import com.kish2.hermitcrabapp.view.fragments.personal.PersonalFragment;
+import com.yalantis.ucrop.UCrop;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MainActivity extends BaseActivity {
 
@@ -119,12 +138,13 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         /* 主线程执行*/
         getAndSetLayoutView();
-        /* 子线程注册事务 */
+        /* 程注册事务 */
+        registerViewComponentsAffairs();
         new Thread() {
             @Override
             public void run() {
                 /* loadData放在最后面*/
-                registerViewComponentsAffairs();
+                mCropOptions = new UCrop.Options();
                 loadData();
             }
         }.start();
@@ -268,5 +288,59 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    protected void onImageCropSuccess(Uri uri) {
+        switch (file_operate_purpose) {
+            case USER_AVATAR:
+                // 把原图交给PersonalFragment
+                // Bitmap bitmap = CompressHelper.getDefault(this).compressToBitmap(newAvatarFile);
+                CustomTarget<Bitmap> customTarget = new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
+                        GlideResourceRecycleManager.addBitmapIntoList(simpleClassName, bitmap);
+                        ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).onUserAvatarUploadSuccess(bitmap);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                };
+                // 不要使用缓存机制
+                Glide.with(this).asBitmap().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).load(uri).into(customTarget);
+            case SIDE_MENU_BKG:
+                CustomTarget<Bitmap> customTarget1 = new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        GlideResourceRecycleManager.addBitmapIntoList(simpleClassName, resource);
+                        ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).onBannerBackgroundUploadSuccess(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                };
+                // 不要使用缓存机制
+                Glide.with(this).asBitmap().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).load(uri).apply(RequestOptions.bitmapTransform(new BlurTransformation(25))).into(customTarget1);
+                break;
+            case PRODUCT_PICS:
+            case BANNER_BKG:
+            case NORMAL:
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onCameraPermissionGranted() throws IOException {
+        SysInteractUtil.takePhoto(this, FileStorageManager.user_avatar_file_name, FileStorageManager.DIR_TYPE.USER_AVATAR);
+    }
+
+    @Override
+    protected void onFilePickPermissionGranted() throws IOException {
+        SysInteractUtil.uploadPicture(this, FileStorageManager.user_avatar_file_name, FileStorageManager.DIR_TYPE.USER_AVATAR);
     }
 }

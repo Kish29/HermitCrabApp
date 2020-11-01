@@ -8,6 +8,9 @@ import com.kish2.hermitcrabapp.view.activities.MainActivity;
 
 import org.junit.Test;
 
+import cn.hutool.crypto.SecureUtil;
+
+import static com.kish2.hermitcrabapp.utils.security.LicenseEncryption.passwordEncryption;
 import static org.junit.Assert.*;
 
 /**
@@ -32,22 +35,35 @@ public class ExampleUnitTest {
 
     @Test
     public void getContextTest() {
-        BaseActivity baseActivity = new BaseActivity();
+        /*BaseActivity baseActivity = new BaseActivity();
         System.out.println(baseActivity.baseActivityGetContext());
 
         MainActivity mainActivity = new MainActivity();
         System.out.println(mainActivity.baseActivityGetContext());
 
         LoginActivity loginView = new LoginActivity();
-        System.out.println(loginView.baseActivityGetContext());
+        System.out.println(loginView.baseActivityGetContext());*/
     }
 
     @Test
     public void SQLiteTest() {
-        SearchHistory sqLite = new SearchHistory(new MainActivity().baseActivityGetContext());
+        /*SearchHistory sqLite = new SearchHistory(new MainActivity().baseActivityGetContext());
         String string = "第一条搜索数据";
         sqLite.insert(string);
-        System.out.println(sqLite.matchedHistory(string));
+        System.out.println(sqLite.matchedHistory(string));*/
+    }
+
+
+    @Test
+    public void test() {
+        String s = passwordEncryption("123456");
+        System.out.println(SecureUtil.md5("123456").length());
+        System.out.println(s);
+        String s1 = passwordEncryption(s);
+        System.out.println(s1);
+        System.out.println(s1.length());
+
+        System.out.println("4da0959add9e3a098bf0d2be6cf1fa26".length());
     }
 
 }

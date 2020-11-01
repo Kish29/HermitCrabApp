@@ -99,12 +99,7 @@ public class ChatFragment extends BaseFragment {
         ButterKnife.bind(this, fragmentMessage);
 
         getAndSetLayoutView();
-        new Thread() {
-            @Override
-            public void run() {
-                registerViewComponentsAffairs();
-            }
-        }.start();
+        registerViewComponentsAffairs();
         mRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentMessage;
     }

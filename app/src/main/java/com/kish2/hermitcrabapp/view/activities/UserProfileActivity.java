@@ -46,46 +46,6 @@ public class UserProfileActivity extends BaseActivity {
     @BindView(R.id.ll_bind_student_department)
     ViewGroup mBindDepartment;
 
-    public StatusFixedToolBar getmToolBar() {
-        return mToolBar;
-    }
-
-    public ViewGroup getmUserAvatar() {
-        return mUserAvatar;
-    }
-
-    public ViewGroup getmUsername() {
-        return mUsername;
-    }
-
-    public ViewGroup getmUserGender() {
-        return mUserGender;
-    }
-
-    public ViewGroup getmBindMobile() {
-        return mBindMobile;
-    }
-
-    public ViewGroup getmBindEmail() {
-        return mBindEmail;
-    }
-
-    public ViewGroup getmChangePwd() {
-        return mChangePwd;
-    }
-
-    public ViewGroup getmBindStudentId() {
-        return mBindStudentId;
-    }
-
-    public ViewGroup getmUserGrade() {
-        return mUserGrade;
-    }
-
-    public ViewGroup getmBindDepartment() {
-        return mBindDepartment;
-    }
-
     private UserProfilePresenter mPresenter;
 
     @Override
@@ -96,12 +56,7 @@ public class UserProfileActivity extends BaseActivity {
         ButterKnife.bind(this);
         attachPresenter();
         getAndSetLayoutView();
-        new Thread() {
-            @Override
-            public void run() {
-                registerViewComponentsAffairs();
-            }
-        }.start();
+        registerViewComponentsAffairs();
     }
 
     @Override
@@ -180,6 +135,7 @@ public class UserProfileActivity extends BaseActivity {
         mChangePwd.setOnClickListener(v -> {
             InputDialog inputDialog = KZDialogUtil.IOS_LIGHT_INPUT(UserProfileActivity.this, "请输入新的密码");
             inputDialog.setOnOkButtonClickListener((baseDialog, v12, inputStr) -> {
+                inputStr = inputStr.trim();
                 mPresenter.updatePassword(inputStr);
                 return false;
             });

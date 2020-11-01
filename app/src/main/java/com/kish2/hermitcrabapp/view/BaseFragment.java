@@ -1,11 +1,13 @@
 package com.kish2.hermitcrabapp.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kish2.hermitcrabapp.custom.view.CustomWaitDialog;
+import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 
@@ -39,6 +42,14 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
     protected static int mBottomTabHeight = 0;
     /* 是否是第一次加载数据 */
     protected boolean isLoaded = false;
+
+    protected Context mContext;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.mContext = context;
+    }
 
     /* 为实现懒加载，需要在resume中执行该判断*/
     /* 所以子类必须实现loadData方法 */
@@ -117,4 +128,9 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
         return false;
     }
 
+    public void setDarkThemeColor() {
+    }
+
+    public void setLightThemeColor() {
+    }
 }

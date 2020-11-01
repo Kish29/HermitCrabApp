@@ -17,8 +17,8 @@ public class UserModelImpl implements IUserModel {
     }
 
     @Override
-    public Call<ResponseBody> userRegister(String mobile) {
-        return retrofitUserModel.userRegister(mobile);
+    public Call<ResponseBody> userRegister(String mobile, String code) {
+        return retrofitUserModel.userRegister(mobile, code);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class UserModelImpl implements IUserModel {
     }
 
     @Override
-    public Call<ResponseBody> authByMobileCode(String mobile, String code) {
-        return retrofitUserModel.authByMobileCode(mobile, code);
+    public Call<ResponseBody> authByMobile(String mobile, String code) {
+        return retrofitUserModel.authByMobile(mobile, code);
     }
 
     @Override

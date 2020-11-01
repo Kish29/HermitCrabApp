@@ -8,13 +8,18 @@ import com.kish2.hermitcrabapp.model.IUserModel;
 import com.kish2.hermitcrabapp.model.impl.UserModelImpl;
 import com.kish2.hermitcrabapp.presenter.ABasePresenter;
 import com.kish2.hermitcrabapp.utils.AppAndJSONUtil;
+import com.kish2.hermitcrabapp.utils.security.LicenseEncryption;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
+import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.kish2.hermitcrabapp.presenter.ILoginPresenter;
 import com.kish2.hermitcrabapp.view.activities.MainActivity;
 import com.kish2.hermitcrabapp.view.activities.RegisterActivity;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -43,7 +48,7 @@ public class LoginPresenter extends ABasePresenter<LoginActivity> implements ILo
     }
 
     @Override
-    public void onServerError(Object object) {
+    public void onServerDoOperationFailed(Object object) {
         if (mView != null) {
             mView.mLoginSubmit.revertAnimation();
         }
@@ -62,33 +67,66 @@ public class LoginPresenter extends ABasePresenter<LoginActivity> implements ILo
     }
 
     @Override
-    public void dataUpdate(Call<ResponseBody> call) {
-
+    public void onSysNetworkError(Throwable t) {
+        if (mView != null) {
+            mView.mLoginSubmit.revertAnimation();
+            if (t instanceof SocketTimeoutException)
+                ToastUtil.showSysNetworkErrorToast(mView, ToastUtil.NET_ERROR_TYPE.TIMEOUT);
+            else
+                ToastUtil.showSysNetworkErrorToast(mView, ToastUtil.NET_ERROR_TYPE.CONNECT_EXCEPTION);
+        }
     }
 
     @Override
-    public void loginByUsername() {
+    public void dataUpdate(Call<ResponseBody> call) {
+    }
+
+    @Override
+    public void afterHandleServerError() {
+        if (mView != null)
+            mView.mLoginSubmit.revertAnimation();
+    }
+
+    @Override
+    public void loginByUsername(String username, String password) {
         if (mView != null) {
             mView.mLoginSubmit.startAnimation();
-        }
-        Call<ResponseBody> bodyCall = mModel.authByUsername(mView.getUsername(), mView.getPassword());
-        bodyCall.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
-                if (response.code() == 200) {
+            Call<ResponseBody> bodyCall = mModel.authByUsername(username, LicenseEncryption.passwordEncryption(password));
+            bodyCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                     handleResponse(mView, AppAndJSONUtil.DO_JSON_TYPE.SET_USER, response);
-                } else onFailure(call, new Throwable());
-            }
+                }
 
-            @Override
-            public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                onServerError(null);
-            }
-        });
+                @Override
+                public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
+                    onSysNetworkError(t);
+                }
+            });
+        }
     }
 
     @Override
-    public void register() {
+    public void loginByMobile(String mobile, String checkCode) {
+        if (mView != null) {
+            mView.mLoginSubmit.startAnimation();
+            Call<ResponseBody> bodyCall = mModel.authByMobile(mobile, checkCode);
+            bodyCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
+                    handleResponse(mView, AppAndJSONUtil.DO_JSON_TYPE.SET_USER, response);
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
+                    onSysNetworkError(t);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void register(String mobile, String checkCode) {
         mView.startActivity(new Intent(mView, RegisterActivity.class));
     }
 

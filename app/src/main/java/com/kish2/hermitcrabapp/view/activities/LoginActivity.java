@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,17 +16,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.custom.view.FixedVideoView;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
@@ -37,6 +36,8 @@ import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
+import com.kish2.hermitcrabapp.view.fragments.FLoginMobile;
+import com.kish2.hermitcrabapp.view.fragments.FLoginUsername;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import butterknife.BindView;
@@ -45,7 +46,6 @@ import butterknife.ButterKnife;
 @SuppressLint("Registered")
 public class LoginActivity extends BaseActivity
         implements
-        View.OnClickListener,
         View.OnFocusChangeListener,
         TextWatcher,
         View.OnTouchListener {
@@ -63,23 +63,10 @@ public class LoginActivity extends BaseActivity
     LinearLayout mLoginContainer;
     /* 登录界面具有组件 */
 
-    // 登录信息输入框
-    @BindView(R.id.iv_user_icon)
-    ImageView mICUserInput;
-    @BindView(R.id.iv_password_icon)
-    ImageView mICPasswordInput;
+    // 改变登录方式
+    @BindView(R.id.tv_change_login_type)
+    TextView mLoginTypeChange;
 
-    @BindView(R.id.et_identify_input)
-    EditText mIdentify;
-    // 清空输入
-    @BindView(R.id.ib_identify_clear)
-    ImageButton mClearIdentify;
-    // 密码
-    @BindView(R.id.et_password_input)
-    EditText mPassword;
-    // 清空密码
-    @BindView(R.id.ib_password_clear)
-    ImageButton mClearPassword;
     // 登录/注册按钮
     @BindView(R.id.cpb_login_submit)
     public CircularProgressButton mLoginSubmit;
@@ -89,9 +76,8 @@ public class LoginActivity extends BaseActivity
     // 自动登录
     @BindView(R.id.cb_remember_account)
     CheckBox mRememberUser;
-    // 忘记密码
-    @BindView(R.id.tv_login_by_verify_code)
-    TextView mLoginByVerifyCode;
+    @BindView(R.id.tv_forget_pwd)
+    TextView mForgetPassword;
 
     // 下拉层、其他登录方式层
     @BindView(R.id.ll_login_layer)
@@ -110,6 +96,10 @@ public class LoginActivity extends BaseActivity
     private GradientDrawable mBGDrawable;
     private String mVideoPath;
     private LoginPresenter mPresenter;
+
+    /* 两种登录方式的fragment */
+    private FLoginUsername mFLoginUsername;
+    private FLoginMobile mFLoginMobile;
 
     /* 滑出时间 */
     private static final int glideTime = 200;
@@ -138,10 +128,10 @@ public class LoginActivity extends BaseActivity
         /* 绑定presenter */
         attachPresenter();
         getAndSetLayoutView();
+        registerViewComponentsAffairs();
         new Thread() {
             @Override
             public void run() {
-                registerViewComponentsAffairs();
                 loadData();
             }
         }.start();
@@ -157,18 +147,18 @@ public class LoginActivity extends BaseActivity
         StatusBarUtil.setTranslucentStatus(this);
         mToolBar.bindAndSetThisToolbar(this, false, null);
         mRememberUser.setButtonDrawable(ThemeUtil.CHECK_BOX_SELECTOR);
-        mICUserInput.setImageDrawable(HermitCrabVectorIllustrations.VI_USER);
-        mICPasswordInput.setImageDrawable(HermitCrabVectorIllustrations.VI_PASSWORD);
-        mClearIdentify.setBackground(HermitCrabVectorIllustrations.VI_CLEAR);
-        mClearPassword.setBackground(HermitCrabVectorIllustrations.VI_CLEAR);
     }
 
     @Override
     public void loadData() {
+        this.mFLoginUsername = new FLoginUsername();
+        this.mFLoginMobile = new FLoginMobile();
+        changeFragment(R.id.fcv_login_type, this.mFLoginUsername);
         mBGDrawable = BitMapAndDrawableUtil.getGradientCircleDrawable(this);
         mVideoPath = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg_video).toString();
         mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
     }
+
 
     @Override
     public void refreshData() {
@@ -180,43 +170,58 @@ public class LoginActivity extends BaseActivity
     @Override
     public void registerViewComponentsAffairs() {
         mToolBar.setNavigationOnClickListener(v -> finish());
-        // 登录信息部分
-        /* 登录信息 */
-        // 点击事件
-        mIdentify.setOnClickListener(this);
-        // 其它事件
-        mIdentify.setOnFocusChangeListener(this);   // 焦点变化
-        mIdentify.addTextChangedListener(this);     // 输入发生变化
-        // 清空输入按钮
-        mClearIdentify.setOnClickListener(this);
-
-        /* 密码 */
-        mPassword.setOnClickListener(this);
-        mPassword.setOnFocusChangeListener(this);
-        mPassword.addTextChangedListener(this);
-        mClearPassword.setOnClickListener(this);
-
         /* 登录按钮 */
-        mLoginSubmit.setOnClickListener(this);
+        mLoginSubmit.setOnClickListener(v -> {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fcv_login_type);
+            if (fragment instanceof FLoginUsername) {
+                String username = this.mFLoginUsername.getUsername();
+                String password = this.mFLoginUsername.getPassword();
+                if (username.equals("") || password.equals("")) {
+                    ToastUtil.showToast(this, "未输入用户名或密码", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
+                } else {
+                    this.mPresenter.loginByUsername(username, password);
+                }
+            } else {
+                String mobile = this.mFLoginMobile.getMobile();
+                String checkCode = this.mFLoginMobile.getVerifyCode();
+                if (!InputCheckUtil.isValidMobile(mobile)) {
+                    ToastUtil.showToast(this, "您输入的是无效的手机号哦~", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
+                } else {
+                    mPresenter.loginByMobile(mobile, checkCode);
+                }
+            }
+        });
         /* 注册按钮 */
         mRegister.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-
-                mPresenter.register();
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
 
         /* 自动登录和忘记密码 */
-        mRememberUser.setOnClickListener(this);
-        mLoginByVerifyCode.setOnClickListener(v -> {
-
+//        mRememberUser.setOnClickListener(v -> mPresenter.rememberUser(mRememberUser.isChecked()));
+        mLoginTypeChange.setOnClickListener(v -> {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fcv_login_type);
+            if (fragment instanceof FLoginUsername) {
+                changeFragment(R.id.fcv_login_type, mFLoginMobile);
+                mLoginTypeChange.setText("用户名登录");
+            } else {
+                changeFragment(R.id.fcv_login_type, mFLoginUsername);
+                mLoginTypeChange.setText("短信验证码登录");
+            }
         });
 
         // 其它登录方式下拉层
-        mLoginPull.setOnClickListener(this);
-        mLoginWeChat.setOnClickListener(this);
-        mLoginQQ.setOnClickListener(this);
+        mLoginPull.setOnClickListener(v -> {
+            pullOtherLoginView();
+        });
+        mLoginWeChat.setOnClickListener(v -> {
+            mPresenter.loginByWeChat();
+        });
+        mLoginQQ.setOnClickListener(v -> {
+            mPresenter.loginByQQ();
+        });
 
         // 按钮的touch动效
         mLoginWeChat.setOnTouchListener(this);
@@ -230,14 +235,6 @@ public class LoginActivity extends BaseActivity
             mBGVideo.setVideoPath(mVideoPath);
             mBGVideo.start();
         });*/
-    }
-
-    public String getUsername() {
-        return this.mIdentify.getText().toString();
-    }
-
-    public String getPassword() {
-        return this.mPassword.getText().toString();
     }
 
     public void pullOtherLoginView() {
@@ -343,7 +340,7 @@ public class LoginActivity extends BaseActivity
                 })
                 .start();
 
-        mLoginLayer.setOnClickListener(this);
+        mLoginLayer.setOnClickListener(v -> glide(mLoginOptions.getHeight(), 1, glideTime));
     }
 
     @Override
@@ -365,60 +362,6 @@ public class LoginActivity extends BaseActivity
         super.onDestroy();
     }
 
-    /* 重写点击事件 */
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            /* 焦点处于此处*/
-            case R.id.et_identify_input:
-                mPassword.clearFocus();
-                mIdentify.setFocusableInTouchMode(true);
-                mIdentify.requestFocus();
-                break;
-            case R.id.et_password_input:
-                mIdentify.clearFocus();
-                mPassword.setFocusableInTouchMode(true);
-                mPassword.requestFocus();
-                break;
-            case R.id.ib_identify_clear:
-                mIdentify.setText(null);
-                break;
-            case R.id.ib_password_clear:
-                mPassword.setText(null);
-                break;
-            case R.id.cpb_login_submit:
-                String username = getUsername().trim();
-                String password = getPassword().trim();
-                if (username.equals("") || password.equals("")) {
-                    ToastUtil.showToast(this, "未输入用户名或密码", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
-                    break;
-                }
-                mLoginSubmit.startAnimation();
-                this.mPresenter.loginByUsername();
-                break;
-            case R.id.cb_remember_account:
-                this.mPresenter.rememberUser(mRememberUser.isChecked());
-                break;
-            case R.id.tv_login_by_verify_code:
-                this.mPresenter.forgetPassword();
-                break;
-            case R.id.ll_login_layer:
-                glide(mLoginOptions.getHeight(), 1, glideTime);
-                break;
-            case R.id.ll_login_pull:
-                pullOtherLoginView();
-                break;
-            case R.id.ib_login_wx:
-                this.mPresenter.loginByWeChat();
-                break;
-            case R.id.ib_login_qq:
-                this.mPresenter.loginByQQ();
-                break;
-            default:
-                break;
-        }
-    }
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -433,38 +376,14 @@ public class LoginActivity extends BaseActivity
     /* 用户输入了字符串 */
     @Override
     public void afterTextChanged(Editable s) {
-        String inputIdentify = mIdentify.getText().toString();
-        String inputPassword = mPassword.getText().toString();
 
-        /* 是否显示清除按钮 */
-        if (inputIdentify.length() > 0) {
-            mClearIdentify.setVisibility(View.VISIBLE);
-        } else {
-            mClearIdentify.setVisibility(View.INVISIBLE);
-        }
-
-        if (inputPassword.length() > 0) {
-            mClearPassword.setVisibility(View.VISIBLE);
-        } else {
-            mClearPassword.setVisibility(View.INVISIBLE);
-        }
 
     }
 
     /* 用户名/密码焦点改变 */
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (v.getId() == R.id.et_identify_input) {
-            if (hasFocus) {
-                mIdentify.setActivated(true);
-                mPassword.setActivated(false);
-            }
-        } else {
-            if (hasFocus) {
-                mPassword.setActivated(true);
-                mIdentify.setActivated(false);
-            }
-        }
+
     }
 
     @SuppressLint("ClickableViewAccessibility")

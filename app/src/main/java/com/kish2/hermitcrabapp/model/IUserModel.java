@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 public interface IUserModel {
 
     @POST(Api.API_USER_REG)
-    Call<ResponseBody> userRegister(@Query("mobile") String mobile);
+    Call<ResponseBody> userRegister(@Query("mobile") String mobile, @Query("code") String code);
 
     @POST(Api.API_USERNAME_UPDATE)
     Call<ResponseBody> usernameUpdate(@Query("uid") long uid, @Query("username") String username);
@@ -23,7 +23,7 @@ public interface IUserModel {
     Call<ResponseBody> authByUsername(@Query("username") String username, @Query("password") String password);
 
     @POST(Api.API_AUTH_BY_MOBILE_CODE)
-    Call<ResponseBody> authByMobileCode(@Query("mobile") String mobile, @Query("code") String code);
+    Call<ResponseBody> authByMobile(@Query("mobile") String mobile, @Query("code") String code);
 
     Call<ResponseBody> getDozenOfUsers(int num);
 }

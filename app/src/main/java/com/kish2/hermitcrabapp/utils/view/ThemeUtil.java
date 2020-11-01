@@ -6,12 +6,17 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.StateListDrawable;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.utils.App;
 import com.kongzue.dialog.util.TextInfo;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ThemeUtil {
     public static final int BOTTOM_TAB_NUM = 5;
@@ -126,5 +131,40 @@ public class ThemeUtil {
         public static String sideBgImgSrc;
         /* 是否设置了深色主题 */
         public static boolean isDarkTheme;
+    }
+
+    /**
+     * 判断色调的明暗
+     * 只需要获取
+     *
+     * @param palette 画板
+     * @param jude    标准，默认值为0xa
+     * @Dominated 主色调，然后进行判断
+     * @判断标准 作用域最多的色彩的rgb通道平均值(除0和alpha通道之外的相加)的平均值有没有达到所给标准
+     */
+    private static int mJudge = 0xa;
+
+    public static boolean isLightTone(Palette palette, int judge) {
+        int res = 0;
+        int count = 0;
+        if (mJudge < judge)
+            mJudge = judge;
+        if (palette != null) {
+            Palette.Swatch dominantSwatch = palette.getDominantSwatch();
+            if (dominantSwatch != null) {
+                int rgb = dominantSwatch.getRgb();
+                String string = Integer.toHexString(rgb);
+                string = string.substring(2);
+                int length = string.length();
+                for (int i = 0; i < length; i++) {
+                    int j = string.charAt(i) - '0';
+                    if (j != 0) {
+                        count++;
+                        res += j;
+                    }
+                }
+            }
+        }
+        return (res / count) >= mJudge;
     }
 }

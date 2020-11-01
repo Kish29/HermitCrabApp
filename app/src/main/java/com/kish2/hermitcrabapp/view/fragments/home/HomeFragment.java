@@ -107,13 +107,8 @@ public class HomeFragment extends BaseFragment {
         ButterKnife.bind(this, fragmentHome);
         /* 主线程*/
         getAndSetLayoutView();
-        new Thread() {
-            @Override
-            public void run() {
-                /* 注册事件 */
-                registerViewComponentsAffairs();
-            }
-        }.start();
+        /* 注册事件 */
+        registerViewComponentsAffairs();
         mCLFragmentContent.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentHome;
     }

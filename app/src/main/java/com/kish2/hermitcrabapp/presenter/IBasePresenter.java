@@ -5,7 +5,10 @@ public interface IBasePresenter {
 
     public void detachView();
 
-    void onServerError(Object object);
+
+    void onServerDoOperationFailed(Object object);
 
     void onServerSuccess(Object object);
+
+    void onSysNetworkError(Throwable t);
 }

@@ -20,7 +20,6 @@ public interface IBaseView {
     void refreshData();
 
     /* 注册控制事务 */
-    /* 子线程 */
     public void registerViewComponentsAffairs();
 
     /* 初始化presenter */

@@ -45,150 +45,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="32dp"
             android:contentDescription="@null"
             android:paddingTop="20dp"
             android:scaleType="centerInside"
             app:srcCompat="@mipmap/logo" />
 
-
-        <!--登录用户名、邮箱、手机号输入框界面-->
-        <LinearLayout
-            android:id="@+id/ll_identify"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv_login_type"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/bg_input"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <!--登录logo-->
-            <ImageView
-                android:id="@+id/iv_user_icon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ai_user" />
-
-            <!--小竖线-->
-            <View
-                android:layout_width="1dp"
-                android:layout_height="22dp"
-                android:background="@color/black_alpha" />
-
-            <!--ems为控件最大宽度，此处15表示最大15个字符的宽度-->
-            <!--background:@null不要下划线-->
-            <!--imeOption表示输入框输入完成后，输入法的右下角按钮功能
-                actionDone:完成
-                actionNext:下一行
-                actionSend:发送数据-->
-            <EditText
-                android:id="@+id/et_identify_input"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_weight="1"
-                android:autofillHints="@string/prompt_identify"
-                android:background="@null"
-                android:focusable="true"
-                android:hint="@string/prompt_identify"
-                android:imeOptions="actionNext"
-                android:inputType="textPhonetic"
-                android:lines="1"
-                android:maxLines="1"
-                android:minLines="1"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/font_16"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <!-- 删除输入内容的小按钮 -->
-            <ImageButton
-                android:id="@+id/ib_identify_clear"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/ai_input_clear"
-                android:contentDescription="@null"
-                android:scaleType="fitCenter"
-                android:visibility="invisible" />
-
-        </LinearLayout>
-
-        <!--密码输入框-->
-        <LinearLayout
-            android:id="@+id/ll_password"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/bg_input"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/iv_password_icon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:contentDescription="@null"
-                android:padding="2dp"
-                android:src="@drawable/ai_password" />
-
-            <!--小竖线-->
-            <View
-                android:layout_width="1dp"
-                android:layout_height="22dp"
-                android:background="@color/black_alpha" />
-
-            <EditText
-                android:id="@+id/et_password_input"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_weight="1"
-                android:autofillHints="@string/prompt_password"
-                android:background="@null"
-                android:hint="@string/prompt_password"
-                android:inputType="textPassword"
-                android:lines="1"
-                android:maxLines="1"
-                android:minLines="1"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/font_16"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_identify_input" />
-
-            <!-- 删除输入内容的小按钮 -->
-            <ImageButton
-                android:id="@+id/ib_password_clear"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/ai_input_clear"
-                android:contentDescription="@null"
-                android:scaleType="fitCenter"
-                android:visibility="invisible" />
-        </LinearLayout>
+            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -200,7 +66,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_forget_pwd"
+                android:id="@+id/tv_change_login_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -209,10 +75,9 @@
                 android:paddingTop="4dp"
                 android:paddingEnd="4dp"
                 android:paddingBottom="4dp"
-                android:text="@string/forget_password"
+                android:text="@string/login_by_verify_code"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                tools:ignore="RtlSymmetry" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
@@ -291,7 +156,7 @@
                 android:visibility="visible" />
 
             <TextView
-                android:id="@+id/tv_login_by_verify_code"
+                android:id="@+id/tv_forget_pwd"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -299,10 +164,9 @@
                 android:paddingTop="4dp"
                 android:paddingEnd="4dp"
                 android:paddingBottom="4dp"
-                android:text="@string/login_by_verify_code"
+                android:text="@string/forget_password"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                tools:ignore="RtlSymmetry" />
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 

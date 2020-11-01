@@ -30,10 +30,16 @@ public class HermitCrabVectorIllustrations {
     public static VectorDrawable VI_FEMALE;
 
     public static int colorWhite;
+    public static int colorBlack;
+    public static int colorGreyThick;
+    public static int colorTransparent;
 
     public static void getAIResources(Context context) {
         /* 获取白色 */
         colorWhite = ContextCompat.getColor(context, R.color.white);
+        colorBlack = ContextCompat.getColor(context, R.color.black);
+        colorGreyThick = ContextCompat.getColor(context, R.color.dark_grey1);
+        colorTransparent = ContextCompat.getColor(context, R.color.transparent);
 
         BOTTOM_TABS_ACTIVE = new VectorDrawable[ThemeUtil.BOTTOM_TAB_NUM];
         /* 获取 */
@@ -85,10 +91,21 @@ public class HermitCrabVectorIllustrations {
         VI_ARROW_DOWN.setTint(colorId);
         VI_CIRCLE.setTint(colorId);
 
+        setAIColorWhite();
+    }
+
+    public static void setAIColorWhite() {
         /* 白色部分 */
         VI_MENU.setTint(colorWhite);
         VI_THEME.setTint(colorWhite);
         VI_SETTING.setTint(colorWhite);
+    }
+
+    public static void setAiColorBlack() {
+        /* 黑色部分 */
+        VI_MENU.setTint(colorBlack);
+        VI_THEME.setTint(colorBlack);
+        VI_SETTING.setTint(colorBlack);
     }
 }
 

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.kish2.hermitcrabapp.utils.App;
+
 public class ToastUtil {
     public enum TOAST_POSITION {
         TOAST_CENTER,
@@ -46,5 +48,21 @@ public class ToastUtil {
                 break;
         }
         toast.show();
+    }
+
+    public enum NET_ERROR_TYPE {
+        CONNECT_EXCEPTION,
+        TIMEOUT,
+    }
+
+    public static void showSysNetworkErrorToast(Context context, NET_ERROR_TYPE type) {
+        switch (type) {
+            case TIMEOUT:
+                showToast(context, "网络连接超时", TOAST_DURATION.TOAST_SHORT, TOAST_POSITION.TOAST_BOTTOM);
+                break;
+            default:
+            case CONNECT_EXCEPTION:
+                showToast(context, "网络异常", TOAST_DURATION.TOAST_SHORT, TOAST_POSITION.TOAST_BOTTOM);
+        }
     }
 }

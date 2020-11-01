@@ -59,15 +59,13 @@ public class ThemeActivity extends BaseActivity {
                 }
             }
         };
-
         setContentView(R.layout.activity_theme);
         ButterKnife.bind(this);
-
         getAndSetLayoutView();
+        registerViewComponentsAffairs();
         new Thread() {
             @Override
             public void run() {
-                registerViewComponentsAffairs();
                 loadData();
             }
         }.start();

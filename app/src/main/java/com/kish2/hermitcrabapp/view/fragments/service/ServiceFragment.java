@@ -85,12 +85,7 @@ public class ServiceFragment extends BaseFragment {
         ButterKnife.bind(this, fragmentService);
 
         getAndSetLayoutView();
-        new Thread() {
-            @Override
-            public void run() {
-                registerViewComponentsAffairs();
-            }
-        }.start();
+        registerViewComponentsAffairs();
         mGLFragmentContent.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentService;
     }

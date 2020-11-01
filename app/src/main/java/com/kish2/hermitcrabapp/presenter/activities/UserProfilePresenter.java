@@ -6,11 +6,13 @@ import com.kish2.hermitcrabapp.presenter.ABasePresenter;
 import com.kish2.hermitcrabapp.presenter.UserPresenter;
 import com.kish2.hermitcrabapp.utils.App;
 import com.kish2.hermitcrabapp.utils.AppAndJSONUtil;
+import com.kish2.hermitcrabapp.utils.security.LicenseEncryption;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
-import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.activities.UserProfileActivity;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.net.SocketTimeoutException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -68,7 +70,7 @@ public class UserProfilePresenter extends ABasePresenter<UserProfileActivity> im
     }
 
     @Override
-    public void onServerError(Object objects) {
+    public void onServerDoOperationFailed(Object objects) {
         mWaitDialog.doDismiss();
     }
 
@@ -78,6 +80,20 @@ public class UserProfilePresenter extends ABasePresenter<UserProfileActivity> im
         if (mView != null) {
             mView.refreshData();
         }
+    }
+
+    @Override
+    public void afterHandleServerError() {
+        mWaitDialog.doDismiss();
+    }
+
+    @Override
+    public void onSysNetworkError(Throwable t) {
+        mWaitDialog.doDismiss();
+        if (t instanceof SocketTimeoutException)
+            KZDialogUtil.IOS_LIGHT_ERROR_DIALOG(mView == null ? App.getAppContext() : mView, "连接超时").show();
+        else
+            KZDialogUtil.IOS_LIGHT_ERROR_DIALOG(mView == null ? App.getAppContext() : mView, "网络异常").show();
     }
 
     @Override
@@ -97,6 +113,7 @@ public class UserProfilePresenter extends ABasePresenter<UserProfileActivity> im
     public void updatePassword(String password) {
         mWaitDialog = KZDialogUtil.IOS_LIGHT_WAIT_NO_STOP_DIALOG(mView);
         mWaitDialog.show();
+        password = LicenseEncryption.passwordEncryption(password);
         Call<ResponseBody> call = mModel.passwordUpdate(App.USER.getUid(), password);
         dataUpdate(call);
     }
@@ -106,14 +123,12 @@ public class UserProfilePresenter extends ABasePresenter<UserProfileActivity> im
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
-                if (response.code() == 200) {
-                    handleResponse(mView, AppAndJSONUtil.DO_JSON_TYPE.SET_USER, response);
-                } else onFailure(call, new Throwable());
+                handleResponse(mView, AppAndJSONUtil.DO_JSON_TYPE.SET_USER, response);
             }
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                onServerError(null);
+                onSysNetworkError(t);
             }
         });
     }

@@ -4,10 +4,14 @@
     package="com.kish2.hermitcrabapp">
 
     <!-- 获取外存的读取权限 -->
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".utils.App"
@@ -20,8 +24,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeBase"
         tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:label"
         tools:targetApi="n">
-
+        <!-- 应用的provider-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.kish2.hermitcrabapp.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <!-- 欢迎页 -->
         <activity
             android:name=".view.activities.HermitCrabSplash"
@@ -58,6 +72,10 @@
         <activity
             android:name=".view.activities.UserProfileActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".view.activities.MyTest"
             android:screenOrientation="portrait" />

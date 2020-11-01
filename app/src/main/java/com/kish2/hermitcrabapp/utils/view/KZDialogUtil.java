@@ -10,6 +10,7 @@ import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.v3.InputDialog;
 import com.kongzue.dialog.v3.MessageDialog;
+import com.kongzue.dialog.v3.TipDialog;
 
 import static com.kish2.hermitcrabapp.utils.view.ThemeUtil.FONT_COLOR;
 
@@ -72,6 +73,15 @@ public class KZDialogUtil {
 
     public static CustomTipDialog IOS_LIGHT_WAIT_NO_STOP_DIALOG(Context context) {
         return IOS_LIGHT_WAIT_DIALOG(context, null, "请求中...", -1, false);
+    }
+
+    public static CustomTipDialog IOS_LIGHT_ERROR_DIALOG(Context context, String msg) {
+        CustomTipDialog tipDialog = CustomTipDialog.build((AppCompatActivity) context);
+        tipDialog.setTip(CustomTipDialog.TYPE.ERROR)
+                .setTheme(DialogSettings.THEME.LIGHT)
+                .setMessage(msg)
+                .setTipTime(1000);
+        return tipDialog;
     }
 
     public static CustomTipDialog IOS_LIGHT_ERROR_DIALOG(Context context, Drawable tip, String msg, int tipTime) {
