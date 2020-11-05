@@ -104,6 +104,11 @@ public class LoginActivity extends BaseActivity
     /* 滑出时间 */
     private static final int glideTime = 200;
 
+    @Override
+    protected void themeChanged() {
+
+    }
+
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -27,6 +27,11 @@ public class HermitCrabSplash extends BaseActivity {
 
     private static final long DELAY = 500;
 
+    @Override
+    protected void themeChanged() {
+
+    }
+
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

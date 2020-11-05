@@ -4,10 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.View;
+import android.widget.SeekBar;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 import com.kish2.hermitcrabapp.R;
 
@@ -53,5 +59,68 @@ public class BitMapAndDrawableUtil {
         }
         /* x、y是从源bitmap开始截取的坐标点 */
         return Bitmap.createBitmap(bitmap, (bitmap.getWidth() - dWidth) / 2, (bitmap.getHeight() - dHeight) / 2, dWidth, dHeight);
+    }
+
+    /**
+     * 创建背景颜色
+     *
+     * @param color       填充色
+     * @param strokeColor 线条颜色
+     * @param strokeWidth 线条宽度  单位px
+     * @param radius      角度  px
+     */
+    public static Drawable getRoundRectangleDrawable(@ColorInt int color, @ColorInt int strokeColor, int strokeWidth, float radius) {
+        try {
+            GradientDrawable radiusBg = new GradientDrawable();
+            //设置Shape类型
+            radiusBg.setShape(GradientDrawable.RECTANGLE);
+            //设置填充颜色
+            radiusBg.setColor(color);
+            if (strokeColor != -1 && strokeWidth != -1)
+                //设置线条粗细和颜色,px
+                radiusBg.setStroke(strokeWidth, strokeColor);
+            //设置圆角角度,如果每个角度都一样,则使用此方法
+            radiusBg.setCornerRadius(radius);
+            return radiusBg;
+        } catch (Exception e) {
+            return new GradientDrawable();
+        }
+    }
+
+    /**
+     * 创建背景颜色
+     *
+     * @param color       填充色
+     * @param strokeColor 线条颜色
+     * @param strokeWidth 线条宽度  单位px
+     * @param radius      角度  px,长度为4,分别表示左上,右上,右下,左下的角度
+     */
+    public static GradientDrawable createRectangleDrawable(@ColorInt int color, @ColorInt int strokeColor, int strokeWidth, float[] radius) {
+        try {
+            GradientDrawable radiusBg = new GradientDrawable();
+            //设置Shape类型
+            radiusBg.setShape(GradientDrawable.RECTANGLE);
+            //设置填充颜色
+            radiusBg.setColor(color);
+            //设置线条粗心和颜色,px
+            radiusBg.setStroke(strokeWidth, strokeColor);
+            //每连续的两个数值表示是一个角度,四组:左上,右上,右下,左下
+            if (radius != null && radius.length == 4) {
+                radiusBg.setCornerRadii(new float[]{radius[0], radius[0], radius[1], radius[1], radius[2], radius[2], radius[3], radius[3]});
+            }
+            return radiusBg;
+        } catch (Exception e) {
+            return new GradientDrawable();
+        }
+    }
+
+    public static void setSeekBarColor(@NonNull SeekBar seekBar, int colorId) {
+        LayerDrawable drawable = (LayerDrawable) seekBar.getProgressDrawable();
+        /* 0 背景， 1 二级进度条，2 当前进度条*/
+        Drawable drawable1 = drawable.getDrawable(2);
+        drawable1.setColorFilter(colorId, PorterDuff.Mode.SRC);
+        Drawable thumb = seekBar.getThumb();
+        thumb.setColorFilter(colorId, PorterDuff.Mode.SRC_ATOP);
+        seekBar.invalidate();
     }
 }

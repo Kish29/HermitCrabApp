@@ -7,7 +7,7 @@ import com.kish2.hermitcrabapp.bean.Inform;
 import com.kish2.hermitcrabapp.model.fragments.ChatModel;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.FBasePresenter;
-import com.kish2.hermitcrabapp.view.fragments.message.ChatFragment;
+import com.kish2.hermitcrabapp.view.fragments.chat.ChatFragment;
 
 import java.util.ArrayList;
 

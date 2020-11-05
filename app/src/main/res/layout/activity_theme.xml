@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_general_grey">
@@ -12,46 +13,197 @@
         android:theme="@style/ToolbarItemThem"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <TextView
-        android:id="@+id/tv_theme_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="主题颜色"
-        android:textSize="@dimen/font_20"
-        app:layout_constraintStart_toStartOf="parent"
+    <View
+        android:id="@+id/v_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/bg_gradient_general"
         app:layout_constraintTop_toBottomOf="@+id/sft_toolbar_top" />
 
-    <LinearLayout
-        android:id="@+id/ll_theme_container"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/tv_theme_title">
+        app:layout_constraintTop_toBottomOf="@+id/v_gradient">
 
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tl_color_list"
+        <LinearLayout
+            android:id="@+id/ll_theme_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="scrollable" />
+            android:orientation="vertical">
 
-        <q.rorbin.verticaltablayout.VerticalTabLayout
-            android:id="@+id/vtl_color_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tab_margin="12dp" />
+            <TextView
+                android:id="@+id/tv_theme_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="主题颜色"
+                android:textSize="@dimen/font_16"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_theme_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_theme_container" />
+                <include
+                    android:id="@+id/theme_1"
+                    layout="@layout/ly_item_theme" />
+
+                <include
+                    android:id="@+id/theme_2"
+                    layout="@layout/ly_item_theme" />
+
+                <include
+                    android:id="@+id/theme_3"
+                    layout="@layout/ly_item_theme" />
+
+                <include
+                    android:id="@+id/theme_4"
+                    layout="@layout/ly_item_theme" />
+
+                <include
+                    android:id="@+id/theme_5"
+                    layout="@layout/ly_item_theme" />
+
+                <include
+                    android:id="@+id/theme_6"
+                    layout="@layout/ly_item_theme" />
+
+                <include
+                    android:id="@+id/theme_7"
+                    layout="@layout/ly_item_theme" />
+
+                <include
+                    android:id="@+id/theme_8"
+                    layout="@layout/ly_item_theme" />
+
+                <include
+                    android:id="@+id/theme_9"
+                    layout="@layout/ly_item_theme" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_banner_set_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="看板背景"
+                android:textSize="@dimen/font_16"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:gravity="center"
+                            android:text="取样半径"
+                            android:textAlignment="center"
+                            tools:ignore="NestedWeights" />
+
+                        <TextView
+                            android:id="@+id/tv_radius"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textAlignment="center" />
+
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/isb_sample_radius"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/line_grey"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_theme_item" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:gravity="center"
+                            android:text="取样值"
+                            android:textAlignment="center"
+                            tools:ignore="NestedWeights" />
+
+                        <TextView
+                            android:id="@+id/tv_sampling"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textAlignment="center" />
+
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/isb_sampling_value"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/line_grey"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_theme_item" />
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/riv_theme_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:scaleType="centerCrop"
+                    app:riv_corner_radius="5dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

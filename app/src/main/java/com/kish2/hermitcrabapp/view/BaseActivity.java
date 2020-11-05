@@ -1,5 +1,6 @@
 package com.kish2.hermitcrabapp.view;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,12 +14,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
 import com.kish2.hermitcrabapp.utils.dev.GlideResourceRecycleManager;
 import com.kish2.hermitcrabapp.utils.dev.SysInteractUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.IOException;
+import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements IBaseActivity {
@@ -30,23 +35,28 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseAct
     /* 供给于GlideManager用于图片的回收 */
     protected String simpleClassName = null;
 
-    /* 定义操作系统文件的目的 */
-    public enum FILE_OPERATE_PURPOSE {
-        NORMAL,
-        USER_AVATAR,
-        BANNER_BKG,
-        SIDE_MENU_BKG,
-        PRODUCT_PICS,
-    }
+    protected SysInteractUtil.FILE_OPERATE_PURPOSE file_operate_purpose = SysInteractUtil.FILE_OPERATE_PURPOSE.NORMAL;
 
-    protected FILE_OPERATE_PURPOSE file_operate_purpose = FILE_OPERATE_PURPOSE.NORMAL;
-
-    public void setFileOperatePurpose(FILE_OPERATE_PURPOSE purpose) {
+    public void setFileOperatePurpose(SysInteractUtil.FILE_OPERATE_PURPOSE purpose) {
         file_operate_purpose = purpose;
     }
 
     /* 提供给Presenter使用 */
     public Handler mHandler;
+
+    /* 给fragment使用 */
+
+    protected float cropRatio = 1;
+
+    protected int requestCode = SysInteractUtil.request_file_pick_permission;
+
+    protected FileStorageManager.DIR_TYPE dir_type = FileStorageManager.DIR_TYPE.FILE_DOWNLOAD;
+
+    protected String file_name = null;
+
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
+    }
 
     protected UCrop.Options mCropOptions;
 
@@ -58,12 +68,23 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseAct
     protected void onResume() {
         super.onResume();
         refreshData();
+        if (ThemeUtil.Theme.afterGetResourcesColorId != themeColorId) {
+            themeChanged();
+            themeColorId = ThemeUtil.Theme.afterGetResourcesColorId;
+        }
     }
+
+    /* 判断标准，theme类保存的colorId是否等于原来的colorId*/
+    protected int themeColorId = -1;
+
+    protected abstract void themeChanged();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         simpleClassName = getClass().getSimpleName();
+        /* 第一次加载时初始化theme color id*/
+        themeColorId = ThemeUtil.Theme.afterGetResourcesColorId;
     }
 
     protected void changeFragment(@IdRes int containerViewId, Fragment fragment) {
@@ -103,12 +124,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseAct
         }
     }
 
-    protected void onCameraPermissionGranted() throws IOException {
-
+    protected void onCameraPermissionGranted() {
+        takePhoto();
     }
 
-    protected void onFilePickPermissionGranted() throws IOException {
-
+    protected void onFilePickPermissionGranted() {
+        uploadPic();
     }
 
     /* 重写权限的请求处理结果 */
@@ -116,22 +137,14 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseAct
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == SysInteractUtil.request_camera_permission) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                try {
-                    onCameraPermissionGranted();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                onCameraPermissionGranted();
             } else {
                 ToastUtil.showToast(this, "请开启权限来使用相应功能", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
             }
         }
         if (requestCode == SysInteractUtil.request_file_pick_permission) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                try {
-                    onFilePickPermissionGranted();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                onFilePickPermissionGranted();
             } else {
                 ToastUtil.showToast(this, "请开启权限来使用相应功能", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
             }
@@ -144,5 +157,47 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseAct
     protected void onDestroy() {
         super.onDestroy();
         GlideResourceRecycleManager.recycleBitmapList(simpleClassName);
+    }
+
+    /* 与SysInteract交互的接口 */
+    public void takePhoto() {
+        /* 要用到的权限 */
+        ArrayList<String> list = new ArrayList<>();
+        list.add(Manifest.permission.CAMERA);
+        list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (SysInteractUtil.checkAndRequestPermissions(this, list, SysInteractUtil.request_camera_permission)) {
+            try {
+                SysInteractUtil.takePhoto(this, file_name, dir_type, requestCode);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void uploadPic() {
+        /* 要用到的权限 */
+        ArrayList<String> list = new ArrayList<>();
+        list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (SysInteractUtil.checkAndRequestPermissions(this, list, SysInteractUtil.request_file_pick_permission)) {
+            try {
+                SysInteractUtil.uploadPicture(this, file_name, dir_type, requestCode);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setSysInteractArgs(
+            SysInteractUtil.FILE_OPERATE_PURPOSE purpose,
+            String file_name,
+            FileStorageManager.DIR_TYPE dir_type,
+            int requestCode,
+            UCrop.Options options) {
+        /* 先赋值再调用 */
+        this.file_operate_purpose = purpose;
+        this.file_name = file_name;
+        this.dir_type = dir_type;
+        this.mCropOptions = options;
+        this.requestCode = requestCode;
     }
 }

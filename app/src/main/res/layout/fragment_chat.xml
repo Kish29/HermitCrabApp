@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.message.ChatFragment">
+    tools:context=".view.fragments.chat.ChatFragment">
 
     <!-- 设置padding -->
     <com.google.android.material.appbar.AppBarLayout

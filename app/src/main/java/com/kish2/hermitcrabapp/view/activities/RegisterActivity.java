@@ -36,6 +36,11 @@ public class RegisterActivity extends BaseActivity {
     private RegisterPresenter mPresenter;
     private FLoginMobile mFragment;
 
+    @Override
+    protected void themeChanged() {
+
+    }
+
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

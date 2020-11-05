@@ -47,6 +47,11 @@ public class FLoginUsername extends BaseFragment
     ImageButton mClearPassword;
 
     @Override
+    protected void themeChanged() {
+        getAndSetLayoutView();
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

@@ -1,6 +1,5 @@
 package com.kish2.hermitcrabapp.adapters.viewpager;
 
-import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,7 +9,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.kish2.hermitcrabapp.view.fragments.community.CommunityFragment;
 import com.kish2.hermitcrabapp.view.fragments.home.HomeFragment;
-import com.kish2.hermitcrabapp.view.fragments.message.ChatFragment;
+import com.kish2.hermitcrabapp.view.fragments.chat.ChatFragment;
 import com.kish2.hermitcrabapp.view.fragments.personal.PersonalFragment;
 import com.kish2.hermitcrabapp.view.fragments.service.ServiceFragment;
 

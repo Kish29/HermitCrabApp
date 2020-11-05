@@ -41,6 +41,11 @@ public class FLatest extends FHomeBase {
         this.mInformsAdapter = mInformsAdapter;
     }
 
+    @Override
+    protected void themeChanged() {
+        mRefreshLayout.setColorSchemeColors(themeColorId);
+    }
+
     @SuppressLint("HandlerLeak")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

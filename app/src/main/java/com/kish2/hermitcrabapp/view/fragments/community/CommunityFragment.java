@@ -22,6 +22,7 @@ import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.CommunityFragmentAdapter;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
+import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -60,6 +61,14 @@ public class CommunityFragment extends BaseFragment {
 
     CommunityFragmentAdapter communityFragmentAdapter;
     private Handler mHandler;
+
+    @Override
+    protected void themeChanged() {
+        /* 设置AppBarLayout的颜色 */
+        mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
+        mCategoryTab.setIndicatorColor(HermitCrabVectorIllustrations.colorWhite);
+        mCategoryTab.setTextSelectColor(HermitCrabVectorIllustrations.colorWhite);
+    }
 
     /* 这三个方法必须重写 */
     @SuppressLint("HandlerLeak")
@@ -133,7 +142,9 @@ public class CommunityFragment extends BaseFragment {
 
     @Override
     public void refreshData() {
-
+        if (ApplicationConfigUtil.HAS_AVATAR && ApplicationConfigUtil.USER_AVATAR != null) {
+            mUserAvatar.setImageBitmap(ApplicationConfigUtil.USER_AVATAR);
+        }
     }
 
     @Override

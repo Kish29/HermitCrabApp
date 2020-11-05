@@ -172,4 +172,9 @@ public class FLoginMobile extends BaseFragment {
             mTimer = null;
         }
     }
+
+    @Override
+    protected void themeChanged() {
+        getAndSetLayoutView();
+    }
 }

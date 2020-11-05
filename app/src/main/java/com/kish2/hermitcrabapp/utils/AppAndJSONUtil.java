@@ -10,13 +10,6 @@ import static com.kish2.hermitcrabapp.utils.App.USER;
 import static com.kish2.hermitcrabapp.utils.App.LOAD_USER_SUCCESS;
 
 public class AppAndJSONUtil {
-
-    public enum DO_JSON_RET {
-        RET_STATUS,
-        RET_MSG,
-        RET_OBJ,
-    }
-
     public static final int SERVER_OPERATED_FAILURE = 222;
     public static final String key_server_status = "server_code";
     public static final String key_server_msg = "server_msg";
@@ -35,6 +28,12 @@ public class AppAndJSONUtil {
     public enum DO_JSON_TYPE {
         SET_USER,
         SET_ITEM,
+    }
+
+    public enum DO_JSON_RET {
+        RET_STATUS,
+        RET_MSG,
+        RET_OBJ,
     }
 
     public static Map<DO_JSON_RET, Object> doJsonObject(String rowData, DO_JSON_TYPE type) throws JSONException {

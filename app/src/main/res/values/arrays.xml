@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string-array name="theme_name">
+        <item>colorPrimary</item>
+        <item>md_blue_300</item>
+        <item>pink</item>
+        <item>miku</item>
+        <item>md_purple_300</item>
+        <item>md_cyan_300</item>
+        <item>md_green_300</item>
+        <item>md_red_500</item>
+        <item>snow</item>
+    </string-array>
+</resources>

@@ -22,6 +22,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.HomeFragmentAdapter;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
+import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -63,6 +64,14 @@ public class HomeFragment extends BaseFragment {
     HomeFragmentAdapter homeFragmentAdapter;
 
     /* 这三个方法必须重写 */
+
+    @Override
+    protected void themeChanged() {
+        /* 设置AppBarLayout的颜色 */
+        mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
+        mCategoryTab.setIndicatorColor(ThemeUtil.Theme.afterGetResourcesColorId);
+        mCategoryTab.setTextSelectColor(ThemeUtil.Theme.afterGetResourcesColorId);
+    }
 
     /**
      * 该Fragment创建时调用，只调用一次，可以操作除View之外的一切东西
@@ -131,7 +140,9 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void refreshData() {
-
+        if (ApplicationConfigUtil.HAS_AVATAR && ApplicationConfigUtil.USER_AVATAR != null) {
+            mUserAvatar.setImageBitmap(ApplicationConfigUtil.USER_AVATAR);
+        }
     }
 
     @Override

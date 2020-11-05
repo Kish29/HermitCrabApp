@@ -1,6 +1,5 @@
 package com.kish2.hermitcrabapp.view.fragments.personal;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,25 +25,28 @@ import androidx.core.widget.NestedScrollView;
 import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.adapters.viewpager.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.PersonalPresenter;
 import com.kish2.hermitcrabapp.utils.App;
+import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
+import com.kish2.hermitcrabapp.utils.dev.GlideResourceRecycleManager;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.dev.SysInteractUtil;
 import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
-import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.kish2.hermitcrabapp.view.activities.MainActivity;
@@ -56,8 +57,6 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,8 +78,6 @@ public class PersonalFragment extends BaseFragment {
     RelativeLayout mTopRetrieveBar;
     @BindView(R.id.ctl_banner_container)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
-    @BindView(R.id.iv_banner_bkg)
-    ImageView mBannerBkg;
     private static float mCollapsingHeight = 0;
 
     // 左上角菜单
@@ -119,8 +116,11 @@ public class PersonalFragment extends BaseFragment {
     View mOldPublish;
     /* 快速入口*/
     /* 学生服务*/
-    private Context mContext;
     private PersonalPresenter mPresenter;
+
+    /* 记录上一次的取样值 */
+    private int curSampleRadius = 0;
+    private int curSampleVal = 0;
 
     /* 这三个方法必须重写 */
     @SuppressLint("HandlerLeak")
@@ -141,7 +141,8 @@ public class PersonalFragment extends BaseFragment {
                 }
             }
         };
-        this.mContext = getContext();
+        curSampleRadius = ApplicationConfigUtil.sample_radius;
+        curSampleVal = ApplicationConfigUtil.sample_value;
     }
 
     @Nullable
@@ -167,9 +168,23 @@ public class PersonalFragment extends BaseFragment {
     }
 
     @Override
+    protected void themeChanged() {
+        mMask.setImageDrawable(HermitCrabVectorIllustrations.VI_CIRCLE);
+        if (!ApplicationConfigUtil.BANNER_DEFAULT && ApplicationConfigUtil.HAS_BANNER_BKG) {
+            return;
+        }
+        mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
+        /* Vector图片资源 */
+        mSideMenu.setImageDrawable(HermitCrabVectorIllustrations.VI_MENU);
+        mTheme.setImageDrawable(HermitCrabVectorIllustrations.VI_THEME);
+        mSetting.setImageDrawable(HermitCrabVectorIllustrations.VI_SETTING);
+
+    }
+
+    @Override
     public void getLayoutComponentsAttr() {
         mCollapsingHeight = mCollapsingToolbarLayout.getHeight();
-        /* 锁定appBarLayout高度 */
+        /* 必须先锁定appBarLayout高度 */
         mAppBarLayout.getLayoutParams().height = mAppBarLayout.getHeight();
         if (ThemeUtil.Theme.bgImgSrc != null) {
             mAppBarLayout.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_register));
@@ -215,6 +230,33 @@ public class PersonalFragment extends BaseFragment {
                 userBindInfo.setText("(未绑定学生信息)");
             else userBindInfo.setText(App.USER.getDepartment());
         }
+        /* 因为存在图片会使appLayout扩张，所以在appLayout固定高度之后，在refreshData中进行设置 */
+        if (!ApplicationConfigUtil.BANNER_DEFAULT) {
+            if (ApplicationConfigUtil.HAS_BANNER_BKG && ApplicationConfigUtil.USER_BANNER_BKG != null) {
+                Palette.from(ApplicationConfigUtil.USER_BANNER_BKG).generate(palette -> {
+                    setTextAndIconColor(ThemeUtil.isLightTone(palette, 0xa));
+                });
+                mAppBarLayout.setBackground(new BitmapDrawable(getResources(), ApplicationConfigUtil.USER_BANNER_BKG));
+                /* 保存图片 */
+                if (curSampleVal != ApplicationConfigUtil.sample_value || curSampleRadius != ApplicationConfigUtil.sample_radius) {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                FileStorageManager.storeBitmapAsPng(ApplicationConfigUtil.USER_BANNER_BKG, FileStorageManager.banner_bkg_file_name, FileStorageManager.DIR_TYPE.USER_BANNER_BACKGROUND);
+                                curSampleRadius = ApplicationConfigUtil.sample_radius;
+                                curSampleVal = ApplicationConfigUtil.sample_value;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }.start();
+                }
+            }
+        }
+        if (ApplicationConfigUtil.HAS_AVATAR && ApplicationConfigUtil.USER_AVATAR != null) {
+            mUserAvatar.setImageBitmap(ApplicationConfigUtil.USER_AVATAR);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -233,10 +275,10 @@ public class PersonalFragment extends BaseFragment {
                     "使用头像",
                     "相册");
             messageDialog.show();
-            CustomTarget<Drawable> customTarget = new CustomTarget<Drawable>() {
+            CustomTarget<Bitmap> customTarget = new CustomTarget<Bitmap>() {
                 @Override
-                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                    mAppBarLayout.setBackground(resource);
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    onBannerBackgroundUploadSuccess(resource);
                 }
 
                 @Override
@@ -244,8 +286,37 @@ public class PersonalFragment extends BaseFragment {
 
                 }
             };
+            /* 头像 */
             messageDialog.setOnCancelButtonClickListener((baseDialog, v1) -> {
-                Glide.with(this).load(R.drawable.bg_register).apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 3))).into(customTarget);
+                if (ApplicationConfigUtil.HAS_AVATAR && ApplicationConfigUtil.USER_AVATAR != null) {
+                    Glide.with(this).asBitmap().load(ApplicationConfigUtil.USER_AVATAR).into(customTarget);
+                }
+                return false;
+            });
+            /* 相册 */
+            messageDialog.setOnOtherButtonClickListener((baseDialog, v1) -> {
+                UCrop.Options options = new UCrop.Options();
+                int ratio = mAppBarLayout.getWidth() / mAppBarLayout.getHeight();
+                options.withAspectRatio(ratio, 1);
+                ((MainActivity) requireActivity()).setSysInteractArgs(
+                        SysInteractUtil.FILE_OPERATE_PURPOSE.BANNER_BKG,
+                        FileStorageManager.banner_bkg_file_name,
+                        FileStorageManager.DIR_TYPE.USER_BANNER_BACKGROUND,
+                        SysInteractUtil.request_gallery_activity_crop, options);
+                ((MainActivity) requireActivity()).uploadPic();
+                return false;
+            });
+            /* 系统默认 */
+            messageDialog.setOnOkButtonClickListener((baseDialog, v1) -> {
+                mAppBarLayout.setBackgroundColor(themeColorId);
+                setTextAndIconColor(false);
+                ApplicationConfigUtil.BANNER_DEFAULT = true;
+                new Thread() {
+                    @Override
+                    public void run() {
+                        ApplicationConfigUtil.storeAppConfig();
+                    }
+                }.start();
                 return false;
             });
         });
@@ -267,46 +338,37 @@ public class PersonalFragment extends BaseFragment {
             messageDialog.show();
             /* 相册 */
             messageDialog.setOnCancelButtonClickListener((baseDialog, v1) -> {
-                ArrayList<String> list = new ArrayList<>();
-                list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                UCrop.Options cropOptions = new UCrop.Options();
-                cropOptions.withAspectRatio(1, 1);
-                cropOptions.setCircleDimmedLayer(true);
-                ((MainActivity) requireActivity()).setCropOption(cropOptions);
-                ((MainActivity) requireActivity()).setFileOperatePurpose(BaseActivity.FILE_OPERATE_PURPOSE.USER_AVATAR);
-                if (SysInteractUtil.checkAndRequestPermissions(requireActivity(), list, SysInteractUtil.request_file_pick_permission)) {
-                    try {
-                        SysInteractUtil.uploadPicture(requireActivity(), FileStorageManager.user_avatar_file_name, FileStorageManager.DIR_TYPE.USER_AVATAR);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                UCrop.Options options = new UCrop.Options();
+                options.withAspectRatio(1, 1);
+                options.setCircleDimmedLayer(true);
+                ((MainActivity) requireActivity()).setSysInteractArgs(
+                        SysInteractUtil.FILE_OPERATE_PURPOSE.USER_AVATAR,
+                        FileStorageManager.user_avatar_file_name,
+                        FileStorageManager.DIR_TYPE.USER_AVATAR,
+                        SysInteractUtil.request_gallery_activity_crop, options);
+                ((MainActivity) requireActivity()).uploadPic();
                 return false;
             });
             /* 拍照 */
             messageDialog.setOnOkButtonClickListener((baseDialog, v1) -> {
-                ArrayList<String> list = new ArrayList<>();
-                list.add(Manifest.permission.CAMERA);
-                list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                UCrop.Options cropOptions = new UCrop.Options();
-                cropOptions.withAspectRatio(1, 1);
-                cropOptions.setCircleDimmedLayer(true);
-                ((MainActivity) requireActivity()).setCropOption(cropOptions);
-                ((MainActivity) requireActivity()).setFileOperatePurpose(BaseActivity.FILE_OPERATE_PURPOSE.USER_AVATAR);
-                if (SysInteractUtil.checkAndRequestPermissions(requireActivity(), list, SysInteractUtil.request_camera_permission)) {
-                    try {
-                        SysInteractUtil.takePhoto(requireActivity(), FileStorageManager.user_avatar_file_name, FileStorageManager.DIR_TYPE.USER_AVATAR);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                UCrop.Options options = new UCrop.Options();
+                options.withAspectRatio(1, 1);
+                options.setCircleDimmedLayer(true);
+                ((MainActivity) requireActivity()).setSysInteractArgs(
+                        SysInteractUtil.FILE_OPERATE_PURPOSE.USER_AVATAR,
+                        FileStorageManager.user_avatar_file_name,
+                        FileStorageManager.DIR_TYPE.USER_AVATAR,
+                        SysInteractUtil.request_camera_activity_crop, options);
+                ((MainActivity) requireActivity()).uploadPic();
                 return false;
             });
         });
         mTheme.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                startActivity(new Intent(requireActivity(), ThemeActivity.class));
+                Intent intent = new Intent(requireActivity(), ThemeActivity.class);
+                intent.putExtra("appBarLayoutHeight", mAppBarLayout.getHeight());
+                startActivity(intent);
             }
         });
         mNSPersonalMain.setOnTouchListener(this::touchCheck);
@@ -373,49 +435,91 @@ public class PersonalFragment extends BaseFragment {
     }
 
     public void onUserAvatarUploadSuccess(Bitmap bitmap) {
-        if (bitmap != null)
+        if (bitmap != null) {
             mUserAvatar.setImageBitmap(bitmap);
+            ApplicationConfigUtil.HAS_AVATAR = true;
+            ApplicationConfigUtil.USER_AVATAR = bitmap;
+        }
 
     }
 
     @Override
-    public void setDarkThemeColor() {
-        StatusBarUtil.setStatusBarDarkTheme(requireActivity(), true);
-        username.setTextColor(HermitCrabVectorIllustrations.colorBlack);
-        userBindInfo.setTextColor(HermitCrabVectorIllustrations.colorBlack);
-        userTopic.setTextColor(HermitCrabVectorIllustrations.colorBlack);
-        userProduct.setTextColor(HermitCrabVectorIllustrations.colorBlack);
-        userFriend.setTextColor(HermitCrabVectorIllustrations.colorBlack);
-        HermitCrabVectorIllustrations.setAiColorBlack();
-        friendText.setTextColor(HermitCrabVectorIllustrations.colorBlack);
-        productText.setTextColor(HermitCrabVectorIllustrations.colorBlack);
-        topicText.setTextColor(HermitCrabVectorIllustrations.colorBlack);
-    }
-
-    @Override
-    public void setLightThemeColor() {
-        StatusBarUtil.setStatusBarDarkTheme(requireActivity(), false);
-        username.setTextColor(HermitCrabVectorIllustrations.colorWhite);
-        userBindInfo.setTextColor(HermitCrabVectorIllustrations.colorWhite);
-        userTopic.setTextColor(HermitCrabVectorIllustrations.colorWhite);
-        userProduct.setTextColor(HermitCrabVectorIllustrations.colorWhite);
-        userFriend.setTextColor(HermitCrabVectorIllustrations.colorWhite);
-        HermitCrabVectorIllustrations.setAIColorWhite();
-        friendText.setTextColor(HermitCrabVectorIllustrations.colorWhite);
-        productText.setTextColor(HermitCrabVectorIllustrations.colorWhite);
-        topicText.setTextColor(HermitCrabVectorIllustrations.colorWhite);
+    public void setTextAndIconColor(boolean isDarkTheme) {
+        int colorId;
+        if (isDarkTheme) {
+            StatusBarUtil.setStatusBarDarkTheme(requireActivity(), true);
+            HermitCrabVectorIllustrations.setAiColorBlack();
+            colorId = HermitCrabVectorIllustrations.colorBlack;
+        } else {
+            StatusBarUtil.setStatusBarDarkTheme(requireActivity(), false);
+            HermitCrabVectorIllustrations.setAIColorWhite();
+            colorId = HermitCrabVectorIllustrations.colorWhite;
+        }
+        username.setTextColor(colorId);
+        userBindInfo.setTextColor(colorId);
+        userTopic.setTextColor(colorId);
+        userProduct.setTextColor(colorId);
+        userFriend.setTextColor(colorId);
+        friendText.setTextColor(colorId);
+        productText.setTextColor(colorId);
+        topicText.setTextColor(colorId);
     }
 
     public void onBannerBackgroundUploadSuccess(Bitmap bitmap) {
         if (bitmap != null) {
+            /* 裁剪 */
             bitmap = BitMapAndDrawableUtil.centerCropBitmapToFitView(bitmap, mAppBarLayout);
             Palette.from(bitmap).generate(palette -> {
-                if (ThemeUtil.isLightTone(palette, 0xb)) {
-                    setDarkThemeColor();
-                } else setLightThemeColor();
+                setTextAndIconColor(ThemeUtil.isLightTone(palette, 0xa));
             });
-            mAppBarLayout.setBackground(new BitmapDrawable(getResources(), bitmap));
+            Bitmap copyBitmap = bitmap;
+            CustomTarget<Bitmap> customTarget = new CustomTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    mAppBarLayout.setBackground(new BitmapDrawable(getResources(), resource));
+                    saveBannerBkg(copyBitmap, resource);
+                }
+
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                }
+            };
+            // 不要使用缓存机制
+            Glide.with(this)
+                    .asBitmap()
+                    .load(bitmap)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .apply(RequestOptions.bitmapTransform(
+                            new BlurTransformation(ApplicationConfigUtil.sample_radius, ApplicationConfigUtil.sample_value)))
+                    .into(customTarget);
+
         }
+    }
+
+    /* 存两张图，一张原图，另一张是高斯模糊之后的图 */
+    private void saveBannerBkg(Bitmap origin, Bitmap after) {
+        /* 将bitmap存入手机 */
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    /* 创建文件 */
+                    ApplicationConfigUtil.ORIGIN_BANNER_BKG_URI = FileStorageManager.storeBitmapAsPng(origin, FileStorageManager.origin_banner_bkg_file_name, FileStorageManager.DIR_TYPE.USER_BANNER_BACKGROUND);
+                    FileStorageManager.storeBitmapAsPng(after, FileStorageManager.banner_bkg_file_name, FileStorageManager.DIR_TYPE.USER_BANNER_BACKGROUND);
+                    /* 默认值 */
+                    ApplicationConfigUtil.HAS_BANNER_BKG = true;
+                    ApplicationConfigUtil.BANNER_DEFAULT = false;
+                    ApplicationConfigUtil.USER_BANNER_BKG = after;
+                    /* 异步保存 */
+                    ApplicationConfigUtil.storeAppConfig();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
 

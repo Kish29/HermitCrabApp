@@ -14,9 +14,9 @@ public class User {
     private String userType;
     private String status;
     /* 除了头像，其他一律保存在本地 */
-    private String bannerBgPath;
-    private String personalBannerBgPath;
-    private String sideMenuBgPath;
+    private String bannerBkgPath;
+    private String personalBannerBkgPath;
+    private String sideMenuBkgPath;
     private boolean infoBind = false;
 
     public boolean isInfoBind() {
@@ -135,27 +135,27 @@ public class User {
         this.avatarPath = avatarPath;
     }
 
-    public String getBannerBgPath() {
-        return bannerBgPath;
+    public String getBannerBkgPath() {
+        return bannerBkgPath;
     }
 
-    public void setBannerBgPath(String bannerBgPath) {
-        this.bannerBgPath = bannerBgPath;
+    public void setBannerBkgPath(String bannerBkgPath) {
+        this.bannerBkgPath = bannerBkgPath;
     }
 
-    public String getPersonalBannerBgPath() {
-        return personalBannerBgPath;
+    public String getPersonalBannerBkgPath() {
+        return personalBannerBkgPath;
     }
 
-    public void setPersonalBannerBgPath(String personalBannerBgPath) {
-        this.personalBannerBgPath = personalBannerBgPath;
+    public void setPersonalBannerBkgPath(String personalBannerBkgPath) {
+        this.personalBannerBkgPath = personalBannerBkgPath;
     }
 
-    public String getSideMenuBgPath() {
-        return sideMenuBgPath;
+    public String getSideMenuBkgPath() {
+        return sideMenuBkgPath;
     }
 
-    public void setSideMenuBgPath(String sideMenuBgPath) {
-        this.sideMenuBgPath = sideMenuBgPath;
+    public void setSideMenuBkgPath(String sideMenuBkgPath) {
+        this.sideMenuBkgPath = sideMenuBkgPath;
     }
 }

@@ -38,4 +38,9 @@ public class FAcademicAffairs extends FHomeBase {
     public void detachPresenter() {
 
     }
+
+    @Override
+    protected void themeChanged() {
+
+    }
 }

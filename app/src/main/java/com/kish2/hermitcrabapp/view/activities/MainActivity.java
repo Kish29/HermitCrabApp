@@ -4,13 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -23,7 +22,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -35,6 +33,7 @@ import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.custom.view.NoScrollViewPager;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
+import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
 import com.kish2.hermitcrabapp.utils.dev.GlideResourceRecycleManager;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
@@ -47,6 +46,7 @@ import com.kish2.hermitcrabapp.view.fragments.personal.PersonalFragment;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,6 +96,9 @@ public class MainActivity extends BaseActivity {
     TabLayout mTLMainNavBar;
 
     TabLayout.Tab[] mTabs;
+    /* 为了能动态地快速设置主题，这里获取实例资源*/
+    ImageView[] mTabIcons;
+    TextView[] mTabTitles;
 
     /* 主viewpager*/
     @BindView(R.id.vp_main_fragment)
@@ -164,6 +167,8 @@ public class MainActivity extends BaseActivity {
         /*mTLMainNavBar.setTabMode(TabLayout.MODE_FIXED);
         mTLMainNavBar.setTabGravity(TabLayout.GRAVITY_FILL);*/
         mTabs = new TabLayout.Tab[ThemeUtil.BOTTOM_TAB_NUM];
+        mTabIcons = new ImageView[ThemeUtil.BOTTOM_TAB_NUM];
+        mTabTitles = new TextView[ThemeUtil.BOTTOM_TAB_NUM];
         for (int i = 0; i < ThemeUtil.BOTTOM_TAB_NUM; i++) {
             mTabs[i] = mTLMainNavBar.newTab();
         }
@@ -180,11 +185,11 @@ public class MainActivity extends BaseActivity {
             mTabs[i].setCustomView(tabBarBasic);
 
             // 设置各个页面的标签图片和文本
-            ImageView imgTab = tabBarBasic.findViewById(R.id.nav_tab_img);
-            imgTab.setImageDrawable(ThemeUtil.BOTTOM_TAB_SELECTOR[i]);
-            TextView tabTitle = tabBarBasic.findViewById(R.id.nav_tab_title);
-            tabTitle.setTextColor(ThemeUtil.TEXT_SELECTOR);
-            tabTitle.setText(TAB_TITLES[i]);
+            mTabIcons[i] = tabBarBasic.findViewById(R.id.nav_tab_img);
+            mTabIcons[i].setImageDrawable(ThemeUtil.BOTTOM_TAB_SELECTOR[i]);
+            mTabTitles[i] = tabBarBasic.findViewById(R.id.nav_tab_title);
+            mTabTitles[i].setTextColor(ThemeUtil.TEXT_SELECTOR);
+            mTabTitles[i].setText(TAB_TITLES[i]);
         }
         mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
 
@@ -277,12 +282,27 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         detachPresenter();
+        ApplicationConfigUtil.storeAppConfig();
         super.onDestroy();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void themeChanged() {
+        new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < ThemeUtil.BOTTOM_TAB_NUM; i++) {
+                    mTabIcons[i].setImageDrawable(ThemeUtil.BOTTOM_TAB_SELECTOR[i]);
+                    mTabTitles[i].setTextColor(ThemeUtil.TEXT_SELECTOR);
+                }
+            }
+        }.start();
+
     }
 
     @Override
@@ -310,7 +330,10 @@ public class MainActivity extends BaseActivity {
                 };
                 // 不要使用缓存机制
                 Glide.with(this).asBitmap().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).load(uri).into(customTarget);
-            case SIDE_MENU_BKG:
+            case BANNER_BKG:
+                if (ApplicationConfigUtil.HAS_BANNER_BKG &&
+                        file_operate_purpose == SysInteractUtil.FILE_OPERATE_PURPOSE.USER_AVATAR)
+                    return;
                 CustomTarget<Bitmap> customTarget1 = new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -324,23 +347,19 @@ public class MainActivity extends BaseActivity {
                     }
                 };
                 // 不要使用缓存机制
-                Glide.with(this).asBitmap().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).load(uri).apply(RequestOptions.bitmapTransform(new BlurTransformation(25))).into(customTarget1);
+                Glide.with(this)
+                        .asBitmap()
+                        .load(uri)
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(customTarget1);
                 break;
             case PRODUCT_PICS:
-            case BANNER_BKG:
+            case SIDE_MENU_BKG:
             case NORMAL:
             default:
                 break;
         }
     }
 
-    @Override
-    protected void onCameraPermissionGranted() throws IOException {
-        SysInteractUtil.takePhoto(this, FileStorageManager.user_avatar_file_name, FileStorageManager.DIR_TYPE.USER_AVATAR);
-    }
-
-    @Override
-    protected void onFilePickPermissionGranted() throws IOException {
-        SysInteractUtil.uploadPicture(this, FileStorageManager.user_avatar_file_name, FileStorageManager.DIR_TYPE.USER_AVATAR);
-    }
 }

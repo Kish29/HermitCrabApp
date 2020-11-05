@@ -1,62 +1,110 @@
 package com.kish2.hermitcrabapp.view.activities;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.tabs.TabLayout;
+import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.bumptech.glide.signature.ObjectKey;
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
+import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
+import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
-import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import q.rorbin.verticaltablayout.VerticalTabLayout;
-import q.rorbin.verticaltablayout.widget.QTabView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ThemeActivity extends BaseActivity {
 
     @BindView(R.id.sft_toolbar_top)
     StatusFixedToolBar mToolBar;
-    @BindView(R.id.tl_color_list)
-    TabLayout mThemeList;
 
-    @BindView(R.id.vtl_color_list)
-    VerticalTabLayout mColorList;
-    QTabView[] mColors;
+    @BindView(R.id.isb_sample_radius)
+    SeekBar mSampleRadius;
+    @BindView(R.id.tv_radius)
+    TextView mRadius;
+    @BindView(R.id.isb_sampling_value)
+    SeekBar mSamplingValue;
+    @BindView(R.id.tv_sampling)
+    TextView mSampling;
+    @BindView(R.id.riv_theme_banner)
+    RoundedImageView mBannerImage;
+    @BindView(R.id.lav_favor)
+    LottieAnimationView mFavor;
 
-    @BindView(R.id.btn_theme_save)
-    Button mSave;
+    ViewGroup[] mThemeList;
+    ImageView[] mThemeListChecks;
+    View[] mColorBlocks;
+    String[] theme_name;
 
-    private static int THEME_SELECT_ID = 0;
+    private int appBarLayoutHeight = 0;
+    private CustomTarget<Bitmap> customTarget;
+
+    /* 辅助bitmap，用来释放glide的缓存 */
+    private Bitmap auxiliaryBitmap;
+
+    @Override
+    protected void themeChanged() {
+        StatusBarUtil.setSinkStatusBar(this, false, ThemeUtil.Theme.afterGetResourcesColorId);
+        mToolBar.bindAndSetThisToolbar(this, true, "主题颜色");
+    }
 
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appBarLayoutHeight = getIntent().getIntExtra("appBarLayoutHeight", 0);
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case MessageForHandler.LOCAL_DATA_LOADED:
-                        initColorList();
-                        break;
                     case MessageForHandler.SYSTEM_FAILURE:
                     default:
                         break;
                 }
+            }
+        };
+        customTarget = new CustomTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                /* 释放上次的bitmap */
+                auxiliaryBitmap = null;
+                /* 更新 */
+                auxiliaryBitmap = resource;
+                ApplicationConfigUtil.USER_BANNER_BKG = auxiliaryBitmap;
+                mBannerImage.setImageBitmap(resource);
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+
             }
         };
         setContentView(R.layout.activity_theme);
@@ -72,80 +120,148 @@ public class ThemeActivity extends BaseActivity {
     }
 
 
-    TabLayout.Tab[] mItems;
-
     @Override
     public void getAndSetLayoutView() {
         StatusBarUtil.setSinkStatusBar(this, false, ThemeUtil.Theme.afterGetResourcesColorId);
         mToolBar.bindAndSetThisToolbar(this, true, "主题颜色");
-        mItems = new TabLayout.Tab[9];
-        mColors = new QTabView[9];
-        mColorList.setTabMargin(100);
+        theme_name = getResources().getStringArray(R.array.theme_name);
+        mFavor.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        mThemeList = new ViewGroup[9];
+        mThemeListChecks = new ImageView[9];
+        mColorBlocks = new View[9];
+        mThemeList[0] = findViewById(R.id.theme_1);
+        mThemeList[1] = findViewById(R.id.theme_2);
+        mThemeList[2] = findViewById(R.id.theme_3);
+        mThemeList[3] = findViewById(R.id.theme_4);
+        mThemeList[4] = findViewById(R.id.theme_5);
+        mThemeList[5] = findViewById(R.id.theme_6);
+        mThemeList[6] = findViewById(R.id.theme_7);
+        mThemeList[7] = findViewById(R.id.theme_8);
+        mThemeList[8] = findViewById(R.id.theme_9);
         for (int i = 0; i < 9; i++) {
-            mItems[i] = mThemeList.newTab();
-            mColors[i] = new QTabView(this);
-            mColors[i].setBackgroundColor(ContextCompat.getColor(this, ThemeUtil.AppTheme[i]));
+            mThemeList[i].setTag(i);
+            mThemeListChecks[i] = mThemeList[i].findViewById(R.id.iv_theme_list_check);
+            ((TextView) mThemeList[i].findViewById(R.id.tv_theme_item_title)).setText(theme_name[i]);
+            mColorBlocks[i] = mThemeList[i].findViewById(R.id.v_color_block);
+            mColorBlocks[i].setBackground(BitMapAndDrawableUtil.getRoundRectangleDrawable(ContextCompat.getColor(this, ThemeUtil.AppTheme[i]), -1, -1, 8));
+        }
+        mThemeListChecks[ThemeUtil.THEME_ID].setImageDrawable(HermitCrabVectorIllustrations.VI_CHECK_THEME);
+
+        BitMapAndDrawableUtil.setSeekBarColor(mSampleRadius, themeColorId);
+        BitMapAndDrawableUtil.setSeekBarColor(mSamplingValue, themeColorId);
+        mRadius.setTextColor(themeColorId);
+        mSampling.setTextColor(themeColorId);
+        mRadius.setText(String.valueOf(ApplicationConfigUtil.sample_radius));
+        mSampleRadius.setProgress(ApplicationConfigUtil.sample_radius * 4);
+        mSampling.setText(String.valueOf(ApplicationConfigUtil.sample_value));
+        mSamplingValue.setProgress(ApplicationConfigUtil.sample_value * 33 + 1);
+        if (!ApplicationConfigUtil.BANNER_DEFAULT && ApplicationConfigUtil.HAS_BANNER_BKG) {
+            mBannerImage.getLayoutParams().height = appBarLayoutHeight;
+            Glide.with(this)
+                    .load(ApplicationConfigUtil.ORIGIN_BANNER_BKG_URI)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(ApplicationConfigUtil.sample_radius, ApplicationConfigUtil.sample_value)))
+                    .into(mBannerImage);
         }
     }
 
 
-    private void initColorList() {
-        for (int i = 0; i < 9; i++) {
-            mThemeList.addTab(mItems[i]);
-            mColorList.addTab(mColors[i]);
-        }
-    }
-
-    @SuppressLint("InflateParams")
     @Override
     public void loadData() {
-        for (int i = 0; i < 9; i++) {
-            View view = getLayoutInflater().inflate(R.layout.ly_item_theme, null);
-            View colorBlock = view.findViewById(R.id.v_color_block);
-            colorBlock.setBackgroundColor(ContextCompat.getColor(this, ThemeUtil.AppTheme[i]));
-            mItems[i].setCustomView(view);
-        }
-        mHandler.sendEmptyMessage(MessageForHandler.LOCAL_DATA_LOADED);
     }
 
     @Override
     public void refreshData() {
-
     }
 
     @Override
     public void registerViewComponentsAffairs() {
         mToolBar.setNavigationOnClickListener(v -> {
+            ApplicationConfigUtil.storeAppConfig();
             finish();
         });
-        mThemeList.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                THEME_SELECT_ID = tab.getPosition();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-        mSave.setOnClickListener(v -> {
-            if (THEME_SELECT_ID != ThemeUtil.THEME_ID) {
-                SharedPreferences theme_config = getSharedPreferences(ThemeUtil.THEME_CONFIG_FILE_NAME, MODE_PRIVATE);
-                @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = theme_config.edit();
-                editor.putInt(ThemeUtil.KEY_COLOR, THEME_SELECT_ID);
-                if (editor.commit()) {
-                    ToastUtil.showToast(ThemeActivity.this, "修改主题成功，重启后生效", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
-                } else {
-                    ToastUtil.showToast(this, "修改主题失败", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
+        for (ViewGroup theme : mThemeList) {
+            theme.setOnClickListener(v -> {
+                int cur = (int) v.getTag();
+                ThemeUtil.changeTheme(cur);
+                StatusBarUtil.setSinkStatusBar(this, false, ThemeUtil.Theme.afterGetResourcesColorId);
+                mToolBar.bindAndSetThisToolbar(this, true, "主题颜色");
+                mFavor.setColorFilter(themeColorId);
+                mThemeList = new ViewGroup[9];
+                BitMapAndDrawableUtil.setSeekBarColor(mSampleRadius, ThemeUtil.Theme.afterGetResourcesColorId);
+                BitMapAndDrawableUtil.setSeekBarColor(mSamplingValue, ThemeUtil.Theme.afterGetResourcesColorId);
+                mRadius.setTextColor(ThemeUtil.Theme.afterGetResourcesColorId);
+                mSampling.setTextColor(ThemeUtil.Theme.afterGetResourcesColorId);
+                /* 双向指针 */
+                int k = 0, j = mThemeList.length - 1;
+                while (k <= j) {
+                    if (k != cur)
+                        mThemeListChecks[k].setImageDrawable(null);
+                    if (j != cur)
+                        mThemeListChecks[j].setImageDrawable(null);
+                    k++;
+                    j--;
                 }
+                mThemeListChecks[cur].setImageDrawable(HermitCrabVectorIllustrations.VI_CHECK_THEME);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        ApplicationConfigUtil.storeAppConfig();
+                    }
+                }.start();
+            });
+        }
+        mSampleRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int val = progress / 4;
+                if (val == 0) val = 1;
+                mRadius.setText(String.valueOf(val));
+                updatePreview(val, ApplicationConfigUtil.sample_value);
+                ApplicationConfigUtil.sample_radius = val;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
+        mSamplingValue.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int val = progress / 33 + 1;
+                mSampling.setText(String.valueOf(val));
+                updatePreview(ApplicationConfigUtil.sample_radius, val);
+                ApplicationConfigUtil.sample_value = val;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void updatePreview(int radius, int val) {
+        /* 利用签名机制，更新图片 */
+        RequestOptions signature = new RequestOptions().signature(new ObjectKey(System.currentTimeMillis()));
+        Glide.with(ThemeActivity.this)
+                .asBitmap()
+                .apply(signature)
+                .load(ApplicationConfigUtil.ORIGIN_BANNER_BKG_URI)
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(radius, val)))
+                .into(customTarget);
     }
 
     @Override
@@ -160,5 +276,11 @@ public class ThemeActivity extends BaseActivity {
     @Override
     public void detachPresenter() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        ApplicationConfigUtil.storeAppConfig();
+        super.onBackPressed();
     }
 }

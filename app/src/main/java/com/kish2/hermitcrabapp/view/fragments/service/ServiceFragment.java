@@ -20,6 +20,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
+import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
@@ -56,6 +57,12 @@ public class ServiceFragment extends BaseFragment {
     };
     View[] mServiceItems;
     GridLayout.LayoutParams[] mItemsParams;
+
+    @Override
+    protected void themeChanged() {
+        /* 设置AppBarLayout的颜色 */
+        mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
+    }
 
     /* 这三个方法必须重写 */
     @SuppressLint("HandlerLeak")
@@ -142,7 +149,9 @@ public class ServiceFragment extends BaseFragment {
 
     @Override
     public void refreshData() {
-
+        if (ApplicationConfigUtil.HAS_AVATAR && ApplicationConfigUtil.USER_AVATAR != null) {
+            mUserAvatar.setImageBitmap(ApplicationConfigUtil.USER_AVATAR);
+        }
     }
 
     @Override

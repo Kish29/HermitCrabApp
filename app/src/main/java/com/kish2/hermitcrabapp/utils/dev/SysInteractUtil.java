@@ -27,12 +27,22 @@ public class SysInteractUtil {
     public static final int request_file_pick_permission = 1;
 
     /* activity的请求码 */
+    public static final int request_camera_activity_no_crop = 5;
     public static final int request_camera_activity_crop = 2;
     public static final int request_gallery_activity_crop = 3;
     public static final int request_crop_activity = 4;
 
     private static File operateSourceFile;
     private static File operateDestFile;
+
+    /* 定义操作系统文件的目的 */
+    public enum FILE_OPERATE_PURPOSE {
+        NORMAL,
+        USER_AVATAR,
+        BANNER_BKG,
+        SIDE_MENU_BKG,
+        PRODUCT_PICS,
+    }
 
     /* 检查并申请权限 */
     public static boolean checkAndRequestPermissions(Activity activity, ArrayList<String> permissionList, int requestCode) {
@@ -54,16 +64,16 @@ public class SysInteractUtil {
         return false;
     }
 
-    public static void uploadPicture(Activity activity, @NonNull String saveFileName, FileStorageManager.DIR_TYPE dir_type) throws IOException {
+    public static void uploadPicture(Activity activity, @NonNull String saveFileName, FileStorageManager.DIR_TYPE dir_type, int requestActivityCode) throws IOException {
         /* 创建或获取要保存的文件 */
         operateDestFile = FileStorageManager.createFileIfNull(saveFileName, dir_type);
         Intent picture = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        activity.startActivityForResult(picture, request_gallery_activity_crop);
+        activity.startActivityForResult(picture, requestActivityCode);
     }
 
     /* 注意，调用该函数应该先检查权限 */
     /* 调用该函数，并将拍摄的照片保存在对应的文件夹中 */
-    public static void takePhoto(Activity activity, @NonNull String saveFileName, FileStorageManager.DIR_TYPE dir_type) throws IOException {
+    public static void takePhoto(Activity activity, @NonNull String saveFileName, FileStorageManager.DIR_TYPE dir_type, int requestActivityCode) throws IOException {
         /* 创建或获取要保存的文件 */
         operateSourceFile = FileStorageManager.createFileIfNull(saveFileName, dir_type);
         System.out.println(operateSourceFile);
@@ -76,7 +86,7 @@ public class SysInteractUtil {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoTakenUri);
         /* 设置获取的图片或视屏的质量，最高质量是1 */
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-        activity.startActivityForResult(intent, request_camera_activity_crop);
+        activity.startActivityForResult(intent, requestActivityCode);
     }
 
     public static Uri getProviderUriFromFile(File file) {

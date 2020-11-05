@@ -15,15 +15,8 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/ctl_banner_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlways">
-
-            <ImageView
-                android:id="@+id/iv_banner_bkg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="match_parent"

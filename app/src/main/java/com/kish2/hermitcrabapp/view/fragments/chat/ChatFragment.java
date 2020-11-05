@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.view.fragments.message;
+package com.kish2.hermitcrabapp.view.fragments.chat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -22,6 +22,7 @@ import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.ChatPresenter;
+import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
@@ -59,6 +60,13 @@ public class ChatFragment extends BaseFragment {
         this.mChatsAdapter = mChatsAdapter;
     }
 
+
+    @Override
+    protected void themeChanged() {
+        /* 设置AppBarLayout的颜色 */
+        mAppBarLayout.setBackgroundColor(themeColorId);
+        mRefreshLayout.setColorSchemeColors(themeColorId);
+    }
 
     /* 这三个方法必须重写 */
     @SuppressLint("HandlerLeak")
@@ -147,7 +155,9 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     public void refreshData() {
-
+        if (ApplicationConfigUtil.HAS_AVATAR && ApplicationConfigUtil.USER_AVATAR != null) {
+            mUserAvatar.setImageBitmap(ApplicationConfigUtil.USER_AVATAR);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")

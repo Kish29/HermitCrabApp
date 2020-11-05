@@ -28,6 +28,7 @@ public class HermitCrabVectorIllustrations {
     public static VectorDrawable VI_CIRCLE;
     public static VectorDrawable VI_MALE;
     public static VectorDrawable VI_FEMALE;
+    public static VectorDrawable VI_CHECK_THEME;
 
     public static int colorWhite;
     public static int colorBlack;
@@ -72,6 +73,7 @@ public class HermitCrabVectorIllustrations {
         VI_CIRCLE = (VectorDrawable) ContextCompat.getDrawable(context, R.drawable.ai_circle);
         VI_MALE = (VectorDrawable) ContextCompat.getDrawable(context, R.drawable.ai_male);
         VI_FEMALE = (VectorDrawable) ContextCompat.getDrawable(context, R.drawable.ai_female);
+        VI_CHECK_THEME = (VectorDrawable) ContextCompat.getDrawable(context, R.drawable.ai_checked);
     }
 
     /* 设置颜色 */
@@ -90,8 +92,7 @@ public class HermitCrabVectorIllustrations {
         VI_VERIFY.setTint(colorId);
         VI_ARROW_DOWN.setTint(colorId);
         VI_CIRCLE.setTint(colorId);
-
-        setAIColorWhite();
+        VI_CHECK_THEME.setTint(colorId);
     }
 
     public static void setAIColorWhite() {

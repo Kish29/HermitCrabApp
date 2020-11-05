@@ -68,12 +68,22 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
         }
         /* onResume必须要刷新数据 */
         refreshData();
+        if (ThemeUtil.Theme.afterGetResourcesColorId != themeColorId) {
+            themeColorId = ThemeUtil.Theme.afterGetResourcesColorId;
+            themeChanged();
+        }
     }
+
+    /* 判断标准，theme类保存的colorId是否等于原来的colorId*/
+    protected int themeColorId = -1;
+
+    protected abstract void themeChanged();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+        themeColorId = ThemeUtil.Theme.afterGetResourcesColorId;
     }
 
     /* 用CoordinatorLayout之后只需要下降底部Tab条即可 */
@@ -128,9 +138,6 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
         return false;
     }
 
-    public void setDarkThemeColor() {
-    }
-
-    public void setLightThemeColor() {
+    public void setTextAndIconColor(boolean isDarkTheme) {
     }
 }

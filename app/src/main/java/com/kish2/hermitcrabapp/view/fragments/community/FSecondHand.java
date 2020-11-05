@@ -40,16 +40,16 @@ public class FSecondHand extends FCommunityBase {
 
     SecondHandPresenter mPresenter;
 
-    private float mFirstY;
-    private float mTouchSlop;
-    private float mCurrentY;
+    @Override
+    protected void themeChanged() {
+        mRefreshLayout.setColorSchemeColors(themeColorId);
+    }
 
     @SuppressLint("HandlerLeak")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         attachPresenter();
-        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {

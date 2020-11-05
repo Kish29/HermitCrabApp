@@ -39,4 +39,9 @@ public class FTopic extends FCommunityBase{
     public void detachPresenter() {
 
     }
+
+    @Override
+    protected void themeChanged() {
+
+    }
 }
