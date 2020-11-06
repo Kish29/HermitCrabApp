@@ -1,5 +1,7 @@
 package com.kish2.hermitcrabapp.bean;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
@@ -11,6 +13,8 @@ public class Inform {
     private Date date;
 
     private int picInt;
+
+    private LottieAnimationView favor;
 
     public int getPicInt() {
         return picInt;

@@ -27,12 +27,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
             android:id="@+id/ly_message_category"
@@ -63,19 +57,19 @@
                 android:layout_height="40dp"
                 android:layout_weight="1" />
         </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout
-            android:id="@+id/srl_refresh_list"
+    <com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout
+        android:id="@+id/srl_refresh_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_messages_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/ly_message_category">
+            android:layout_height="wrap_content" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_messages_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

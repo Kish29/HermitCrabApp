@@ -354,7 +354,7 @@
                         android:id="@+id/lav_heart_purchase"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        app:lottie_fileName="twitter-heart-purchase.json" />
+                        app:lottie_fileName="favor-app.json" />
 
                     <Button
                         android:id="@+id/btn_ani_start"
