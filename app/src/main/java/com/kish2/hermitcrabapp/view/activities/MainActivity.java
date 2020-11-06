@@ -8,7 +8,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -25,7 +24,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.tabs.TabLayout;
@@ -34,7 +32,6 @@ import com.kish2.hermitcrabapp.adapters.viewpager.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.custom.view.NoScrollViewPager;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
-import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
 import com.kish2.hermitcrabapp.utils.dev.GlideResourceRecycleManager;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.dev.SysInteractUtil;
@@ -45,12 +42,8 @@ import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.fragments.personal.PersonalFragment;
 import com.yalantis.ucrop.UCrop;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MainActivity extends BaseActivity {
 
@@ -179,7 +172,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void loadData() {
         for (int i = 0; i < ThemeUtil.BOTTOM_TAB_NUM; i++) {
-            View tabBarBasic = getLayoutInflater().inflate(R.layout.ly_tab_bottom, null);
+            View tabBarBasic = getLayoutInflater().inflate(R.layout.view_tab_bottom, null);
 
             // 使用自定义视图，目的是为了便于修改
             mTabs[i].setCustomView(tabBarBasic);

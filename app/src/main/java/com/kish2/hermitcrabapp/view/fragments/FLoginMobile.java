@@ -49,7 +49,7 @@ public class FLoginMobile extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View loginMobile = inflater.inflate(R.layout.ly_login_mobile, container, false);// 视图与父容器ViewGroup不需要连接
+        View loginMobile = inflater.inflate(R.layout.view_login_mobile, container, false);// 视图与父容器ViewGroup不需要连接
         ButterKnife.bind(this, loginMobile);
         getAndSetLayoutView();
         /* 注册事件 */

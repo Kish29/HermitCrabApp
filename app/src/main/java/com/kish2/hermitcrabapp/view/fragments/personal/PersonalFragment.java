@@ -1,7 +1,6 @@
 package com.kish2.hermitcrabapp.view.fragments.personal;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,6 +11,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,6 +24,7 @@ import androidx.core.view.GravityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.palette.graphics.Palette;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -32,7 +33,6 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.viewpager.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
@@ -41,7 +41,6 @@ import com.kish2.hermitcrabapp.presenter.fragments.PersonalPresenter;
 import com.kish2.hermitcrabapp.utils.App;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
-import com.kish2.hermitcrabapp.utils.dev.GlideResourceRecycleManager;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.dev.SysInteractUtil;
 import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
@@ -111,6 +110,16 @@ public class PersonalFragment extends BaseFragment {
     TextView topicText;
 
 
+    @BindView(R.id.lav_heart_purchase)
+    LottieAnimationView mHeartPurchase;
+    @BindView(R.id.btn_ani_start)
+    Button aniStart;
+    @BindView(R.id.btn_ani_reverse)
+    Button aniReverse;
+    @BindView(R.id.btn_ani_reset)
+    Button aniReset;
+
+
     /* 发布中心*/
     @BindView(R.id.ll_old_publish)
     View mOldPublish;
@@ -143,6 +152,7 @@ public class PersonalFragment extends BaseFragment {
         };
         curSampleRadius = ApplicationConfigUtil.sample_radius;
         curSampleVal = ApplicationConfigUtil.sample_value;
+
     }
 
     @Nullable
@@ -154,6 +164,8 @@ public class PersonalFragment extends BaseFragment {
         getAndSetLayoutView();
         registerViewComponentsAffairs();
         mAppBarLayout.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
+
+
         return fragmentPersonal;
     }
 
@@ -178,7 +190,6 @@ public class PersonalFragment extends BaseFragment {
         mSideMenu.setImageDrawable(HermitCrabVectorIllustrations.VI_MENU);
         mTheme.setImageDrawable(HermitCrabVectorIllustrations.VI_THEME);
         mSetting.setImageDrawable(HermitCrabVectorIllustrations.VI_SETTING);
-
     }
 
     @Override
@@ -422,6 +433,19 @@ public class PersonalFragment extends BaseFragment {
                 messageDialog.setButtonOrientation(LinearLayout.HORIZONTAL);
                 messageDialog.show();
             }
+        });
+
+        aniStart.setOnClickListener(v -> {
+            mHeartPurchase.setSpeed(1);
+            mHeartPurchase.playAnimation();
+        });
+        aniReverse.setOnClickListener(v -> {
+            mHeartPurchase.setSpeed(-1);
+            mHeartPurchase.playAnimation();
+        });
+        aniReset.setOnClickListener(v -> {
+            mHeartPurchase.setFrame(1);
+            mHeartPurchase.cancelAnimation();
         });
     }
 

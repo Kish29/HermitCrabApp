@@ -135,7 +135,7 @@ public class ServiceFragment extends BaseFragment {
         mServiceItems = new View[len];
         mItemsParams = new GridLayout.LayoutParams[len];
         for (int i = 0; i < len; i++) {
-            mServiceItems[i] = getLayoutInflater().inflate(R.layout.ly_item_general, null);
+            mServiceItems[i] = getLayoutInflater().inflate(R.layout.view_item_general, null);
             ImageView itemSurface = mServiceItems[i].findViewById(R.id.iv_item_surface);
             itemSurface.setImageResource(R.drawable.ic_app_icon);
             TextView itemDesc = mServiceItems[i].findViewById(R.id.tv_item_desc);

@@ -25,7 +25,7 @@
 
                 <include
                     android:id="@+id/top_retrieve_bar"
-                    layout="@layout/ly_top_retrieve_bar_personal" />
+                    layout="@layout/view_top_retrieve_bar_personal" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -33,7 +33,7 @@
 
                     <include
                         android:id="@+id/ll_user_brief"
-                        layout="@layout/ly_user_brief"
+                        layout="@layout/view_user_brief"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         app:layout_constraintEnd_toStartOf="@+id/rl_user_avatar"
@@ -344,11 +344,37 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="80dp"
+                    android:gravity="start|center"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_service_switch" />
+                    app:layout_constraintTop_toBottomOf="@+id/ll_service_switch">
 
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lav_heart_purchase"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:lottie_fileName="twitter-heart-purchase.json" />
+
+                    <Button
+                        android:id="@+id/btn_ani_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="动画播放" />
+
+                    <Button
+                        android:id="@+id/btn_ani_reverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="动画到放" />
+
+                    <Button
+                        android:id="@+id/btn_ani_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="动画重置" />
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

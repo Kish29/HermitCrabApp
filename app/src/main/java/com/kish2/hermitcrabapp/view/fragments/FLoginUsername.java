@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -16,7 +15,6 @@ import androidx.annotation.Nullable;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
-import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 
 import butterknife.BindView;
@@ -59,7 +57,7 @@ public class FLoginUsername extends BaseFragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View loginUsername = inflater.inflate(R.layout.ly_login_username, container, false);// 视图与父容器ViewGroup不需要连接
+        View loginUsername = inflater.inflate(R.layout.view_login_username, container, false);// 视图与父容器ViewGroup不需要连接
         ButterKnife.bind(this, loginUsername);
         getAndSetLayoutView();
         /* 注册事件 */

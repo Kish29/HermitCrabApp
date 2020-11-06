@@ -23,7 +23,7 @@
 
             <include
                 android:id="@+id/top_retrieve_bar"
-                layout="@layout/ly_top_retrieve_bar_message"
+                layout="@layout/view_top_retrieve_bar_message"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -31,7 +31,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
@@ -73,11 +73,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_messages_list"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content" />
 
         </com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

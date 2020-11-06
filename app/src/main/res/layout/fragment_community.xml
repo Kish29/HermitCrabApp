@@ -33,7 +33,7 @@
 
                 <include
                     android:id="@+id/top_retrieve_bar"
-                    layout="@layout/ly_top_retrieve_bar_community"
+                    layout="@layout/view_top_retrieve_bar_community"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>

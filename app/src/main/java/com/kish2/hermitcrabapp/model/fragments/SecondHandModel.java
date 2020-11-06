@@ -13,10 +13,8 @@ public class SecondHandModel {
         for (int i = 0; i < 100; i++) {
             Inform inform = new Inform();
             inform.setDate(new Date());
-            int j = new Random().nextInt(11);
-            if (j <= 5)
-                inform.setImgSrc("yes");
-            else inform.setImgSrc("no");
+            int j = new Random().nextInt(6);
+            inform.setPicInt(j);
             inform.setTitle("model:j->" + j + '\t');
             informs.add(inform);
         }

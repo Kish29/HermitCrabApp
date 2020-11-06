@@ -14,16 +14,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.Inform;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAdapter.ItemHolder> {
 
     private List<Inform> mInformList;
     private Context mContext;
+
+    private int[] img = new int[]{
+            R.mipmap.login_background,
+            R.mipmap.bg_side_menu,
+            R.mipmap.img_error_dark,
+            R.drawable.bg_register,
+            R.mipmap.img_finish_dark,
+            R.mipmap.img_warning_dark,
+    };
 
     public RecyclerInformAdapter(List<Inform> informList, Context context) {
         this.mInformList = informList;
@@ -34,7 +45,8 @@ public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAd
     @Override
     public RecyclerInformAdapter.ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // 找到一个xml布局，但是是隐藏的
-        View view = LayoutInflater.from(mContext).inflate(R.layout.ly_inform_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.view_item_inform, parent, false);
+//        ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).bottomMargin = 0;
         return new ItemHolder(view);
     }
 
@@ -46,9 +58,8 @@ public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAd
         String title = inform.getTitle() + "pos->" + position;
         holder.title.setText(title);
         holder.date.setText(new SimpleDateFormat("yyyy-MM-dd \n HH:mm:ss").format(new Date().getTime()));
-        if (inform.getImgSrc().equals("yes"))
-            holder.imgSrc.setImageResource(R.mipmap.login_background);
-        else holder.imgSrc.setImageDrawable(null);
+        Glide.with(mContext).load(img[inform.getPicInt()]).into(holder.imgSrc);
+        holder.imgSrc.setImageResource(img[inform.getPicInt()]);
         ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
         /*layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;*/
         holder.itemView.setLayoutParams(layoutParams);

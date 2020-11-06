@@ -52,39 +52,39 @@
 
                 <include
                     android:id="@+id/theme_1"
-                    layout="@layout/ly_item_theme" />
+                    layout="@layout/view_item_theme" />
 
                 <include
                     android:id="@+id/theme_2"
-                    layout="@layout/ly_item_theme" />
+                    layout="@layout/view_item_theme" />
 
                 <include
                     android:id="@+id/theme_3"
-                    layout="@layout/ly_item_theme" />
+                    layout="@layout/view_item_theme" />
 
                 <include
                     android:id="@+id/theme_4"
-                    layout="@layout/ly_item_theme" />
+                    layout="@layout/view_item_theme" />
 
                 <include
                     android:id="@+id/theme_5"
-                    layout="@layout/ly_item_theme" />
+                    layout="@layout/view_item_theme" />
 
                 <include
                     android:id="@+id/theme_6"
-                    layout="@layout/ly_item_theme" />
+                    layout="@layout/view_item_theme" />
 
                 <include
                     android:id="@+id/theme_7"
-                    layout="@layout/ly_item_theme" />
+                    layout="@layout/view_item_theme" />
 
                 <include
                     android:id="@+id/theme_8"
-                    layout="@layout/ly_item_theme" />
+                    layout="@layout/view_item_theme" />
 
                 <include
                     android:id="@+id/theme_9"
-                    layout="@layout/ly_item_theme" />
+                    layout="@layout/view_item_theme" />
             </LinearLayout>
 
             <TextView

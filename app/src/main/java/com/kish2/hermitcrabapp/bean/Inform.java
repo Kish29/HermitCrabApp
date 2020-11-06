@@ -10,7 +10,11 @@ public class Inform {
 
     private Date date;
 
-    private String imgSrc;
+    private int picInt;
+
+    public int getPicInt() {
+        return picInt;
+    }
 
     @NotNull
     @Override
@@ -18,9 +22,16 @@ public class Inform {
         return "Inform{" +
                 "title='" + title + '\'' +
                 ", date=" + date +
+                ", picInt=" + picInt +
                 ", imgSrc='" + imgSrc + '\'' +
                 '}';
     }
+
+    public void setPicInt(int picInt) {
+        this.picInt = picInt;
+    }
+
+    private String imgSrc;
 
     public String getTitle() {
         return title;
