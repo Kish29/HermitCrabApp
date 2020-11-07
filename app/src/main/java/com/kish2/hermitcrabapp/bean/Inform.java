@@ -1,38 +1,34 @@
 package com.kish2.hermitcrabapp.bean;
 
-import com.airbnb.lottie.LottieAnimationView;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
 public class Inform {
 
-    private String title;
+    private String imgUrl;
 
     private Date date;
 
-    private int picInt;
+//    private String date;
 
-    private LottieAnimationView favor;
+    private String weekDay;
 
-    public int getPicInt() {
-        return picInt;
-    }
+    private String title;
+
+    private String address;
 
     @NotNull
     @Override
     public String toString() {
         return "Inform{" +
-                "title='" + title + '\'' +
+                "imgUrl='" + imgUrl + '\'' +
                 ", date=" + date +
-                ", picInt=" + picInt +
+                ", weekDay='" + weekDay + '\'' +
+                ", title='" + title + '\'' +
+                ", address='" + address + '\'' +
                 ", imgSrc='" + imgSrc + '\'' +
                 '}';
-    }
-
-    public void setPicInt(int picInt) {
-        this.picInt = picInt;
     }
 
     private String imgSrc;

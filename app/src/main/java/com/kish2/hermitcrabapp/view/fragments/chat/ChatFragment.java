@@ -45,8 +45,6 @@ public class ChatFragment extends BaseFragment {
     /* 用户头像*/
     RoundedImageView mUserAvatar;
 
-    @BindView(R.id.ly_message_category)
-    LinearLayout mChatCategory;
     @BindView(R.id.srl_refresh_list)
     CustomSwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_messages_list)

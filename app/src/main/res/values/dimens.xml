@@ -8,6 +8,7 @@
     <dimen name="item_margin">8dp</dimen>
     <dimen name="item_elevation">8dp</dimen>
     <dimen name="item_corner_radius">8dp</dimen>
+    <dimen name="inform_height">200dp</dimen>
 
     <dimen name="font_10">10sp</dimen>
     <dimen name="font_12">12sp</dimen>

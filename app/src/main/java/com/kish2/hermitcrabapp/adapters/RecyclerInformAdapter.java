@@ -15,30 +15,26 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.Inform;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAdapter.ItemHolder> {
 
     private List<Inform> mInformList;
     private Context mContext;
 
-    private int[] img = new int[]{
-            R.mipmap.login_background,
-            R.mipmap.bg_side_menu,
-            R.mipmap.img_error_dark,
-            R.drawable.bg_register,
-            R.mipmap.img_finish_dark,
-            R.mipmap.img_warning_dark,
-    };
-
     public RecyclerInformAdapter(List<Inform> informList, Context context) {
         this.mInformList = informList;
         this.mContext = context;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
     @NonNull
@@ -55,14 +51,16 @@ public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAd
     @Override
     public void onBindViewHolder(@NonNull RecyclerInformAdapter.ItemHolder holder, int position) {
         Inform inform = mInformList.get(position);
-        String title = inform.getTitle() + "pos->" + position;
-        holder.title.setText(title);
-        holder.date.setText(new SimpleDateFormat("yyyy-MM-dd \n HH:mm:ss").format(new Date().getTime()));
-        Glide.with(mContext).load(img[inform.getPicInt()]).into(holder.imgSrc);
-        holder.imgSrc.setImageResource(img[inform.getPicInt()]);
-        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        holder.title.setText("星期日");
+        holder.date.setText(new SimpleDateFormat("yyyy年MM月dd日").format(new Date().getTime()));
+        Glide.with(mContext)
+                .load("http://cn.bing.com/az/hprichbg/rb/Dongdaemun_ZH-CN10736487148_1920x1080.jpg")
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.imgSrc);
+//        holder.imgSrc.setImageResource(img[inform.getPicInt()]);
+//        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
         /*layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;*/
-        holder.itemView.setLayoutParams(layoutParams);
+//        holder.itemView.setLayoutParams(layoutParams);
     }
 
     @Override
@@ -78,7 +76,7 @@ public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAd
 
         private ItemHolder(@NonNull View itemView) {
             super(itemView);
-            this.title = itemView.findViewById(R.id.tv_inform_title);
+            this.title = itemView.findViewById(R.id.tv_inform_day);
             this.date = itemView.findViewById(R.id.tv_inform_date);
             this.imgSrc = itemView.findViewById(R.id.tv_inform_img);
         }

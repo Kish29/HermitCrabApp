@@ -20,21 +20,29 @@
         app:riv_border_width="1dp"
         app:riv_oval="true" />
 
-    <ImageButton
-        android:id="@+id/ib_personal_theme"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <ImageView
+        android:id="@+id/iv_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/item_margin"
+        android:layout_toStartOf="@+id/iv_message"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ai_contact" />
+
+    <ImageView
+        android:id="@+id/iv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:contentDescription="@null" />
-
-    <ImageButton
-        android:id="@+id/ib_personal_setting"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/ib_personal_theme"
-        android:contentDescription="@null" />
+        android:layout_marginStart="@dimen/item_margin"
+        android:layout_marginTop="@dimen/item_margin"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="@dimen/item_margin"
+        android:contentDescription="@null"
+        android:src="@drawable/ai_message" />
 
 </RelativeLayout>
 

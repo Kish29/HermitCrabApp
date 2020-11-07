@@ -14,9 +14,7 @@ public class LatestModel {
         for (int i = 0; i < 100; i++) {
             Inform inform = new Inform();
             inform.setDate(new Date());
-            int j = new Random().nextInt(6);
-            inform.setPicInt(j);
-            inform.setTitle("model:j->" + j + '\t');
+            inform.setTitle("星期日");
             informs.add(inform);
         }
     }

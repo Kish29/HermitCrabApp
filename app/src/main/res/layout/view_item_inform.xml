@@ -1,52 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/inform_height"
     android:layout_margin="@dimen/item_margin"
     android:orientation="vertical"
     android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
     app:cardCornerRadius="@dimen/item_corner_radius"
     app:cardElevation="@dimen/item_elevation">
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/tv_inform_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="top"
+            android:layout_weight="2"
             android:contentDescription="@null"
-            android:scaleType="centerCrop"
-            android:textSize="@dimen/font_18" />
+            android:scaleType="centerCrop" />
 
+        <!-- baseLineAligned 通过文本的基线对齐 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_inform_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:textSize="@dimen/font_18" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
 
-            <TextView
-                android:id="@+id/tv_inform_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:textSize="@dimen/font_18" />
+                <TextView
+                    android:id="@+id/tv_inform_day"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="星期一"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_16"
+                    tools:ignore="NestedWeights" />
 
-            <com.kish2.hermitcrabapp.custom.view.FavorButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="end" />
+                <TextView
+                    android:id="@+id/tv_inform_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="2020年11月11日"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/font_14" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:text="参加中国新说唱都是大傻逼"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_16" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_position"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ai_position"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:gravity="start|center"
+                        android:text="机电信息楼"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/font_14"
+                        app:layout_constraintStart_toEndOf="@+id/iv_position" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

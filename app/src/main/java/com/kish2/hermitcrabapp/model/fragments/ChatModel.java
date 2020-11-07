@@ -13,9 +13,7 @@ public class ChatModel {
         for (int i = 0; i < 30; i++) {
             Inform inform = new Inform();
             inform.setDate(new Date());
-            int j = new Random().nextInt(6);
-            inform.setPicInt(j);
-            inform.setTitle("model:j->" + j + '\t');
+            inform.setTitle("");
             informs.add(inform);
         }
     }
