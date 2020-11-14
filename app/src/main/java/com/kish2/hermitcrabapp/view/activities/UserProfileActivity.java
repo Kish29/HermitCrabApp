@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
-import com.kish2.hermitcrabapp.presenter.activities.UserProfilePresenter;
+import com.kish2.hermitcrabapp.presenter.impl.UserPresenterImpl;
 import com.kish2.hermitcrabapp.utils.App;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
@@ -46,7 +46,7 @@ public class UserProfileActivity extends BaseActivity {
     @BindView(R.id.ll_bind_student_department)
     ViewGroup mBindDepartment;
 
-    private UserProfilePresenter mPresenter;
+    private UserPresenterImpl mPresenter;
 
     @Override
     protected void themeChanged() {
@@ -150,7 +150,8 @@ public class UserProfileActivity extends BaseActivity {
 
     @Override
     public void attachPresenter() {
-        this.mPresenter = new UserProfilePresenter(this);
+        this.mPresenter = new UserPresenterImpl();
+        this.mPresenter.bindView(this);
         getLifecycle().addObserver(this.mPresenter);
     }
 
@@ -162,6 +163,5 @@ public class UserProfileActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        detachPresenter();
     }
 }

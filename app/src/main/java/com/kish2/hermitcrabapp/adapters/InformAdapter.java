@@ -22,12 +22,12 @@ import com.kish2.hermitcrabapp.bean.Inform;
 import java.util.Date;
 import java.util.List;
 
-public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAdapter.ItemHolder> {
+public class InformAdapter extends RecyclerView.Adapter<InformAdapter.ItemHolder> {
 
     private List<Inform> mInformList;
     private Context mContext;
 
-    public RecyclerInformAdapter(List<Inform> informList, Context context) {
+    public InformAdapter(List<Inform> informList, Context context) {
         this.mInformList = informList;
         this.mContext = context;
     }
@@ -39,9 +39,9 @@ public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAd
 
     @NonNull
     @Override
-    public RecyclerInformAdapter.ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public InformAdapter.ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // 找到一个xml布局，但是是隐藏的
-        View view = LayoutInflater.from(mContext).inflate(R.layout.view_item_inform, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.view_item_inform_preview, parent, false);
 //        ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).bottomMargin = 0;
         return new ItemHolder(view);
     }
@@ -49,12 +49,12 @@ public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAd
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void onBindViewHolder(@NonNull RecyclerInformAdapter.ItemHolder holder, int position) {
+    public void onBindViewHolder(@NonNull InformAdapter.ItemHolder holder, int position) {
         Inform inform = mInformList.get(position);
         holder.title.setText("星期日");
         holder.date.setText(new SimpleDateFormat("yyyy年MM月dd日").format(new Date().getTime()));
         Glide.with(mContext)
-                .load("http://cn.bing.com/az/hprichbg/rb/Dongdaemun_ZH-CN10736487148_1920x1080.jpg")
+                .load("http://cipp.ustb.edu.cn/attachment/0/20201103/78FD9D00644743C78D4D7BF0F51D873E_校园网登录界面海报_自定义px_2020-11-03-0 (1).jpeg")
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.imgSrc);
 //        holder.imgSrc.setImageResource(img[inform.getPicInt()]);
@@ -78,7 +78,7 @@ public class RecyclerInformAdapter extends RecyclerView.Adapter<RecyclerInformAd
             super(itemView);
             this.title = itemView.findViewById(R.id.tv_inform_day);
             this.date = itemView.findViewById(R.id.tv_inform_date);
-            this.imgSrc = itemView.findViewById(R.id.tv_inform_img);
+            this.imgSrc = itemView.findViewById(R.id.iv_inform_img);
         }
     }
 }

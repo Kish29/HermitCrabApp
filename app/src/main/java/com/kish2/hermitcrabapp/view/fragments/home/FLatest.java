@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
+import com.kish2.hermitcrabapp.adapters.InformAdapter;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.LatestPresenter;
@@ -34,10 +34,10 @@ public class FLatest extends FHomeBase {
     @BindView(R.id.rv_container_items)
     RecyclerView mInformList;
 
-    RecyclerInformAdapter mInformsAdapter;
+    InformAdapter mInformsAdapter;
     LatestPresenter mPresenter;
 
-    public void setmInformsAdapter(RecyclerInformAdapter mInformsAdapter) {
+    public void setmInformsAdapter(InformAdapter mInformsAdapter) {
         this.mInformsAdapter = mInformsAdapter;
     }
 
@@ -107,7 +107,7 @@ public class FLatest extends FHomeBase {
     @Override
     public void loadData() {
         mRefreshLayout.setRefreshing(true);
-        mPresenter.loadDataFromServer();
+        mPresenter.getDataFromModel();
         mRefreshLayout.setRefreshing(false);
     }
 
@@ -123,7 +123,7 @@ public class FLatest extends FHomeBase {
         mInformList.setOnTouchListener(this::touchCheck);
 
         mRefreshLayout.setOnRefreshListener(() -> {
-            mPresenter.loadDataFromServer();
+            mPresenter.getDataFromModel();
             mRefreshLayout.setRefreshing(false);
         });
     }

@@ -25,14 +25,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
 import com.kish2.hermitcrabapp.custom.view.FixedVideoView;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
-import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
-import com.kish2.hermitcrabapp.presenter.activities.LoginPresenter;
+import com.kish2.hermitcrabapp.presenter.impl.UserPresenterImpl;
+import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.security.InputCheckUtil;
 import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
-import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity
 
     private GradientDrawable mBGDrawable;
     private String mVideoPath;
-    private LoginPresenter mPresenter;
+    private UserPresenterImpl mPresenter;
 
     /* 两种登录方式的fragment */
     private FLoginUsername mFLoginUsername;
@@ -350,7 +350,8 @@ public class LoginActivity extends BaseActivity
 
     @Override
     public void attachPresenter() {
-        this.mPresenter = new LoginPresenter(this);
+        this.mPresenter = new UserPresenterImpl();
+        this.mPresenter.bindView(this);
         /* 添加观察者*/
         getLifecycle().addObserver(this.mPresenter);
     }
@@ -362,7 +363,6 @@ public class LoginActivity extends BaseActivity
 
     @Override
     protected void onDestroy() {
-        detachPresenter();
         mLoginSubmit.dispose();
         super.onDestroy();
     }

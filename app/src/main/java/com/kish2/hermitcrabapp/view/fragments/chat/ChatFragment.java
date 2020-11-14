@@ -7,7 +7,6 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +17,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
+import com.kish2.hermitcrabapp.adapters.InformAdapter;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.ChatPresenter;
@@ -50,11 +49,11 @@ public class ChatFragment extends BaseFragment {
     @BindView(R.id.rv_messages_list)
     RecyclerView mChatList;
 
-    RecyclerInformAdapter mChatsAdapter;
+    InformAdapter mChatsAdapter;
     ChatPresenter mPresenter;
 
 
-    public void setmChatsAdapter(RecyclerInformAdapter mChatsAdapter) {
+    public void setmChatsAdapter(InformAdapter mChatsAdapter) {
         this.mChatsAdapter = mChatsAdapter;
     }
 
@@ -127,7 +126,7 @@ public class ChatFragment extends BaseFragment {
         });
         mChatList.setOnTouchListener(this::touchCheck);
         mRefreshLayout.setOnRefreshListener(() -> {
-            mPresenter.loadDataFromServer();
+            mPresenter.getDataFromModel();
             mRefreshLayout.setRefreshing(false);
         });
         mCollapsingHeight = mCollapsingToolbarLayout.getHeight();
@@ -147,7 +146,7 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void loadData() {
         mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADING);
-        mPresenter.loadDataFromServer();
+        mPresenter.getDataFromModel();
         mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
     }
 
@@ -165,7 +164,7 @@ public class ChatFragment extends BaseFragment {
         mChatList.setOnTouchListener(this::touchCheck);
 
         mRefreshLayout.setOnRefreshListener(() -> {
-            mPresenter.loadDataFromServer();
+            mPresenter.getDataFromModel();
             mRefreshLayout.setRefreshing(false);
         });
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {

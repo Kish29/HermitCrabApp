@@ -2,19 +2,19 @@ package com.kish2.hermitcrabapp.presenter.fragments;
 
 import android.os.Message;
 
-import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
+import com.kish2.hermitcrabapp.adapters.InformAdapter;
 import com.kish2.hermitcrabapp.bean.Inform;
+import com.kish2.hermitcrabapp.model.BaseModel;
 import com.kish2.hermitcrabapp.model.fragments.SecondHandModel;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
-import com.kish2.hermitcrabapp.presenter.FBasePresenter;
+import com.kish2.hermitcrabapp.presenter.BasePresenter;
+import com.kish2.hermitcrabapp.view.activities.MainActivity;
 import com.kish2.hermitcrabapp.view.fragments.community.FSecondHand;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-
-public class SecondHandPresenter extends FBasePresenter<FSecondHand> {
+public class SecondHandPresenter extends BasePresenter<MainActivity, FSecondHand> {
 
     private FSecondHand mSecondHand;
     private SecondHandModel mSecondHandModel;
@@ -28,12 +28,12 @@ public class SecondHandPresenter extends FBasePresenter<FSecondHand> {
     }
 
     @Override
-    public void loadDataFromServer() {
+    public void getDataFromModel() {
         mSecondHandModel.updateInforms(mProducts);
         Message message = new Message();
         if (mProducts.size() != 0) {
             if (firstLoad) {
-                mSecondHand.setmProductsAdapter(new RecyclerInformAdapter(mProducts, mSecondHand.getContext()));
+                mSecondHand.setmProductsAdapter(new InformAdapter(mProducts, mSecondHand.getContext()));
                 message.what = MessageForHandler.ADAPTER_INIT;
                 firstLoad = false;
             } else message.what = MessageForHandler.DATA_UPDATE;
@@ -49,57 +49,42 @@ public class SecondHandPresenter extends FBasePresenter<FSecondHand> {
     }
 
     @Override
-    public void onServerDoOperationFailed(Object object) {
+    public void onModelSuccess(Map<BaseModel.MODEL_RET, Object> data) {
 
     }
 
     @Override
-    public void onServerSuccess(Object object) {
+    public void onModelFailure(Map<BaseModel.MODEL_RET, Object> data) {
 
     }
 
     @Override
-    public void onSysNetworkError(Throwable t) {
+    public void onViewPause() {
 
     }
 
     @Override
-    public void dataUpdate(Call<ResponseBody> call) {
+    public void onViewCreate() {
 
     }
 
     @Override
-    public void afterHandleServerError() {
+    public void onViewResume() {
 
     }
 
     @Override
-    public void onFragmentPause() {
+    public void onViewDestroy() {
 
     }
 
     @Override
-    public void onFragmentCreate() {
+    public void onViewStart() {
 
     }
 
     @Override
-    public void onFragmentResume() {
-
-    }
-
-    @Override
-    public void onFragmentDestroy() {
-
-    }
-
-    @Override
-    public void onFragmentStart() {
-
-    }
-
-    @Override
-    public void onFragmentStop() {
+    public void onViewStop() {
 
     }
 }

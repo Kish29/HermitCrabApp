@@ -3,6 +3,7 @@
     <dimen name="reg_page_ht_margin">16dp</dimen>
     <dimen name="reg_page_vc_margin">16dp</dimen>
     <dimen name="retrieve_bar_height">56dp</dimen>
+    <dimen name="chat_item_height">64dp</dimen>
     <dimen name="theme_item_height">46dp</dimen>
     <dimen name="user_profile_item_height">45dp</dimen>
     <dimen name="item_margin">8dp</dimen>

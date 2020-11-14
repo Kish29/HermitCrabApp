@@ -22,11 +22,10 @@ import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.IOException;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 
-public abstract class BaseActivity extends AppCompatActivity implements IBaseActivity {
+public abstract class BaseActivity extends AppCompatActivity implements IBaseView {
 
     protected int DEFAULT_COLOR_ID = -1;
 
@@ -155,8 +154,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseAct
     /* 释放Glide的资源 */
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        /* 解除与presenter的关系 */
+        detachPresenter();
         GlideResourceRecycleManager.recycleBitmapList(simpleClassName);
+        super.onDestroy();
     }
 
     /* 与SysInteract交互的接口 */

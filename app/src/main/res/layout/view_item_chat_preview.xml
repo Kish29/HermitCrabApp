@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/chat_item_height"
+    android:gravity="center_vertical"
+    android:stretchColumns="1">
+
+    <TableRow tools:ignore="UselessParent">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/riv_chat_target"
+            android:layout_width="@dimen/retrieve_bar_height"
+            android:layout_height="@dimen/retrieve_bar_height"
+            android:layout_margin="4dp"
+            android:padding="4dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_register"
+            app:riv_oval="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="@dimen/item_margin">
+
+                <TextView
+                    android:id="@+id/tv_chat_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:text="donotknow"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_20"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:id="@+id/tv_msg_latest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_margin="4dp"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:text="在吗？" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_msg_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="11:11"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </TableRow>
+</TableLayout>

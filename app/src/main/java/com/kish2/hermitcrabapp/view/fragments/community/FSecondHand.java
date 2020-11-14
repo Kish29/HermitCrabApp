@@ -7,7 +7,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.RecyclerInformAdapter;
+import com.kish2.hermitcrabapp.adapters.InformAdapter;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.SecondHandPresenter;
@@ -32,9 +31,9 @@ public class FSecondHand extends FCommunityBase {
     @BindView(R.id.rv_container_items)
     RecyclerView mProductsList;
 
-    RecyclerInformAdapter mProductsAdapter;
+    InformAdapter mProductsAdapter;
 
-    public void setmProductsAdapter(RecyclerInformAdapter mProductsAdapter) {
+    public void setmProductsAdapter(InformAdapter mProductsAdapter) {
         this.mProductsAdapter = mProductsAdapter;
     }
 
@@ -107,7 +106,7 @@ public class FSecondHand extends FCommunityBase {
     public void loadData() {
         registerViewComponentsAffairs();
         mRefreshLayout.setRefreshing(true);
-        mPresenter.loadDataFromServer();
+        mPresenter.getDataFromModel();
         mRefreshLayout.setRefreshing(false);
     }
 
@@ -123,7 +122,7 @@ public class FSecondHand extends FCommunityBase {
         mProductsList.setOnTouchListener(this::touchCheck);
 
         mRefreshLayout.setOnRefreshListener(() -> {
-            mPresenter.loadDataFromServer();
+            mPresenter.getDataFromModel();
             mRefreshLayout.setRefreshing(false);
         });
     }

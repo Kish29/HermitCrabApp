@@ -1,8 +1,5 @@
 package com.kish2.hermitcrabapp.view.fragments.community;
 
-import com.kish2.hermitcrabapp.view.BaseFragment;
-import com.kish2.hermitcrabapp.view.IBaseFragment;
-
 public class FTopic extends FCommunityBase{
 
     @Override

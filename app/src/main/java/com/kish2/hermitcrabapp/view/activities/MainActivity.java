@@ -274,7 +274,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        detachPresenter();
         ApplicationConfigUtil.storeAppConfig();
         super.onDestroy();
     }

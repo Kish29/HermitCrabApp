@@ -1,117 +1,55 @@
 package com.kish2.hermitcrabapp.presenter.fragments;
 
-import com.kish2.hermitcrabapp.presenter.FBasePresenter;
-import com.kish2.hermitcrabapp.presenter.UserPresenter;
+import com.kish2.hermitcrabapp.model.BaseModel;
+import com.kish2.hermitcrabapp.presenter.BasePresenter;
+import com.kish2.hermitcrabapp.view.activities.MainActivity;
 import com.kish2.hermitcrabapp.view.fragments.personal.PersonalFragment;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
+import java.util.Map;
 
-public class PersonalPresenter extends FBasePresenter<PersonalPresenter> implements UserPresenter {
-
-    private PersonalFragment mView;
+public class PersonalPresenter extends BasePresenter<MainActivity, PersonalFragment> {
 
     public PersonalPresenter(PersonalFragment fragment) {
-        this.mView = fragment;
+        bindView(fragment);
     }
 
     @Override
-    public void onFragmentPause() {
-
-    }
-
-    @Override
-    public void onFragmentCreate() {
+    public void onModelSuccess(Map<BaseModel.MODEL_RET, Object> data) {
 
     }
 
     @Override
-    public void onFragmentResume() {
+    public void onModelFailure(Map<BaseModel.MODEL_RET, Object> data) {
 
     }
 
     @Override
-    public void onFragmentDestroy() {
+    public void onViewPause() {
 
     }
 
     @Override
-    public void onFragmentStart() {
+    public void onViewCreate() {
 
     }
 
     @Override
-    public void onFragmentStop() {
+    public void onViewResume() {
 
     }
 
     @Override
-    public void loadDataFromServer() {
+    public void onViewDestroy() {
 
     }
 
     @Override
-    public void detachView() {
-        this.mView = null;
-    }
-
-    @Override
-    public void onServerDoOperationFailed(Object object) {
+    public void onViewStart() {
 
     }
 
     @Override
-    public void onServerSuccess(Object object) {
-
-    }
-
-    @Override
-    public void onSysNetworkError(Throwable t) {
-
-    }
-
-    @Override
-    public void dataUpdate(Call<ResponseBody> call) {
-
-    }
-
-    @Override
-    public void afterHandleServerError() {
-
-    }
-
-    @Override
-    public void changeAvatar() {
-
-    }
-
-    @Override
-    public void updateUsername(String username) {
-
-    }
-
-    @Override
-    public void updatePassword(String password) {
-
-    }
-
-    @Override
-    public void updateEmail() {
-
-    }
-
-    @Override
-    public void updateMobile() {
-
-    }
-
-    @Override
-    public void updateBindInfo() {
-
-    }
-
-    @Override
-    public void bindStudentInfo() {
+    public void onViewStop() {
 
     }
 }

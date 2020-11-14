@@ -12,10 +12,10 @@ import androidx.annotation.Nullable;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
-import com.kish2.hermitcrabapp.presenter.activities.RegisterPresenter;
-import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
-import com.kish2.hermitcrabapp.utils.security.InputCheckUtil;
+import com.kish2.hermitcrabapp.presenter.impl.UserPresenterImpl;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
+import com.kish2.hermitcrabapp.utils.security.InputCheckUtil;
+import com.kish2.hermitcrabapp.utils.view.BitMapAndDrawableUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.fragments.FLoginMobile;
@@ -33,7 +33,7 @@ public class RegisterActivity extends BaseActivity {
     public CircularProgressButton mRegisterSubmit;
 
     private GradientDrawable mBGDrawable;
-    private RegisterPresenter mPresenter;
+    private UserPresenterImpl mPresenter;
     private FLoginMobile mFragment;
 
     @Override
@@ -104,7 +104,6 @@ public class RegisterActivity extends BaseActivity {
             if (!InputCheckUtil.isValidMobile(mobile)) {
                 ToastUtil.showToast(this, "您输入的是无效的手机号哦~", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
             } else {
-                mRegisterSubmit.startAnimation();
                 mPresenter.register(mobile, checkCode);
             }
         });
@@ -113,7 +112,8 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void attachPresenter() {
-        this.mPresenter = new RegisterPresenter(this);
+        this.mPresenter = new UserPresenterImpl();
+        this.mPresenter.bindView(this);
     }
 
     @Override
@@ -123,7 +123,6 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        detachPresenter();
         mRegisterSubmit.dispose();
         super.onDestroy();
     }
