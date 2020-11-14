@@ -1,9 +1,5 @@
 package com.kish2.hermitcrabapp.presenter;
 
-import com.kish2.hermitcrabapp.utils.AppAndJSONUtil;
-
-import java.util.Map;
-
 public interface IUserPresenter extends IBasePresenter {
 
     void changeAvatar();

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.kish2.hermitcrabapp.utils.App;
-
 public class ToastUtil {
     public enum TOAST_POSITION {
         TOAST_CENTER,

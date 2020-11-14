@@ -4,7 +4,6 @@ import com.kish2.hermitcrabapp.bean.Inform;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 
 public class ChatModel {
     public void updateInforms(ArrayList<Inform> informs) {

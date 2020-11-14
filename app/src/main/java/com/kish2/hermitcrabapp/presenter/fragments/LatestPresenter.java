@@ -14,9 +14,6 @@ import com.kish2.hermitcrabapp.view.fragments.home.FLatest;
 import java.util.ArrayList;
 import java.util.Map;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-
 public class LatestPresenter extends BasePresenter<MainActivity, FLatest> {
 
     private LatestModel mLatestModel;

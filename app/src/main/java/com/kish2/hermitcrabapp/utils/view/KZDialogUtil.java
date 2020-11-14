@@ -10,7 +10,6 @@ import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.v3.InputDialog;
 import com.kongzue.dialog.v3.MessageDialog;
-import com.kongzue.dialog.v3.TipDialog;
 
 import static com.kish2.hermitcrabapp.utils.view.ThemeUtil.FONT_COLOR;
 

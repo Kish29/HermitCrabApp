@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 
 import androidx.core.content.ContextCompat;
@@ -13,7 +11,7 @@ import androidx.palette.graphics.Palette;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
-import com.kish2.hermitcrabapp.utils.App;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kongzue.dialog.util.TextInfo;
 
 public class ThemeUtil {
@@ -51,7 +49,7 @@ public class ThemeUtil {
     public static void changeTheme(int appThemeColorIndex) {
         THEME_ID = appThemeColorIndex;
         /* 更新颜色资源id */
-        Theme.afterGetResourcesColorId = ContextCompat.getColor(App.getAppContext(), AppTheme[appThemeColorIndex]);
+        Theme.afterGetResourcesColorId = ContextCompat.getColor(HermitCrabApp.getAppContext(), AppTheme[appThemeColorIndex]);
         /* 更新图片资源颜色 */
         HermitCrabVectorIllustrations.setAIResources(Theme.afterGetResourcesColorId);
         for (int i = 0; i < BOTTOM_TAB_NUM; i++) {
@@ -69,7 +67,7 @@ public class ThemeUtil {
                 new int[]{-android.R.attr.state_selected}, new int[]{android.R.attr.state_selected}
         };
         int[] color = new int[]{
-                ContextCompat.getColor(App.getAppContext(), R.color.cl_text_default),
+                ContextCompat.getColor(HermitCrabApp.getAppContext(), R.color.cl_text_default),
                 ThemeUtil.Theme.afterGetResourcesColorId
         };
         TEXT_SELECTOR = null;
@@ -81,7 +79,7 @@ public class ThemeUtil {
                 new int[]{-android.R.attr.state_pressed}, new int[]{android.R.attr.state_pressed}
         };
         color = new int[]{
-                ContextCompat.getColor(App.getAppContext(), R.color.transparent),
+                ContextCompat.getColor(HermitCrabApp.getAppContext(), R.color.transparent),
                 ThemeUtil.Theme.afterGetResourcesColorId
         };
         TAB_RIPPLE_SELECTOR = null;
@@ -101,11 +99,11 @@ public class ThemeUtil {
 
     public static void setThemeTabSelectors() {
         /* 初始化AI图标类 */
-        HermitCrabVectorIllustrations.getAIResources(App.getAppContext());
+        HermitCrabVectorIllustrations.getAIResources(HermitCrabApp.getAppContext());
         HermitCrabVectorIllustrations.setAIResources(Theme.afterGetResourcesColorId);
         // TODO:判断是否已经有banner背景，如果有则不再需要设置颜色了
         HermitCrabVectorIllustrations.setAIColorWhite();
-        TAB_TRANSPARENT = App.getAppResources().getInteger(R.integer.tab_transparent);
+        TAB_TRANSPARENT = HermitCrabApp.getAppResources().getInteger(R.integer.tab_transparent);
         /* tab图标Selector */
         BOTTOM_TAB_SELECTOR = new StateListDrawable[BOTTOM_TAB_NUM];
         for (int i = 0; i < BOTTOM_TAB_NUM; i++) {
@@ -121,7 +119,7 @@ public class ThemeUtil {
                 new int[]{-android.R.attr.state_selected}, new int[]{android.R.attr.state_selected}
         };
         int[] color = new int[]{
-                ContextCompat.getColor(App.getAppContext(), R.color.cl_text_default),
+                ContextCompat.getColor(HermitCrabApp.getAppContext(), R.color.cl_text_default),
                 ThemeUtil.Theme.afterGetResourcesColorId
         };
         TEXT_SELECTOR = new ColorStateList(state, color);
@@ -131,7 +129,7 @@ public class ThemeUtil {
                 new int[]{-android.R.attr.state_pressed}, new int[]{android.R.attr.state_pressed}
         };
         color = new int[]{
-                ContextCompat.getColor(App.getAppContext(), R.color.transparent),
+                ContextCompat.getColor(HermitCrabApp.getAppContext(), R.color.transparent),
                 ThemeUtil.Theme.afterGetResourcesColorId
         };
         TAB_RIPPLE_SELECTOR = new ColorStateList(state, color);
@@ -151,19 +149,19 @@ public class ThemeUtil {
 
     @SuppressLint("CommitPrefEdits")
     public static void loadThemeAndColorsVI() {
-        theme_config = App.getAppContext().getSharedPreferences(THEME_CONFIG_FILE_NAME, Context.MODE_PRIVATE);
+        theme_config = HermitCrabApp.getAppContext().getSharedPreferences(THEME_CONFIG_FILE_NAME, Context.MODE_PRIVATE);
         theme_config_editor = theme_config.edit();
         THEME_ID = Theme.colorId = theme_config.getInt(KEY_COLOR, 0);
         /* 如果不是用户用图片作为背景的情况下，设置颜色主题 */
         Theme.colorId = AppTheme[Theme.colorId];
-        Theme.afterGetResourcesColorId = ContextCompat.getColor(App.getAppContext(), Theme.colorId);
+        Theme.afterGetResourcesColorId = ContextCompat.getColor(HermitCrabApp.getAppContext(), Theme.colorId);
         Theme.bgImgSrc = theme_config.getString(KEY_BG_IMG, null);
         Theme.sideBgImgSrc = theme_config.getString(KEY_SIDE_BG_IMG, null);
         Theme.isDarkTheme = theme_config.getBoolean(KEY_DARK_THEME, false);
 
         /* 获取顶部status bar高度 */
-        int identifier = App.getAppResources().getIdentifier("status_bar_height", "dimen", "android");
-        STATUS_BAR_HEIGHT = App.getAppResources().getDimensionPixelOffset(identifier);
+        int identifier = HermitCrabApp.getAppResources().getIdentifier("status_bar_height", "dimen", "android");
+        STATUS_BAR_HEIGHT = HermitCrabApp.getAppResources().getDimensionPixelOffset(identifier);
     }
 
     public static int[] AppTheme = {

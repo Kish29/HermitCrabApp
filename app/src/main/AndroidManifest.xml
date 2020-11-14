@@ -15,7 +15,7 @@
 
     <!-- Android API >=14 默认开启硬件加速-->
     <application
-        android:name=".utils.App"
+        android:name=".HermitCrabApp"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:hardwareAccelerated="true"

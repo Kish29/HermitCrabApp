@@ -38,7 +38,7 @@ import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.PersonalPresenter;
-import com.kish2.hermitcrabapp.utils.App;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
@@ -235,11 +235,11 @@ public class PersonalFragment extends BaseFragment {
 
     @Override
     public void refreshData() {
-        if (App.IS_USER_LOG_IN && App.LOAD_USER_SUCCESS) {
-            username.setText(App.USER.getUsername());
-            if (!App.USER.isInfoBind())
+        if (HermitCrabApp.IS_USER_LOG_IN && HermitCrabApp.LOAD_USER_SUCCESS) {
+            username.setText(HermitCrabApp.USER.getUsername());
+            if (!HermitCrabApp.USER.isInfoBind())
                 userBindInfo.setText("(未绑定学生信息)");
-            else userBindInfo.setText(App.USER.getDepartment());
+            else userBindInfo.setText(HermitCrabApp.USER.getDepartment());
         }
         /* 因为存在图片会使appLayout扩张，所以在appLayout固定高度之后，在refreshData中进行设置 */
         if (!ApplicationConfigUtil.BANNER_DEFAULT) {
@@ -334,7 +334,7 @@ public class PersonalFragment extends BaseFragment {
         mSetting.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                if (!App.IS_USER_LOG_IN)
+                if (!HermitCrabApp.IS_USER_LOG_IN)
                     startActivity(new Intent(requireActivity(), LoginActivity.class));
                 else startActivity(new Intent(requireActivity(), UserProfileActivity.class));
             }
@@ -389,7 +389,7 @@ public class PersonalFragment extends BaseFragment {
         username.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                if (!App.IS_USER_LOG_IN) {
+                if (!HermitCrabApp.IS_USER_LOG_IN) {
                     startActivity(new Intent(requireActivity(), LoginActivity.class));
                 } else startActivity(new Intent(requireActivity(), UserProfileActivity.class));
             }
@@ -397,7 +397,7 @@ public class PersonalFragment extends BaseFragment {
         userBindInfo.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                if (!App.IS_USER_LOG_IN)
+                if (!HermitCrabApp.IS_USER_LOG_IN)
                     startActivity(new Intent(requireActivity(), LoginActivity.class));
                 else startActivity(new Intent(requireActivity(), UserProfileActivity.class));
             }
@@ -405,7 +405,7 @@ public class PersonalFragment extends BaseFragment {
         mUserFriend.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                if (!App.IS_USER_LOG_IN) {
+                if (!HermitCrabApp.IS_USER_LOG_IN) {
 
                 }
             }
@@ -413,7 +413,7 @@ public class PersonalFragment extends BaseFragment {
         mUserProduct.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                if (!App.IS_USER_LOG_IN) {
+                if (!HermitCrabApp.IS_USER_LOG_IN) {
 
                 }
             }
@@ -421,7 +421,7 @@ public class PersonalFragment extends BaseFragment {
         mUserTopic.setOnClickListener(new OnClickMayTriggerFastRepeatListener() {
             @Override
             public void onMayTriggerFastRepeatClick(View v) {
-                if (!App.IS_USER_LOG_IN) {
+                if (!HermitCrabApp.IS_USER_LOG_IN) {
 
                 }
             }

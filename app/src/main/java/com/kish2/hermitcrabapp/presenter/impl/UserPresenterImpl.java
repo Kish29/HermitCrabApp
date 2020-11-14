@@ -10,7 +10,7 @@ import com.kish2.hermitcrabapp.model.IUserModel;
 import com.kish2.hermitcrabapp.model.impl.UserModelImpl;
 import com.kish2.hermitcrabapp.presenter.BasePresenter;
 import com.kish2.hermitcrabapp.presenter.IUserPresenter;
-import com.kish2.hermitcrabapp.utils.App;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
@@ -34,7 +34,7 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
     @Override
     public void onModelSuccess(Map<BaseModel.MODEL_RET, Object> data) {
         String msg = (String) data.get(BaseModel.MODEL_RET.ret_msg);
-        App.USER = (User) data.get(BaseModel.MODEL_RET.ret_obj);
+        HermitCrabApp.USER = (User) data.get(BaseModel.MODEL_RET.ret_obj);
         ToastUtil.showToast(getContext(), msg, ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
         if (getActivity() != null) {
             if (activity instanceof LoginActivity) {
@@ -84,14 +84,14 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
     public void updateUsername(String username) {
         mWaitDialog = KZDialogUtil.IOS_LIGHT_WAIT_NO_STOP_DIALOG(getContext());
         mWaitDialog.show();
-        model.usernameUpdate(App.USER.getUid(), username);
+        model.usernameUpdate(HermitCrabApp.USER.getUid(), username);
     }
 
     @Override
     public void updatePassword(String password) {
         mWaitDialog = KZDialogUtil.IOS_LIGHT_WAIT_NO_STOP_DIALOG(getContext());
         mWaitDialog.show();
-        model.usernameUpdate(App.USER.getUid(), password);
+        model.usernameUpdate(HermitCrabApp.USER.getUid(), password);
     }
 
     @Override

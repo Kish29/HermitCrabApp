@@ -7,11 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 
-import com.kish2.hermitcrabapp.utils.App;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /* 该类通过App的子线程，将应用配置存储在手机本地，需要用到的时候进行读取 */
 public class ApplicationConfigUtil {
@@ -58,8 +55,8 @@ public class ApplicationConfigUtil {
 
     public static void loadLocalAppData() {
         if (HAD_LOGIN) {
-            App.USER.setUsername(mAppConfig.getString(KEY_USERNAME, null));
-            App.USER.setToken(mAppConfig.getString(KEY_USER_TOKEN, null));
+            HermitCrabApp.USER.setUsername(mAppConfig.getString(KEY_USERNAME, null));
+            HermitCrabApp.USER.setToken(mAppConfig.getString(KEY_USER_TOKEN, null));
         }
         if (HAS_AVATAR) {
             USER_AVATAR = BitmapFactory.decodeFile(FileStorageManager.getUserAvatarPath());

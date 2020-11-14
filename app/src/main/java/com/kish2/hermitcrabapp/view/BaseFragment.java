@@ -13,10 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
-import com.kish2.hermitcrabapp.custom.view.CustomWaitDialog;
-import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
-import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 
 public abstract class BaseFragment extends Fragment implements IBaseView {

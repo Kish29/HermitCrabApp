@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.kish2.hermitcrabapp.view.fragments.community.FSecondHand;
 import com.kish2.hermitcrabapp.view.fragments.community.FTopic;
-import com.kish2.hermitcrabapp.view.fragments.home.FAcademicAffairs;
 
 import java.util.ArrayList;
 import java.util.List;

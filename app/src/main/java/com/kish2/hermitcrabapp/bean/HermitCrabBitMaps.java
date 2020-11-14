@@ -4,13 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.utils.App;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 
 public class HermitCrabBitMaps {
 
     public static Bitmap mChecked;
 
     public static void loadBitMaps() {
-        mChecked = BitmapFactory.decodeResource(App.getAppResources(), R.drawable.ic_check_white);
+        mChecked = BitmapFactory.decodeResource(HermitCrabApp.getAppResources(), R.drawable.ic_check_white);
     }
 }

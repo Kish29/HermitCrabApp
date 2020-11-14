@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.presenter.impl.UserPresenterImpl;
-import com.kish2.hermitcrabapp.utils.App;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
@@ -96,14 +96,14 @@ public class UserProfileActivity extends BaseActivity {
     @Override
     public void refreshData() {
         /* 小字部分 */
-        if (App.LOAD_USER_SUCCESS && App.IS_USER_LOG_IN) {
-            ((TextView) mUserGender.findViewById(R.id.tv_profile_preview)).setText(App.USER.getGender());
-            ((TextView) mUsername.findViewById(R.id.tv_profile_preview)).setText(App.USER.getUsername());
-            ((TextView) mUserGrade.findViewById(R.id.tv_profile_preview)).setText(App.USER.getGrade());
-            ((TextView) mBindStudentId.findViewById(R.id.tv_profile_preview)).setText(App.USER.getStudentId());
-            ((TextView) mBindMobile.findViewById(R.id.tv_profile_preview)).setText(App.USER.getMobile());
-            ((TextView) mBindEmail.findViewById(R.id.tv_profile_preview)).setText(App.USER.getEmail());
-            ((TextView) mBindDepartment.findViewById(R.id.tv_profile_preview)).setText(App.USER.getDepartment());
+        if (HermitCrabApp.LOAD_USER_SUCCESS && HermitCrabApp.IS_USER_LOG_IN) {
+            ((TextView) mUserGender.findViewById(R.id.tv_profile_preview)).setText(HermitCrabApp.USER.getGender());
+            ((TextView) mUsername.findViewById(R.id.tv_profile_preview)).setText(HermitCrabApp.USER.getUsername());
+            ((TextView) mUserGrade.findViewById(R.id.tv_profile_preview)).setText(HermitCrabApp.USER.getGrade());
+            ((TextView) mBindStudentId.findViewById(R.id.tv_profile_preview)).setText(HermitCrabApp.USER.getStudentId());
+            ((TextView) mBindMobile.findViewById(R.id.tv_profile_preview)).setText(HermitCrabApp.USER.getMobile());
+            ((TextView) mBindEmail.findViewById(R.id.tv_profile_preview)).setText(HermitCrabApp.USER.getEmail());
+            ((TextView) mBindDepartment.findViewById(R.id.tv_profile_preview)).setText(HermitCrabApp.USER.getDepartment());
         }
     }
 
@@ -128,7 +128,7 @@ public class UserProfileActivity extends BaseActivity {
             InputDialog inputDialog = KZDialogUtil.IOS_LIGHT_INPUT(UserProfileActivity.this, "请输入新的用户名");
             inputDialog.setOnOkButtonClickListener((baseDialog, v12, inputStr) -> {
                 inputStr = inputStr.trim();
-                if (inputStr.equals(App.USER.getUsername()))
+                if (inputStr.equals(HermitCrabApp.USER.getUsername()))
                     ToastUtil.showToast(this, "已是当前用户名", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
                 else {
                     mPresenter.updateUsername(inputStr);

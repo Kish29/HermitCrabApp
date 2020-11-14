@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
-import com.kish2.hermitcrabapp.utils.App;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.utils.view.ThemeMatchUCrop;
 import com.yalantis.ucrop.UCrop;
 
@@ -98,7 +98,7 @@ public class SysInteractUtil {
              * 7.0 及以上调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
              * 并且这样可以解决MIUI系统上拍照返回size为0的情况
              */
-            uri = FileProvider.getUriForFile(App.getAppContext(), FileStorageManager.APP_PROVIDER_AUTHORITY, file);
+            uri = FileProvider.getUriForFile(HermitCrabApp.getAppContext(), FileStorageManager.APP_PROVIDER_AUTHORITY, file);
         }
         return uri;
     }

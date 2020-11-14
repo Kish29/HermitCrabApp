@@ -10,7 +10,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
-import com.kish2.hermitcrabapp.utils.App;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 
@@ -51,7 +51,7 @@ public abstract class BasePresenter<A extends BaseActivity, F extends BaseFragme
             return this.activity;
         else if (this.fragment != null)
             return this.fragment.requireContext();
-        else return App.getAppContext();
+        else return HermitCrabApp.getAppContext();
     }
 
     public Resources getResources() {
@@ -59,7 +59,7 @@ public abstract class BasePresenter<A extends BaseActivity, F extends BaseFragme
             return this.activity.getResources();
         else if (this.fragment != null)
             return this.fragment.getResources();
-        else return App.getAppResources();
+        else return HermitCrabApp.getAppResources();
     }
 
     @Override

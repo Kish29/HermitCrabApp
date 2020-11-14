@@ -1,18 +1,12 @@
-package com.kish2.hermitcrabapp.utils;
+package com.kish2.hermitcrabapp;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
-import android.net.Uri;
-import android.os.Environment;
-
-import androidx.core.content.ContextCompat;
 
 import com.kish2.hermitcrabapp.bean.User;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
-
-import java.util.Arrays;
 
 /**
  * @App.java
@@ -20,9 +14,9 @@ import java.util.Arrays;
  * @加载本地数据->SharedPreference/Sqlite3
  * @请求网络更新数据，更新用户状态
  */
-public class App extends Application {
+public class HermitCrabApp extends Application {
 
-    private static App app;
+    private static HermitCrabApp app;
 
     public static boolean IS_USER_LOG_IN = false;
 
