@@ -1,12 +1,10 @@
 package com.kish2.hermitcrabapp.model;
 
-import com.kish2.hermitcrabapp.presenter.BasePresenter;
 import com.kish2.hermitcrabapp.utils.dev.ExceptionHandler;
-import com.kish2.hermitcrabapp.view.BaseActivity;
-import com.kish2.hermitcrabapp.view.BaseFragment;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -18,11 +16,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public abstract class BaseModel<P extends BasePresenter<BaseActivity, BaseFragment>> implements IBaseModel, Callback<ResponseBody> {
+public abstract class BaseModel implements IBaseModel, Callback<ResponseBody> {
 
     protected static final int SERVER_OPERATED_FAILURE = 222;
     protected static final String KEY_SERVER_STATUS = "server_code";
     protected static final String KEY_SERVER_MSG = "server_msg";
+
 
     public enum MODEL_STATUS {
         model_success,
@@ -35,11 +34,14 @@ public abstract class BaseModel<P extends BasePresenter<BaseActivity, BaseFragme
         ret_obj,
     }
 
-    protected P presenter;
+    protected OnRequestModelCallBack callBack;
 
-    public void bindPresenter(P presenter) {
-        this.presenter = presenter;
+    public BaseModel(OnRequestModelCallBack callBack) {
+        this.callBack = callBack;
     }
+
+    /* 让子类实现该方法，该方法与presenter对接 */
+    protected abstract int getModelRequestCode();
 
     @Override
     public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
@@ -49,7 +51,7 @@ public abstract class BaseModel<P extends BasePresenter<BaseActivity, BaseFragme
             if (response.body() != null) {
                 try {
                     String rawData = response.body().string();
-                    onServerSuccess(rawData);
+                    onServerAccessSuccess(rawData);
                 } catch (IOException | JSONException e) {
                     ExceptionHandler.BaseHandle();
                 }
@@ -75,7 +77,7 @@ public abstract class BaseModel<P extends BasePresenter<BaseActivity, BaseFragme
                 retMap.put(MODEL_RET.ret_msg, "服务器异常，请稍后试试吧~");
                 break;
         }
-        presenter.onModelFailure(retMap);
+        callBack.onModelFailure(retMap, getModelRequestCode());
     }
 
     @Override
@@ -86,6 +88,25 @@ public abstract class BaseModel<P extends BasePresenter<BaseActivity, BaseFragme
             retMap.put(MODEL_RET.ret_msg, "网络连接超时，请检查您的网络状况~");
         else
             retMap.put(MODEL_RET.ret_msg, "网络异常，请检查您的网络状况~");
-        presenter.onModelFailure(retMap);
+        callBack.onModelFailure(retMap, getModelRequestCode());
     }
+
+    private void onServerAccessSuccess(String json) throws JSONException {
+        Map<MODEL_RET, Object> retMap = new HashMap<>();
+        JSONObject jsonObject = new JSONObject(json);
+        int status = jsonObject.getInt(KEY_SERVER_STATUS);
+        String msg = jsonObject.getString(KEY_SERVER_MSG);
+        /* 服务端返回msg可以直接压入 */
+        retMap.put(MODEL_RET.ret_msg, msg);
+        /* 服务端访问成功，但是操作失败 */
+        if (status == SERVER_OPERATED_FAILURE) {
+            retMap.put(MODEL_RET.ret_status, MODEL_STATUS.model_failure);
+            callBack.onModelFailure(retMap, getModelRequestCode());
+        } else {
+            retMap.put(MODEL_RET.ret_status, MODEL_STATUS.model_success);
+            retMap.put(MODEL_RET.ret_obj, onServerSuccess(jsonObject));
+            callBack.onModelSuccess(retMap, getModelRequestCode());
+        }
+    }
+
 }

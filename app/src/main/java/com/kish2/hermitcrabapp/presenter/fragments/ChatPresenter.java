@@ -4,7 +4,6 @@ import android.os.Message;
 
 import com.kish2.hermitcrabapp.adapters.InformAdapter;
 import com.kish2.hermitcrabapp.bean.Inform;
-import com.kish2.hermitcrabapp.model.BaseModel;
 import com.kish2.hermitcrabapp.model.fragments.ChatModel;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.BasePresenter;
@@ -12,7 +11,6 @@ import com.kish2.hermitcrabapp.view.activities.MainActivity;
 import com.kish2.hermitcrabapp.view.fragments.chat.ChatFragment;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class ChatPresenter extends BasePresenter<MainActivity, ChatFragment> {
 
@@ -70,16 +68,6 @@ public class ChatPresenter extends BasePresenter<MainActivity, ChatFragment> {
 
     @Override
     public void onViewStop() {
-
-    }
-
-    @Override
-    public void onModelSuccess(Map<BaseModel.MODEL_RET, Object> data) {
-
-    }
-
-    @Override
-    public void onModelFailure(Map<BaseModel.MODEL_RET, Object> data) {
 
     }
 }

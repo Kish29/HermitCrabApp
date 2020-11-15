@@ -9,8 +9,8 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
-import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kish2.hermitcrabapp.HermitCrabApp;
+import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 
@@ -44,6 +44,10 @@ public abstract class BasePresenter<A extends BaseActivity, F extends BaseFragme
         if (activity != null)
             return activity;
         else return fragment.requireActivity();
+    }
+
+    public boolean viewExist() {
+        return activity != null || fragment != null;
     }
 
     public Context getContext() {

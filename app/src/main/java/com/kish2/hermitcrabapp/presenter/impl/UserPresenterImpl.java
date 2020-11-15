@@ -3,14 +3,15 @@ package com.kish2.hermitcrabapp.presenter.impl;
 import android.content.Intent;
 import android.os.Handler;
 
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.bean.HermitCrabBitMaps;
 import com.kish2.hermitcrabapp.bean.User;
 import com.kish2.hermitcrabapp.model.BaseModel;
+import com.kish2.hermitcrabapp.model.IBaseModel;
 import com.kish2.hermitcrabapp.model.IUserModel;
 import com.kish2.hermitcrabapp.model.impl.UserModelImpl;
 import com.kish2.hermitcrabapp.presenter.BasePresenter;
 import com.kish2.hermitcrabapp.presenter.IUserPresenter;
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
@@ -19,60 +20,80 @@ import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.activities.LoginActivity;
 import com.kish2.hermitcrabapp.view.activities.MainActivity;
 import com.kish2.hermitcrabapp.view.activities.RegisterActivity;
-import com.kish2.hermitcrabapp.view.activities.UserProfileActivity;
 
 import java.util.Map;
 
-public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment> implements IUserPresenter {
+public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment> implements IBaseModel.OnRequestModelCallBack, IUserPresenter {
 
     private IUserModel model;
 
     public UserPresenterImpl() {
-        this.model = new UserModelImpl(this);
+        this.model = new UserModelImpl(this, this);
     }
 
     @Override
-    public void onModelSuccess(Map<BaseModel.MODEL_RET, Object> data) {
-        String msg = (String) data.get(BaseModel.MODEL_RET.ret_msg);
-        HermitCrabApp.USER = (User) data.get(BaseModel.MODEL_RET.ret_obj);
-        ToastUtil.showToast(getContext(), msg, ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
-        if (getActivity() != null) {
-            if (activity instanceof LoginActivity) {
-                ((LoginActivity) activity).mLoginSubmit.doneLoadingAnimation(ThemeUtil.Theme.afterGetResourcesColorId, HermitCrabBitMaps.mChecked);
-                new Handler().postDelayed(() -> {
-                    intent = null;
-                    intent = new Intent(activity, MainActivity.class);
-                    activity.startActivity(intent);
-                    activity.finish();
-                }, 500);
-            } else if (activity instanceof RegisterActivity) {
-                ((RegisterActivity) activity).mRegisterSubmit.doneLoadingAnimation(ThemeUtil.Theme.afterGetResourcesColorId, HermitCrabBitMaps.mChecked);
-                new Handler().postDelayed(() -> {
-                    intent = null;
-                    intent = new Intent(activity, MainActivity.class);
-                    activity.startActivity(intent);
-                    activity.finish();
-                }, 500);
-            } else if (activity instanceof UserProfileActivity) {
-                mWaitDialog.doDismiss();
-                activity.refreshData();
+    public void onModelSuccess(Map<BaseModel.MODEL_RET, Object> data, int requestModelMethod) {
+        if (viewExist()) {
+            String msg = (String) data.get(BaseModel.MODEL_RET.ret_msg);
+            ToastUtil.showToast(getContext(), msg, ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
+            switch (requestModelMethod) {
+                /* 登录或注册 */
+                case 0:
+                case 1:
+                    HermitCrabApp.USER = (User) data.get(BaseModel.MODEL_RET.ret_obj);
+                    HermitCrabApp.IS_USER_LOG_IN = true;
+                    HermitCrabApp.LOAD_USER_SUCCESS = true;
+                    new Handler().postDelayed(() -> {
+                        intent = null;
+                        intent = new Intent(activity, MainActivity.class);
+                        activity.startActivity(intent);
+                        activity.finish();
+                    }, 500);
+                    if (requestModelMethod == 0)
+                        ((RegisterActivity) activity).mRegisterSubmit.doneLoadingAnimation(ThemeUtil.Theme.afterGetResourcesColorId, HermitCrabBitMaps.mChecked);
+                    else
+                        ((LoginActivity) activity).mLoginSubmit.doneLoadingAnimation(ThemeUtil.Theme.afterGetResourcesColorId, HermitCrabBitMaps.mChecked);
+                    break;
+                case 2:
+                    // todo:
+                    break;
+                case 3:
+                case 4:
+                    mWaitDialog.doDismiss();
+                    activity.refreshData();
+                    break;
+                default:
+                    break;
             }
         }
     }
 
     @Override
-    public void onModelFailure(Map<BaseModel.MODEL_RET, Object> data) {
-        String msg = (String) data.get(BaseModel.MODEL_RET.ret_msg);
-        ToastUtil.showToast(getContext(), msg, ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
-        if (getActivity() != null) {
-            if (activity instanceof LoginActivity) {
-                ((LoginActivity) activity).mLoginSubmit.revertAnimation();
-            } else if (activity instanceof RegisterActivity) {
-                ((RegisterActivity) activity).mRegisterSubmit.revertAnimation();
-            } else if (activity instanceof UserProfileActivity) {
-                mWaitDialog.doDismiss();
+    public void onModelFailure(Map<BaseModel.MODEL_RET, Object> data, int requestModelMethod) {
+        if (viewExist()) {
+            String msg = (String) data.get(BaseModel.MODEL_RET.ret_msg);
+            switch (requestModelMethod) {
+                case 0:
+                case 1:
+                    ToastUtil.showToast(getContext(), msg, ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
+                    if (requestModelMethod == 0)
+                        ((RegisterActivity) activity).mRegisterSubmit.revertAnimation();
+                    else
+                        ((LoginActivity) activity).mLoginSubmit.revertAnimation();
+                    break;
+                case 2:
+                    // TODO: 2020/11/15  
+                    break;
+                case 3:
+                case 4:
+                    mWaitDialog.doDismiss();
+                    KZDialogUtil.IOS_LIGHT_ERROR_DIALOG(getContext(), msg).show();
+                    break;
+                default:
+                    break;
             }
         }
+
     }
 
     @Override
@@ -91,7 +112,7 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
     public void updatePassword(String password) {
         mWaitDialog = KZDialogUtil.IOS_LIGHT_WAIT_NO_STOP_DIALOG(getContext());
         mWaitDialog.show();
-        model.usernameUpdate(HermitCrabApp.USER.getUid(), password);
+        model.passwordUpdate(HermitCrabApp.USER.getUid(), password);
     }
 
     @Override
@@ -188,4 +209,5 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
     public void onViewStop() {
 
     }
+
 }
