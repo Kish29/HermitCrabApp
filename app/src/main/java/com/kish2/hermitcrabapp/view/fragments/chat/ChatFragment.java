@@ -17,13 +17,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.InformAdapter;
+import com.kish2.hermitcrabapp.adapters.ChatListAdapter;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.ChatPresenter;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
-import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -45,56 +44,56 @@ public class ChatFragment extends BaseFragment {
     RoundedImageView mUserAvatar;
 
     @BindView(R.id.srl_refresh_list)
-    CustomSwipeRefreshLayout mRefreshLayout;
+    CustomSwipeRefreshLayout refreshLayout;
+
+
     @BindView(R.id.rv_messages_list)
     RecyclerView mChatList;
 
-    InformAdapter mChatsAdapter;
-    ChatPresenter mPresenter;
-
-
-    public void setmChatsAdapter(InformAdapter mChatsAdapter) {
-        this.mChatsAdapter = mChatsAdapter;
+    public RecyclerView getRecyclerView() {
+        return mChatList;
     }
 
+    ChatPresenter mPresenter;
+
+    public CustomSwipeRefreshLayout getRefreshLayout() {
+        return refreshLayout;
+    }
 
     @Override
     protected void themeChanged() {
         /* 设置AppBarLayout的颜色 */
         mAppBarLayout.setBackgroundColor(themeColorId);
-        mRefreshLayout.setColorSchemeColors(themeColorId);
+        refreshLayout.setColorSchemeColors(themeColorId);
     }
 
-    /* 这三个方法必须重写 */
     @SuppressLint("HandlerLeak")
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        attachPresenter();
+    public void initHandler() {
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case MessageForHandler.DATA_LOADING:
-                        mRefreshLayout.setRefreshing(true);
-                        break;
-                    case MessageForHandler.DATA_LOADED:
-                        mRefreshLayout.setRefreshing(false);
+                        refreshLayout.setRefreshing(true);
                         break;
                     case MessageForHandler.ADAPTER_INIT:
-                        mChatList.setAdapter(mChatsAdapter);
-                        ToastUtil.showToast(getContext(), "数据加载成功", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
-                        break;
+                        mChatList.setAdapter((ChatListAdapter) msg.obj);
+                    case MessageForHandler.DATA_LOADED:
                     case MessageForHandler.DATA_UPDATE:
-                        mChatsAdapter.notifyDataSetChanged();
-                        ToastUtil.showToast(getContext(), "数据更新成功", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
-                        break;
                     default:
-                        ToastUtil.showToast(getContext(), "数据加载失败", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
+                        refreshLayout.setRefreshing(false);
                         break;
                 }
             }
         };
+    }
+
+    /* 这三个方法必须重写 */
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        attachPresenter();
     }
 
     @Nullable
@@ -105,17 +104,8 @@ public class ChatFragment extends BaseFragment {
 
         getAndSetLayoutView();
         registerViewComponentsAffairs();
-        mRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
+        refreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return fragmentMessage;
-    }
-
-    /**
-     * @因为onPause后，FragmentManager会对组件进行重绘，某些组件会回到原始的属性
-     * @而如果在之间调用了隐藏动画，那么会造成冲突，视图UI组件会消失
-     */
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -125,9 +115,9 @@ public class ChatFragment extends BaseFragment {
             mDLParentView.openDrawer(GravityCompat.START);
         });
         mChatList.setOnTouchListener(this::touchCheck);
-        mRefreshLayout.setOnRefreshListener(() -> {
+        refreshLayout.setOnRefreshListener(() -> {
             mPresenter.getDataFromModel();
-            mRefreshLayout.setRefreshing(false);
+            refreshLayout.setRefreshing(false);
         });
         mCollapsingHeight = mCollapsingToolbarLayout.getHeight();
     }
@@ -145,9 +135,8 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     public void loadData() {
-        mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADING);
-        mPresenter.getDataFromModel();
-        mHandler.sendEmptyMessage(MessageForHandler.DATA_LOADED);
+        mPresenter.initDataAdapter();
+        mPresenter.registerItemEvent();
     }
 
     @Override
@@ -163,9 +152,9 @@ public class ChatFragment extends BaseFragment {
         /* 因为onScrollChangedListener的onScrolled方法是回调方法，要等到item停下来时才调用，所以这儿直接监听touch事件 */
         mChatList.setOnTouchListener(this::touchCheck);
 
-        mRefreshLayout.setOnRefreshListener(() -> {
+        refreshLayout.setOnRefreshListener(() -> {
             mPresenter.getDataFromModel();
-            mRefreshLayout.setRefreshing(false);
+            refreshLayout.setRefreshing(false);
         });
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             float offset = mCollapsingHeight + verticalOffset;
@@ -177,16 +166,6 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void attachPresenter() {
         this.mPresenter = new ChatPresenter(this);
-    }
-
-    @Override
-    public void detachPresenter() {
-        this.mPresenter.detachView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        detachPresenter();
+        getLifecycle().addObserver(this.mPresenter);
     }
 }

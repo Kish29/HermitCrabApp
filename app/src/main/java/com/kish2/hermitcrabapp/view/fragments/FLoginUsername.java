@@ -50,6 +50,11 @@ public class FLoginUsername extends BaseFragment
     }
 
     @Override
+    public void initHandler() {
+
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -116,11 +121,6 @@ public class FLoginUsername extends BaseFragment
 
     @Override
     public void attachPresenter() {
-
-    }
-
-    @Override
-    public void detachPresenter() {
 
     }
 

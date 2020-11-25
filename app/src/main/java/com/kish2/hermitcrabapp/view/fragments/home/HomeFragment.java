@@ -73,13 +73,9 @@ public class HomeFragment extends BaseFragment {
         mCategoryTab.setTextSelectColor(ThemeUtil.Theme.afterGetResourcesColorId);
     }
 
-    /**
-     * 该Fragment创建时调用，只调用一次，可以操作除View之外的一切东西
-     */
     @SuppressLint("HandlerLeak")
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initHandler() {
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -95,6 +91,15 @@ public class HomeFragment extends BaseFragment {
                 }
             }
         };
+    }
+
+    /**
+     * 该Fragment创建时调用，只调用一次，可以操作除View之外的一切东西
+     */
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     /**
@@ -185,11 +190,6 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void attachPresenter() {
-
-    }
-
-    @Override
-    public void detachPresenter() {
 
     }
 }

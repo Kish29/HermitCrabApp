@@ -31,7 +31,7 @@ public class SecondHandPresenter extends BasePresenter<MainActivity, FSecondHand
         Message message = new Message();
         if (mProducts.size() != 0) {
             if (firstLoad) {
-                mSecondHand.setmProductsAdapter(new InformAdapter(mProducts, mSecondHand.getContext()));
+                mSecondHand.setmProductsAdapter(new InformAdapter(mSecondHand.getContext()));
                 message.what = MessageForHandler.ADAPTER_INIT;
                 firstLoad = false;
             } else message.what = MessageForHandler.DATA_UPDATE;
@@ -42,37 +42,12 @@ public class SecondHandPresenter extends BasePresenter<MainActivity, FSecondHand
     }
 
     @Override
-    public void detachView() {
-        this.mSecondHandModel = null;
-    }
-
-    @Override
-    public void onViewPause() {
+    public void initDataAdapter() {
 
     }
 
     @Override
-    public void onViewCreate() {
-
-    }
-
-    @Override
-    public void onViewResume() {
-
-    }
-
-    @Override
-    public void onViewDestroy() {
-
-    }
-
-    @Override
-    public void onViewStart() {
-
-    }
-
-    @Override
-    public void onViewStop() {
+    public void registerItemEvent() {
 
     }
 }

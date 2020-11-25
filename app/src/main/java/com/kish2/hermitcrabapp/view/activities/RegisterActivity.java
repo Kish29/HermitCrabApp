@@ -114,11 +114,12 @@ public class RegisterActivity extends BaseActivity {
     public void attachPresenter() {
         this.mPresenter = new UserPresenterImpl();
         this.mPresenter.bindView(this);
+        getLifecycle().addObserver(this.mPresenter);
     }
 
     @Override
-    public void detachPresenter() {
-        this.mPresenter.detachView();
+    public void initHandler() {
+
     }
 
     @Override

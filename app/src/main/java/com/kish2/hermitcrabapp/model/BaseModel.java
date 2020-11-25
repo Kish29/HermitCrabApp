@@ -22,7 +22,6 @@ public abstract class BaseModel implements IBaseModel, Callback<ResponseBody> {
     protected static final String KEY_SERVER_STATUS = "server_code";
     protected static final String KEY_SERVER_MSG = "server_msg";
 
-
     public enum MODEL_STATUS {
         model_success,
         model_failure

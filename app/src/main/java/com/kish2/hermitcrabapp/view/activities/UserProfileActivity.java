@@ -156,8 +156,8 @@ public class UserProfileActivity extends BaseActivity {
     }
 
     @Override
-    public void detachPresenter() {
-        this.mPresenter.detachView();
+    public void initHandler() {
+
     }
 
     @Override

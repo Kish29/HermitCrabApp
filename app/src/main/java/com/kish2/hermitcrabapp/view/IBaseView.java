@@ -8,24 +8,28 @@ public interface IBaseView {
      */
     /* 设置自定义视图部分或Fragment获取父容器组件，如布局、颜色、主题等*/
     // 放在主线程
-    public void getAndSetLayoutView();
+    void getAndSetLayoutView();
 
     /* 获取视图组件的属性，如宽高*/
     /* 在View的onGlobalFocusChangeListener监听器中 */
-    public void getLayoutComponentsAttr();
+    void getLayoutComponentsAttr();
 
     /* presenter或自己加载本地数据 */
-    public void loadData();
+    /* 首次加载数据 */
+    void loadData();
 
+    /* 数据的更新操作 */
     void refreshData();
 
     /* 注册控制事务 */
-    public void registerViewComponentsAffairs();
+    void registerViewComponentsAffairs();
 
     /* 初始化presenter */
-    public void attachPresenter();
+    void attachPresenter();
 
-    /* 必须调用，detach连接的presenter，调用presenter的detachView方法*/
+    void initHandler();
+
+    /* 必须调用，detach连接的presenter，调用presenter的detachView方法
     public void detachPresenter();
-
+    用lifeCycle，在presenter中detach*/
 }

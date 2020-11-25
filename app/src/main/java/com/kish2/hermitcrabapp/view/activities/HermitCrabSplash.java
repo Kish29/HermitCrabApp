@@ -32,29 +32,10 @@ public class HermitCrabSplash extends BaseActivity {
 
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_page);
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                switch (msg.what) {
-                    case MessageForHandler.LOCAL_DATA_LOADED:
-                        postDelayed(() -> {
-                            startActivity(new Intent(HermitCrabSplash.this, MainActivity.class));
-                            finish();
-                        }, DELAY);
-                        break;
-                    case MessageForHandler.ADAPTER_INIT:
-                    case MessageForHandler.SYSTEM_FAILURE:
-                    default:
-                        break;
-                }
-            }
-        };
-
         ButterKnife.bind(this);
         /* 获取主题设置 */
         getAndSetLayoutView();
@@ -101,8 +82,25 @@ public class HermitCrabSplash extends BaseActivity {
 
     }
 
+    @SuppressLint("HandlerLeak")
     @Override
-    public void detachPresenter() {
-
+    public void initHandler() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case MessageForHandler.LOCAL_DATA_LOADED:
+                        postDelayed(() -> {
+                            startActivity(new Intent(HermitCrabSplash.this, MainActivity.class));
+                            finish();
+                        }, DELAY);
+                        break;
+                    case MessageForHandler.ADAPTER_INIT:
+                    case MessageForHandler.SYSTEM_FAILURE:
+                    default:
+                        break;
+                }
+            }
+        };
     }
 }

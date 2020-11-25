@@ -107,29 +107,10 @@ public class MainActivity extends BaseActivity {
     private static int tabPos = 0;
 
     /* 在onCreate中调用3个属性*/
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @SuppressLint({"HandlerLeak", "ResourceType"})
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                switch (msg.what) {
-                    case MessageForHandler.DATA_LOADED:
-                        //*******底部Tab初始化视图*********/
-                        for (TabLayout.Tab mTab : mTabs) {
-                            mTLMainNavBar.addTab(mTab);
-                        }
-                        break;
-                    case MessageForHandler.ADAPTER_INIT:
-                        /* 设置预加载fragment数量，提升流畅度 */
-                        mVPMain.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
-                        mVPMain.setAdapter(pagerAdapter);
-                }
-            }
-        };
-
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         /* 主线程执行*/
@@ -268,8 +249,26 @@ public class MainActivity extends BaseActivity {
     public void attachPresenter() {
     }
 
+    @SuppressLint("HandlerLeak")
     @Override
-    public void detachPresenter() {
+    public void initHandler() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case MessageForHandler.DATA_LOADED:
+                        //*******底部Tab初始化视图*********/
+                        for (TabLayout.Tab mTab : mTabs) {
+                            mTLMainNavBar.addTab(mTab);
+                        }
+                        break;
+                    case MessageForHandler.ADAPTER_INIT:
+                        /* 设置预加载fragment数量，提升流畅度 */
+                        mVPMain.setOffscreenPageLimit(VIEW_PAGER_OF_SCREEN_LIMIT);
+                        mVPMain.setAdapter(pagerAdapter);
+                }
+            }
+        };
     }
 
     @Override

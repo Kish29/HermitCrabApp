@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Handler;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
@@ -18,6 +19,7 @@ public abstract class BasePresenter<A extends BaseActivity, F extends BaseFragme
 
     protected CustomTipDialog mWaitDialog;
 
+    protected Handler handler;
     protected Intent intent;
 
     protected A activity;
@@ -66,32 +68,38 @@ public abstract class BasePresenter<A extends BaseActivity, F extends BaseFragme
         else return HermitCrabApp.getAppResources();
     }
 
-    @Override
-    public void detachView() {
-        activity = null;
-        fragment = null;
-    }
-
     public void getDataFromModel() {
 
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public abstract void onViewPause();
+    public void onViewPause() {
+
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    public abstract void onViewCreate();
+    public void onViewCreate() {
+
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public abstract void onViewResume();
+    public void onViewResume() {
+
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public abstract void onViewDestroy();
+    public void onViewDestroy() {
+        activity = null;
+        fragment = null;
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public abstract void onViewStart();
+    public void onViewStart() {
+
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public abstract void onViewStop();
+    public void onViewStop() {
+    }
 
 }

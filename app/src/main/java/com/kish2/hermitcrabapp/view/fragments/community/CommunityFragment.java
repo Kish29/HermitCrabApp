@@ -70,11 +70,9 @@ public class CommunityFragment extends BaseFragment {
         mCategoryTab.setTextSelectColor(HermitCrabVectorIllustrations.colorWhite);
     }
 
-    /* 这三个方法必须重写 */
     @SuppressLint("HandlerLeak")
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initHandler() {
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -91,6 +89,13 @@ public class CommunityFragment extends BaseFragment {
                 }
             }
         };
+
+    }
+
+    /* 这三个方法必须重写 */
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
 
@@ -170,8 +175,4 @@ public class CommunityFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void detachPresenter() {
-
-    }
 }

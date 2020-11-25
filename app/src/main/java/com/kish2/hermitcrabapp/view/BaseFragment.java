@@ -53,14 +53,9 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
     public void onResume() {
         super.onResume();
         if (!isLoaded) {
-            new Thread() {
-                @Override
-                public void run() {
-                    loadData();
-                    /* 数据加载完后置true */
-                    isLoaded = true;
-                }
-            }.start();
+            loadData();
+            /* 数据加载完后置true */
+            isLoaded = true;
         }
         /* onResume必须要刷新数据 */
         refreshData();
@@ -75,9 +70,11 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
 
     protected abstract void themeChanged();
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initHandler();
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         themeColorId = ThemeUtil.Theme.afterGetResourcesColorId;
     }
@@ -135,5 +132,10 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
     }
 
     public void setTextAndIconColor(boolean isDarkTheme) {
+    }
+
+    @Override
+    public void initHandler() {
+
     }
 }

@@ -1,14 +1,10 @@
 package com.kish2.hermitcrabapp.bean;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Date;
-
 public class Inform {
 
     private String imgUrl;
 
-    private Date date;
+    private String date;
 
 //    private String date;
 
@@ -18,20 +14,29 @@ public class Inform {
 
     private String address;
 
-    @NotNull
-    @Override
-    public String toString() {
-        return "Inform{" +
-                "imgUrl='" + imgUrl + '\'' +
-                ", date=" + date +
-                ", weekDay='" + weekDay + '\'' +
-                ", title='" + title + '\'' +
-                ", address='" + address + '\'' +
-                ", imgSrc='" + imgSrc + '\'' +
-                '}';
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    private String imgSrc;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getWeekDay() {
+        return weekDay;
+    }
+
+    public void setWeekDay(String weekDay) {
+        this.weekDay = weekDay;
+    }
 
     public String getTitle() {
         return title;
@@ -41,19 +46,11 @@ public class Inform {
         this.title = title;
     }
 
-    public Date getDate() {
-        return date;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getImgSrc() {
-        return imgSrc;
-    }
-
-    public void setImgSrc(String imgSrc) {
-        this.imgSrc = imgSrc;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

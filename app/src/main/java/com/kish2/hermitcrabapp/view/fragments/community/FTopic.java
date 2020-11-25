@@ -33,12 +33,12 @@ public class FTopic extends FCommunityBase{
     }
 
     @Override
-    public void detachPresenter() {
+    protected void themeChanged() {
 
     }
 
     @Override
-    protected void themeChanged() {
+    public void initHandler() {
 
     }
 }

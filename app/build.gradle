@@ -84,4 +84,5 @@ dependencies {
     implementation 'com.github.nanchen2251:CompressHelper:1.0.5'
     implementation 'com.airbnb.android:lottie:3.4.4'
     implementation project(':ucrop')
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
 }

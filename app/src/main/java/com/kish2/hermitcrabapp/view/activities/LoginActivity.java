@@ -109,24 +109,9 @@ public class LoginActivity extends BaseActivity
 
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                switch (msg.what) {
-                    case MessageForHandler.DATA_LOADED:
-                        mLoginSubmit.setBackground(mBGDrawable);
-                        /*mBGVideo.setVideoPath(mVideoPath);
-                        mBGVideo.start();*/
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
 
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
@@ -356,9 +341,23 @@ public class LoginActivity extends BaseActivity
         getLifecycle().addObserver(this.mPresenter);
     }
 
+    @SuppressLint("HandlerLeak")
     @Override
-    public void detachPresenter() {
-        this.mPresenter.detachView();
+    public void initHandler() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case MessageForHandler.DATA_LOADED:
+                        mLoginSubmit.setBackground(mBGDrawable);
+                        /*mBGVideo.setVideoPath(mVideoPath);
+                        mBGVideo.start();*/
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
     }
 
     @Override

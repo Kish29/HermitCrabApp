@@ -79,7 +79,7 @@
                     android:layout_marginStart="3dp"
                     android:layout_weight="1"
                     android:gravity="start|center"
-                    android:text="参加中国新说唱都是大傻逼"
+                    android:text="第六届青年之声模拟政协提..."
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="@dimen/font_16" />
@@ -105,7 +105,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
                         android:gravity="start|center"
-                        android:text="机电信息楼"
+                        android:text="待定"
                         android:textAlignment="center"
                         android:textSize="@dimen/font_14"
                         app:layout_constraintStart_toEndOf="@+id/iv_position" />

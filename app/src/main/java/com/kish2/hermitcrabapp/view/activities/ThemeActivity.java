@@ -267,7 +267,7 @@ public class ThemeActivity extends BaseActivity {
     }
 
     @Override
-    public void detachPresenter() {
+    public void initHandler() {
 
     }
 

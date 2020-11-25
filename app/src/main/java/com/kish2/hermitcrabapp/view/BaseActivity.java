@@ -81,9 +81,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initHandler();
         simpleClassName = getClass().getSimpleName();
         /* 第一次加载时初始化theme color id*/
         themeColorId = ThemeUtil.Theme.afterGetResourcesColorId;
+        attachPresenter();
     }
 
     protected void changeFragment(@IdRes int containerViewId, Fragment fragment) {
@@ -155,7 +157,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     @Override
     protected void onDestroy() {
         /* 解除与presenter的关系 */
-        detachPresenter();
         GlideResourceRecycleManager.recycleBitmapList(simpleClassName);
         super.onDestroy();
     }
@@ -200,5 +201,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         this.dir_type = dir_type;
         this.mCropOptions = options;
         this.requestCode = requestCode;
+    }
+
+    @Override
+    public void initHandler() {
+
     }
 }

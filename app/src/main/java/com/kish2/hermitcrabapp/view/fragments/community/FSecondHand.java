@@ -46,9 +46,8 @@ public class FSecondHand extends FCommunityBase {
 
     @SuppressLint("HandlerLeak")
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        attachPresenter();
+    public void initHandler() {
+
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -67,6 +66,12 @@ public class FSecondHand extends FCommunityBase {
                 }
             }
         };
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        attachPresenter();
     }
 
     @Nullable
@@ -130,16 +135,11 @@ public class FSecondHand extends FCommunityBase {
     @Override
     public void attachPresenter() {
         this.mPresenter = new SecondHandPresenter(this);
-    }
-
-    @Override
-    public void detachPresenter() {
-        this.mPresenter.detachView();
+        getLifecycle().addObserver(this.mPresenter);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        detachPresenter();
     }
 }

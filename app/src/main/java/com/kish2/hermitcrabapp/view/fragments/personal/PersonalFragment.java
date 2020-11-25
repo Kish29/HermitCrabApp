@@ -32,13 +32,13 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
-import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
+import com.kish2.hermitcrabapp.custom.view.CustomTipDialog;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.PersonalPresenter;
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
@@ -132,24 +132,11 @@ public class PersonalFragment extends BaseFragment {
     private int curSampleVal = 0;
 
     /* 这三个方法必须重写 */
-    @SuppressLint("HandlerLeak")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         attachPresenter();
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                switch (msg.what) {
-                    case MessageForHandler.ADAPTER_INIT:
-                        break;
-                    case MessageForHandler.NETWORK_FAILURE:
-                        CustomTipDialog errorDialog = KZDialogUtil.IOS_LIGHT_ERROR_DIALOG(mContext, null, "网络连接失败，请检查您的网络状况", 2000);
-                        errorDialog.show();
-                        break;
-                }
-            }
-        };
+
         curSampleRadius = ApplicationConfigUtil.sample_radius;
         curSampleVal = ApplicationConfigUtil.sample_value;
 
@@ -190,6 +177,24 @@ public class PersonalFragment extends BaseFragment {
         mSideMenu.setImageDrawable(HermitCrabVectorIllustrations.VI_MENU);
         mTheme.setImageDrawable(HermitCrabVectorIllustrations.VI_THEME);
         mSetting.setImageDrawable(HermitCrabVectorIllustrations.VI_SETTING);
+    }
+
+    @SuppressLint("HandlerLeak")
+    @Override
+    public void initHandler() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case MessageForHandler.ADAPTER_INIT:
+                        break;
+                    case MessageForHandler.NETWORK_FAILURE:
+                        CustomTipDialog errorDialog = KZDialogUtil.IOS_LIGHT_ERROR_DIALOG(mContext, null, "网络连接失败，请检查您的网络状况", 2000);
+                        errorDialog.show();
+                        break;
+                }
+            }
+        };
     }
 
     @Override
@@ -451,11 +456,6 @@ public class PersonalFragment extends BaseFragment {
 
     @Override
     public void attachPresenter() {
-    }
-
-    @Override
-    public void detachPresenter() {
-
     }
 
     public void onUserAvatarUploadSuccess(Bitmap bitmap) {

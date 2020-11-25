@@ -64,11 +64,10 @@ public class ServiceFragment extends BaseFragment {
         mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
     }
 
-    /* 这三个方法必须重写 */
     @SuppressLint("HandlerLeak")
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initHandler() {
+
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -83,6 +82,12 @@ public class ServiceFragment extends BaseFragment {
                 }
             }
         };
+    }
+
+    /* 这三个方法必须重写 */
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -168,11 +173,6 @@ public class ServiceFragment extends BaseFragment {
 
     @Override
     public void attachPresenter() {
-
-    }
-
-    @Override
-    public void detachPresenter() {
 
     }
 

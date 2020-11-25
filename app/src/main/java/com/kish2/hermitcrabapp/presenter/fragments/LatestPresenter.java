@@ -19,10 +19,23 @@ public class LatestPresenter extends BasePresenter<MainActivity, FLatest> {
     private boolean firstLoad = true;
     private ArrayList<Inform> mInforms;
 
+    InformAdapter adapter;
+
     public LatestPresenter(FLatest latest) {
         this.mLatest = latest;
         this.mLatestModel = new LatestModel();
+        bindView(latest);
         mInforms = new ArrayList<>();
+    }
+
+    @Override
+    public void initDataAdapter() {
+
+    }
+
+    @Override
+    public void registerItemEvent() {
+
     }
 
     public void getDataFromModel() {
@@ -30,7 +43,7 @@ public class LatestPresenter extends BasePresenter<MainActivity, FLatest> {
         Message message = new Message();
         if (mInforms.size() != 0) {
             if (firstLoad) {
-                mLatest.setmInformsAdapter(new InformAdapter(mInforms, mLatest.getContext()));
+                mLatest.setmInformsAdapter(new InformAdapter(mLatest.getContext(), mInforms));
                 message.what = MessageForHandler.ADAPTER_INIT;
                 firstLoad = false;
             } else message.what = MessageForHandler.DATA_UPDATE;
@@ -40,38 +53,4 @@ public class LatestPresenter extends BasePresenter<MainActivity, FLatest> {
         mLatest.mHandler.sendMessage(message);
     }
 
-    @Override
-    public void detachView() {
-        this.mLatest = null;
-    }
-
-    @Override
-    public void onViewPause() {
-
-    }
-
-    @Override
-    public void onViewCreate() {
-
-    }
-
-    @Override
-    public void onViewResume() {
-
-    }
-
-    @Override
-    public void onViewDestroy() {
-
-    }
-
-    @Override
-    public void onViewStart() {
-
-    }
-
-    @Override
-    public void onViewStop() {
-
-    }
 }

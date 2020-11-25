@@ -8,4 +8,9 @@ public abstract class FCommunityBase extends BaseFragment {
     /* CommunityFragment的实例，用于操作顶部和底部 */
     @SuppressLint("StaticFieldLeak")
     protected static CommunityFragment mCommunity;
+
+    @Override
+    public void initHandler() {
+
+    }
 }

@@ -147,11 +147,6 @@ public class FLoginMobile extends BaseFragment {
     }
 
     @Override
-    public void detachPresenter() {
-
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         /* 防止计时器内存泄漏*/
@@ -176,5 +171,10 @@ public class FLoginMobile extends BaseFragment {
     @Override
     protected void themeChanged() {
         getAndSetLayoutView();
+    }
+
+    @Override
+    public void initHandler() {
+
     }
 }

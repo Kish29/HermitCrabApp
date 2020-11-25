@@ -48,9 +48,7 @@ public class FLatest extends FHomeBase {
 
     @SuppressLint("HandlerLeak")
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        attachPresenter();
+    public void initHandler() {
         mHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -69,6 +67,13 @@ public class FLatest extends FHomeBase {
                 }
             }
         };
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        attachPresenter();
+
     }
 
     @Nullable
@@ -98,12 +103,11 @@ public class FLatest extends FHomeBase {
     public void getAndSetLayoutView() {
         /* 父Fragment*/
         mHome = (HomeFragment) requireParentFragment();
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mInformList.setLayoutManager(layoutManager);
-        /*StaggeredLayout不需要设置该项
-        mInformList.setVerticalScrollBarEnabled(false);*/
     }
 
+    /* 子线程 */
     @Override
     public void loadData() {
         mRefreshLayout.setRefreshing(true);
@@ -121,7 +125,6 @@ public class FLatest extends FHomeBase {
     public void registerViewComponentsAffairs() {
         /* 因为onScrollChangedListener的onScrolled方法是回调方法，要等到item停下来时才调用，所以这儿直接监听touch事件 */
         mInformList.setOnTouchListener(this::touchCheck);
-
         mRefreshLayout.setOnRefreshListener(() -> {
             mPresenter.getDataFromModel();
             mRefreshLayout.setRefreshing(false);
@@ -131,16 +134,12 @@ public class FLatest extends FHomeBase {
     @Override
     public void attachPresenter() {
         this.mPresenter = new LatestPresenter(this);
+        getLifecycle().addObserver(this.mPresenter);
     }
 
-    @Override
-    public void detachPresenter() {
-        this.mPresenter.detachView();
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        this.detachPresenter();
     }
 }

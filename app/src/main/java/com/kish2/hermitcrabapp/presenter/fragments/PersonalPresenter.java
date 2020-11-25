@@ -11,32 +11,12 @@ public class PersonalPresenter extends BasePresenter<MainActivity, PersonalFragm
     }
 
     @Override
-    public void onViewPause() {
+    public void initDataAdapter() {
 
     }
 
     @Override
-    public void onViewCreate() {
-
-    }
-
-    @Override
-    public void onViewResume() {
-
-    }
-
-    @Override
-    public void onViewDestroy() {
-
-    }
-
-    @Override
-    public void onViewStart() {
-
-    }
-
-    @Override
-    public void onViewStop() {
+    public void registerItemEvent() {
 
     }
 }

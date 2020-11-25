@@ -1,5 +1,6 @@
 package com.kish2.hermitcrabapp.presenter.impl;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 
@@ -178,36 +179,13 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
     public void loginByQQ() {
 
     }
-
-
     @Override
-    public void onViewPause() {
+    public void initDataAdapter() {
 
     }
 
     @Override
-    public void onViewCreate() {
+    public void registerItemEvent() {
 
     }
-
-    @Override
-    public void onViewResume() {
-
-    }
-
-    @Override
-    public void onViewDestroy() {
-
-    }
-
-    @Override
-    public void onViewStart() {
-
-    }
-
-    @Override
-    public void onViewStop() {
-
-    }
-
 }
