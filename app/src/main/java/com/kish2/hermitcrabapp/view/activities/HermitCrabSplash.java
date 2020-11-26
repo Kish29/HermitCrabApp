@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.HermitCrabBitMaps;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
@@ -20,6 +21,7 @@ import com.kish2.hermitcrabapp.view.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class HermitCrabSplash extends BaseActivity {
 
     @BindView(R.id.iv_splash_picture)
@@ -41,17 +43,14 @@ public class HermitCrabSplash extends BaseActivity {
         getAndSetLayoutView();
         registerViewComponentsAffairs();
         /* 子线程获取布局参数 */
-        new Thread() {
-            @Override
-            public void run() {
-                /* 资源也应当在子线程中设置 */
-                ThemeUtil.loadThemeAndColorsVI();
-                ThemeUtil.setThemeTabSelectors();
-                HermitCrabBitMaps.loadBitMaps();
-                loadData();
-                mHandler.sendEmptyMessage(MessageForHandler.LOCAL_DATA_LOADED);
-            }
-        }.start();
+        HermitCrabApp.APP_THREAD_POOL.execute(() -> {
+            /* 资源也应当在子线程中设置 */
+            ThemeUtil.loadThemeAndColorsVI();
+            ThemeUtil.setThemeTabSelectors();
+            HermitCrabBitMaps.loadBitMaps();
+            loadData();
+            mHandler.sendEmptyMessage(MessageForHandler.LOCAL_DATA_LOADED);
+        });
     }
 
     @Override

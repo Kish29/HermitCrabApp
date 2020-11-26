@@ -27,6 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.tabs.TabLayout;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.viewpager.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.custom.view.NoScrollViewPager;
@@ -45,6 +46,7 @@ import com.yalantis.ucrop.UCrop;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class MainActivity extends BaseActivity {
 
     /* 菜单标题 */
@@ -117,14 +119,11 @@ public class MainActivity extends BaseActivity {
         getAndSetLayoutView();
         /* 程注册事务 */
         registerViewComponentsAffairs();
-        new Thread() {
-            @Override
-            public void run() {
-                /* loadData放在最后面*/
-                mCropOptions = new UCrop.Options();
-                loadData();
-            }
-        }.start();
+        HermitCrabApp.APP_THREAD_POOL.execute(() -> {
+            /* loadData放在最后面*/
+            mCropOptions = new UCrop.Options();
+            loadData();
+        });
         /* 监听获取组件属性 */
         /* 使用任意一个view来执行 getLayoutComponentsAttr() 方法*/
         mDLRootView.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
@@ -284,16 +283,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void themeChanged() {
-        new Thread() {
-            @Override
-            public void run() {
-                for (int i = 0; i < ThemeUtil.BOTTOM_TAB_NUM; i++) {
-                    mTabIcons[i].setImageDrawable(ThemeUtil.BOTTOM_TAB_SELECTOR[i]);
-                    mTabTitles[i].setTextColor(ThemeUtil.TEXT_SELECTOR);
-                }
+        HermitCrabApp.APP_THREAD_POOL.execute(() -> {
+            for (int i = 0; i < ThemeUtil.BOTTOM_TAB_NUM; i++) {
+                mTabIcons[i].setImageDrawable(ThemeUtil.BOTTOM_TAB_SELECTOR[i]);
+                mTabTitles[i].setTextColor(ThemeUtil.TEXT_SELECTOR);
             }
-        }.start();
-
+        });
     }
 
     @Override

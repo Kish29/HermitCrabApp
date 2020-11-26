@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
 import com.kish2.hermitcrabapp.custom.view.FixedVideoView;
@@ -43,7 +44,7 @@ import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@SuppressLint("Registered")
+@SuppressLint("Registered, NonConstantResourceId")
 public class LoginActivity extends BaseActivity
         implements
         View.OnFocusChangeListener,
@@ -119,12 +120,7 @@ public class LoginActivity extends BaseActivity
         attachPresenter();
         getAndSetLayoutView();
         registerViewComponentsAffairs();
-        new Thread() {
-            @Override
-            public void run() {
-                loadData();
-            }
-        }.start();
+        HermitCrabApp.APP_THREAD_POOL.execute(this::loadData);
     }
 
     public void getLayoutComponentsAttr() {

@@ -9,6 +9,7 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
@@ -63,12 +64,7 @@ public class RegisterActivity extends BaseActivity {
         attachPresenter();
         getAndSetLayoutView();
         registerViewComponentsAffairs();
-        new Thread() {
-            @Override
-            public void run() {
-                loadData();
-            }
-        }.start();
+        HermitCrabApp.APP_THREAD_POOL.execute(this::loadData);
     }
 
     @Override

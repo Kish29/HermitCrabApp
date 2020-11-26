@@ -1,5 +1,6 @@
 package com.kish2.hermitcrabapp.view.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.kongzue.dialog.v3.MessageDialog;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class UserProfileActivity extends BaseActivity {
 
     @BindView(R.id.sft_toolbar_top)

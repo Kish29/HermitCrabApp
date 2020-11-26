@@ -22,6 +22,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.bumptech.glide.signature.ObjectKey;
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
@@ -37,6 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
+@SuppressLint("NonConstantResourceId")
 public class ThemeActivity extends BaseActivity {
 
     @BindView(R.id.sft_toolbar_top)
@@ -106,12 +108,7 @@ public class ThemeActivity extends BaseActivity {
         ButterKnife.bind(this);
         getAndSetLayoutView();
         registerViewComponentsAffairs();
-        new Thread() {
-            @Override
-            public void run() {
-                loadData();
-            }
-        }.start();
+        HermitCrabApp.APP_THREAD_POOL.execute(this::loadData);
     }
 
 
