@@ -33,6 +33,7 @@ public abstract class BaseModel implements IBaseModel, Callback<ResponseBody> {
         ret_obj,
     }
 
+
     protected OnRequestModelCallBack callBack;
 
     public BaseModel(OnRequestModelCallBack callBack) {

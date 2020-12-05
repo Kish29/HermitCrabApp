@@ -1,6 +1,5 @@
 package com.kish2.hermitcrabapp.presenter.impl;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 
@@ -26,7 +25,7 @@ import java.util.Map;
 
 public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment> implements IBaseModel.OnRequestModelCallBack, IUserPresenter {
 
-    private IUserModel model;
+    private final IUserModel model;
 
     public UserPresenterImpl() {
         this.model = new UserModelImpl(this, this);
@@ -179,6 +178,7 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
     public void loginByQQ() {
 
     }
+
     @Override
     public void initDataAdapter() {
 
@@ -186,6 +186,11 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
 
     @Override
     public void registerItemEvent() {
+
+    }
+
+    @Override
+    public void initHandler() {
 
     }
 }

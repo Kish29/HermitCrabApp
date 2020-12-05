@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import androidx.annotation.NonNull;
@@ -46,19 +47,6 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                switch (msg.what) {
-                    case MessageForHandler.DATA_LOADED:
-                        mRegisterSubmit.setBackground(mBGDrawable);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
-
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
         attachPresenter();
@@ -115,7 +103,18 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void initHandler() {
-
+        mHandler = new Handler(Looper.myLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case MessageForHandler.DATA_LOADED:
+                        mRegisterSubmit.setBackground(mBGDrawable);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.utils.dev;
+package com.kish2.hermitcrabapp.utils.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

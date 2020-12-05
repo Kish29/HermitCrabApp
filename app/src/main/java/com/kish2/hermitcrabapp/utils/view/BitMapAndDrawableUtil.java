@@ -3,6 +3,7 @@ package com.kish2.hermitcrabapp.utils.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,7 +16,15 @@ import android.widget.SeekBar;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
+import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
+import com.nanchen.compresshelper.CompressHelper;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class BitMapAndDrawableUtil {
 
@@ -123,4 +132,51 @@ public class BitMapAndDrawableUtil {
         thumb.setColorFilter(colorId, PorterDuff.Mode.SRC_ATOP);
         seekBar.invalidate();
     }
+
+    /**
+     * @param file 待压缩的图片文件
+     * @param size 指定压缩之后的大小范围，单位：KB
+     */
+    public static Bitmap compressImageToSize(File file, int size) {
+        /* 默认保留50%的质量 */
+        CompressHelper compressHelper = new CompressHelper.Builder(HermitCrabApp.getAppContext())
+                .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                .setQuality(50)
+                .build();
+        Bitmap bitmap = compressHelper.compressToBitmap(file);
+        ByteArrayOutputStream buff = new ByteArrayOutputStream();
+        int quality = 100;
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, buff);
+        while (buff.size() / 1024 > size && quality - 10 >= 0) {
+            buff.reset();
+            quality -= 10;// 每次都减少5
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, buff);
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            buff.writeTo(fos);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return BitmapFactory.decodeFile(file.getPath());
+    }
+
+    /**
+     * @param bitmap 待压缩的图片文件
+     * @param size   指定压缩之后的大小范围
+     */
+    public static Bitmap compressImageToSize(Bitmap bitmap, int size) {
+        try {
+            File cache = FileStorageManager.createFileIfNull(System.currentTimeMillis() + ".png", FileStorageManager.DIR_TYPE.CACHE);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(cache));
+            long totalSpace = cache.getTotalSpace();
+            return compressImageToSize(cache, size);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

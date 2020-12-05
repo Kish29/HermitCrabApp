@@ -1,5 +1,7 @@
 package com.kish2.hermitcrabapp.utils.network;
 
+import com.kish2.hermitcrabapp.model.api.Api;
+
 import retrofit2.Retrofit;
 
 public class RetrofitUtil {

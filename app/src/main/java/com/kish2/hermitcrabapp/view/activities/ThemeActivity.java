@@ -2,9 +2,11 @@ package com.kish2.hermitcrabapp.view.activities;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,8 +65,9 @@ public class ThemeActivity extends BaseActivity {
     private int appBarLayoutHeight = 0;
     private CustomTarget<Bitmap> customTarget;
 
-    /* 辅助bitmap，用来释放glide的缓存 */
-    private Bitmap auxiliaryBitmap;
+    /* 压缩后的banner <= 50 kb
+     * 用于展示 */
+    private Bitmap compressedBanner;
 
     @Override
     protected void themeChanged() {
@@ -72,30 +75,14 @@ public class ThemeActivity extends BaseActivity {
         mToolBar.bindAndSetThisToolbar(this, true, "主题颜色");
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /* banner的高度 */
         appBarLayoutHeight = getIntent().getIntExtra("appBarLayoutHeight", 0);
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                switch (msg.what) {
-                    case MessageForHandler.LOCAL_DATA_LOADED:
-                    case MessageForHandler.SYSTEM_FAILURE:
-                    default:
-                        break;
-                }
-            }
-        };
         customTarget = new CustomTarget<Bitmap>() {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                /* 释放上次的bitmap */
-                auxiliaryBitmap = null;
-                /* 更新 */
-                auxiliaryBitmap = resource;
-                ApplicationConfigUtil.USER_BANNER_BKG = auxiliaryBitmap;
                 mBannerImage.setImageBitmap(resource);
             }
 
@@ -148,8 +135,11 @@ public class ThemeActivity extends BaseActivity {
         mSamplingValue.setProgress(ApplicationConfigUtil.sample_value * 33 + 1);
         if (!ApplicationConfigUtil.BANNER_DEFAULT && ApplicationConfigUtil.HAS_BANNER_BKG) {
             mBannerImage.getLayoutParams().height = appBarLayoutHeight;
+            compressedBanner = BitmapFactory.decodeFile(String.valueOf(ApplicationConfigUtil.BANNER_URI));
+            /* 压缩到50以内 */
+            compressedBanner = BitMapAndDrawableUtil.compressImageToSize(compressedBanner, 50);
             Glide.with(this)
-                    .load(ApplicationConfigUtil.ORIGIN_BANNER_BKG_URI)
+                    .load(compressedBanner)
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(ApplicationConfigUtil.sample_radius, ApplicationConfigUtil.sample_value)))
@@ -194,12 +184,7 @@ public class ThemeActivity extends BaseActivity {
                     j--;
                 }
                 mThemeListChecks[cur].setImageDrawable(HermitCrabVectorIllustrations.VI_CHECK_THEME);
-                new Thread() {
-                    @Override
-                    public void run() {
-                        ApplicationConfigUtil.storeAppConfig();
-                    }
-                }.start();
+                HermitCrabApp.APP_THREAD_POOL.execute(ApplicationConfigUtil::storeAppConfig);
             });
         }
         mSampleRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -207,9 +192,12 @@ public class ThemeActivity extends BaseActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int val = progress / 4;
                 if (val == 0) val = 1;
-                mRadius.setText(String.valueOf(val));
-                updatePreview(val, ApplicationConfigUtil.sample_value);
-                ApplicationConfigUtil.sample_radius = val;
+                /* 如果改变了 */
+                if (val != ApplicationConfigUtil.sample_radius) {
+                    ApplicationConfigUtil.sample_radius = val;
+                    updatePreview(val, ApplicationConfigUtil.sample_value);
+                    mRadius.setText(String.valueOf(val));
+                }
             }
 
             @Override
@@ -226,9 +214,11 @@ public class ThemeActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int val = progress / 33 + 1;
-                mSampling.setText(String.valueOf(val));
-                updatePreview(ApplicationConfigUtil.sample_radius, val);
-                ApplicationConfigUtil.sample_value = val;
+                if (val != ApplicationConfigUtil.sample_value) {
+                    ApplicationConfigUtil.sample_value = val;
+                    mSampling.setText(String.valueOf(val));
+                    updatePreview(ApplicationConfigUtil.sample_radius, val);
+                }
             }
 
             @Override
@@ -249,7 +239,7 @@ public class ThemeActivity extends BaseActivity {
         Glide.with(ThemeActivity.this)
                 .asBitmap()
                 .apply(signature)
-                .load(ApplicationConfigUtil.ORIGIN_BANNER_BKG_URI)
+                .load(compressedBanner)
                 .apply(RequestOptions.bitmapTransform(new BlurTransformation(radius, val)))
                 .into(customTarget);
     }
@@ -265,7 +255,17 @@ public class ThemeActivity extends BaseActivity {
 
     @Override
     public void initHandler() {
-
+        mHandler = new Handler(Looper.myLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what) {
+                    case MessageForHandler.LOCAL_DATA_LOADED:
+                    case MessageForHandler.SYSTEM_FAILURE:
+                    default:
+                        break;
+                }
+            }
+        };
     }
 
     @Override

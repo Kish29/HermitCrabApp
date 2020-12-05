@@ -77,7 +77,6 @@ public class FSecondHand extends FCommunityBase {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("SecondHand", "onCreateView run.");
         View view = inflater.inflate(R.layout.sub_fragment_content, container, false);
         ButterKnife.bind(this, view);
         /* 主线程 */

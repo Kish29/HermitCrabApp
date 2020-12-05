@@ -3,6 +3,7 @@ package com.kish2.hermitcrabapp.view.fragments.service;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class ServiceFragment extends BaseFragment {
 
     /* 主内容*/
@@ -64,11 +66,9 @@ public class ServiceFragment extends BaseFragment {
         mAppBarLayout.setBackgroundColor(ThemeUtil.Theme.afterGetResourcesColorId);
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     public void initHandler() {
-
-        mHandler = new Handler() {
+        mHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {

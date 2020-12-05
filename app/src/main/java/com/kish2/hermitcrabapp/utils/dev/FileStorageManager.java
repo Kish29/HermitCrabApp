@@ -2,11 +2,12 @@ package com.kish2.hermitcrabapp.utils.dev;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Environment;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+
+import com.kish2.hermitcrabapp.HermitCrabApp;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,18 +19,19 @@ public class FileStorageManager {
         USER_AVATAR,
         USER_BANNER_BACKGROUND,
         FILE_DOWNLOAD,
-        APP_SIDE_MENU_BACKGROUND
+        APP_SIDE_MENU_BACKGROUND,
+        CACHE
     }
 
     private static String USER_AVATAR_PATH;
     private static String USER_BANNER_BKG_PATH;
     private static String FILE_DOWNLOAD_PATH;
     private static String APP_SIDE_MENU_BKG_PATH;
+    private static String CACHE_DIR;
 
     public static final String user_avatar_file_name = "userAvatar.png";
     public static final String banner_bkg_file_name = "bannerBkg.png";
     public static final String app_side_menu_bkg_file_name = "sideMenuBkg.png";
-    public static final String origin_banner_bkg_file_name = "orgBannerBkg.png";
     public static String APP_PROVIDER_AUTHORITY = "com.kish2.hermitcrabapp.FileProvider";
 
     public static String getUserAvatarPath() {
@@ -48,6 +50,7 @@ public class FileStorageManager {
     public static void initApplicationDirs(Context context) {
         /* 初始化目录名称 */
         String APP_PIC_DIR = ContextCompat.getExternalFilesDirs(context, Environment.DIRECTORY_PICTURES)[0].toString();
+        CACHE_DIR = ContextCompat.getExternalCacheDirs(HermitCrabApp.getAppContext())[0].toString();
         USER_AVATAR_PATH = APP_PIC_DIR + "/user/avatar";
         USER_BANNER_BKG_PATH = APP_PIC_DIR + "/user/bannerBkg";
         APP_SIDE_MENU_BKG_PATH = APP_PIC_DIR + "/app/sideMenuBkg";
@@ -67,14 +70,13 @@ public class FileStorageManager {
         }
     }
 
-    public static Uri storeBitmapAsPng(Bitmap bitmap, String file_name, @NonNull DIR_TYPE dir_type) throws IOException {
+    public static String storeBitmapAsPng(Bitmap bitmap, String file_name, @NonNull DIR_TYPE dir_type, int compressQuality) throws IOException {
         File file = createFileIfNull(file_name, dir_type);
-        Uri uri = Uri.fromFile(file);
         FileOutputStream fileOutputStream = new FileOutputStream(file);
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, fileOutputStream);
         fileOutputStream.flush();
         fileOutputStream.close();
-        return uri;
+        return file.getPath();
     }
 
 
@@ -103,6 +105,12 @@ public class FileStorageManager {
                 file = new File(APP_SIDE_MENU_BKG_PATH, fileName);
                 if (!file.exists()) {
                     boolean mkdirs = file.createNewFile();
+                }
+                break;
+            case CACHE:
+                file = new File(CACHE_DIR, fileName);
+                if (!file.exists()) {
+                    boolean newFile = file.createNewFile();
                 }
                 break;
             default:

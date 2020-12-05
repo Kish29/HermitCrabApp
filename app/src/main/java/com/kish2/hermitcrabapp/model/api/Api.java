@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.utils.network;
+package com.kish2.hermitcrabapp.model.api;
 
 public class Api {
     public static final String API_BASE = "http:10.18.148.134:8888/";

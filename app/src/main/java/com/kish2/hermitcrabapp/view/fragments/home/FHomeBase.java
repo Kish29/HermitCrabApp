@@ -10,8 +10,4 @@ public abstract class FHomeBase extends BaseFragment {
     @SuppressLint("StaticFieldLeak")
     protected static HomeFragment mHome;
 
-    @Override
-    public void initHandler() {
-
-    }
 }

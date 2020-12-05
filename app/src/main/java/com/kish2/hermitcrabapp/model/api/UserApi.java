@@ -1,7 +1,5 @@
 package com.kish2.hermitcrabapp.model.api;
 
-import com.kish2.hermitcrabapp.utils.network.Api;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.POST;

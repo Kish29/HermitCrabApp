@@ -13,6 +13,8 @@ public class User {
     private String avatarPath;
     private String userType;
     private String status;
+    private String studentId;
+    private String department;
     /* 除了头像，其他一律保存在本地 */
     private String bannerBkgPath;
     private String personalBannerBkgPath;
@@ -75,8 +77,6 @@ public class User {
         this.studentId = studentId;
     }
 
-    private String studentId;
-
     public String getGrade() {
         return grade;
     }
@@ -108,8 +108,6 @@ public class User {
     public void setDepartment(String department) {
         this.department = department;
     }
-
-    private String department;
 
     public String getToken() {
         return token;

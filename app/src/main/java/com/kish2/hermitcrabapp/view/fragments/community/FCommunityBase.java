@@ -9,8 +9,4 @@ public abstract class FCommunityBase extends BaseFragment {
     @SuppressLint("StaticFieldLeak")
     protected static CommunityFragment mCommunity;
 
-    @Override
-    public void initHandler() {
-
-    }
 }

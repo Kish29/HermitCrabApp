@@ -19,4 +19,9 @@ public class PersonalPresenter extends BasePresenter<MainActivity, PersonalFragm
     public void registerItemEvent() {
 
     }
+
+    @Override
+    public void initHandler() {
+
+    }
 }

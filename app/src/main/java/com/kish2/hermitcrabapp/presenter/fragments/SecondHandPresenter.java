@@ -42,6 +42,11 @@ public class SecondHandPresenter extends BasePresenter<MainActivity, FSecondHand
     }
 
     @Override
+    public void initHandler() {
+
+    }
+
+    @Override
     public void initDataAdapter() {
 
     }

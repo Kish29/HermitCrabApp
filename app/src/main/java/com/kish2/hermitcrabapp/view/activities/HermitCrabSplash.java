@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.widget.ImageView;
 
@@ -81,10 +82,9 @@ public class HermitCrabSplash extends BaseActivity {
 
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     public void initHandler() {
-        mHandler = new Handler() {
+        mHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {

@@ -53,4 +53,9 @@ public class LatestPresenter extends BasePresenter<MainActivity, FLatest> {
         mLatest.mHandler.sendMessage(message);
     }
 
+    @Override
+    public void initHandler() {
+
+    }
+
 }

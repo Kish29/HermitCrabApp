@@ -2,6 +2,7 @@ package com.kish2.hermitcrabapp.presenter.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import androidx.annotation.NonNull;
@@ -32,9 +33,20 @@ public class ChatPresenter extends BasePresenter<MainActivity, ChatFragment> imp
     @SuppressLint("HandlerLeak")
     public ChatPresenter(ChatFragment chatFragment) {
         bindView(chatFragment);
+        initHandler();
         this.mChatModel = new ChatModel(this);
         adapter = new ChatListAdapter(getContext());
-        handler = new Handler() {
+    }
+
+    @Override
+    public void getDataFromModel() {
+        List<ChatItemPreview> chatPreviewItems = mChatModel.getChatPreviewItems(20);
+        adapter.addData(chatPreviewItems);
+    }
+
+    @Override
+    public void initHandler() {
+        handler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
@@ -52,12 +64,6 @@ public class ChatPresenter extends BasePresenter<MainActivity, ChatFragment> imp
                 }
             }
         };
-    }
-
-    @Override
-    public void getDataFromModel() {
-        List<ChatItemPreview> chatPreviewItems = mChatModel.getChatPreviewItems(20);
-        adapter.addData(chatPreviewItems);
     }
 
     @Override

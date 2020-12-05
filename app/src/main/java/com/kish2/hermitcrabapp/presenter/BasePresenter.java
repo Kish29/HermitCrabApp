@@ -72,6 +72,9 @@ public abstract class BasePresenter<A extends BaseActivity, F extends BaseFragme
 
     }
 
+    public abstract void initHandler();
+
+
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void onViewPause() {
 

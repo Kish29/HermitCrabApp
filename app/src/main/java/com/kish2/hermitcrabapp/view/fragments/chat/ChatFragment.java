@@ -3,6 +3,7 @@ package com.kish2.hermitcrabapp.view.fragments.chat;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class ChatFragment extends BaseFragment {
     /* 顶部导航条*/
     @BindView(R.id.top_retrieve_bar)
@@ -67,10 +69,9 @@ public class ChatFragment extends BaseFragment {
         refreshLayout.setColorSchemeColors(themeColorId);
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     public void initHandler() {
-        mHandler = new Handler() {
+        mHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {

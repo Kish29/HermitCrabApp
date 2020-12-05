@@ -16,7 +16,7 @@ import retrofit2.Retrofit;
 
 public class UserModelImpl extends BaseModel implements IUserModel {
 
-    private UserApi userApi;
+    private final UserApi userApi;
 
     /* 为了区分model层调用的函数，用该函数表来进行区分 */
     public enum method_index {

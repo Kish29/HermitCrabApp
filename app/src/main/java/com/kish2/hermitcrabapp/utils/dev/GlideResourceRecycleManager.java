@@ -13,8 +13,8 @@ import java.util.Map;
 public class GlideResourceRecycleManager {
 
     /* viewBitmaps*/
-    private static Map<String, ArrayList<Bitmap>> viewBitmaps = new HashMap<>();
-    private static Map<String, ArrayList<Drawable>> viewDrawables = new HashMap<>();
+    private static final Map<String, ArrayList<Bitmap>> viewBitmaps = new HashMap<>();
+    private static final Map<String, ArrayList<Drawable>> viewDrawables = new HashMap<>();
     private static final String TAG = "GlideRecycler";
 
     public static ArrayList<Bitmap> createBitmapList(String key) {

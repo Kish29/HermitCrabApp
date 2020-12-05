@@ -135,7 +135,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
 
     /* 重写权限的请求处理结果 */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (requestCode == SysInteractUtil.request_camera_permission) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 onCameraPermissionGranted();

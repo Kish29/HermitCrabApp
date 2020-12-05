@@ -3,6 +3,7 @@ package com.kish2.hermitcrabapp.view.fragments.home;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.InformAdapter;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
@@ -24,6 +26,7 @@ import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class FLatest extends FHomeBase {
 
     /*@BindView(R.id.tv_sub_fragment)
@@ -46,10 +49,9 @@ public class FLatest extends FHomeBase {
         mRefreshLayout.setColorSchemeColors(themeColorId);
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     public void initHandler() {
-        mHandler = new Handler() {
+        mHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
@@ -79,17 +81,11 @@ public class FLatest extends FHomeBase {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("LatestFragment", "onCreateView run.");
         View view = inflater.inflate(R.layout.sub_fragment_content, container, false);
         ButterKnife.bind(this, view);
         /* 主线程 */
         getAndSetLayoutView();
-        new Thread() {
-            @Override
-            public void run() {
-                registerViewComponentsAffairs();
-            }
-        }.start();
+        HermitCrabApp.APP_THREAD_POOL.execute(this::registerViewComponentsAffairs);
         mRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
         return view;
     }

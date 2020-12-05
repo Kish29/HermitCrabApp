@@ -2,7 +2,7 @@ package com.kish2.hermitcrabapp.custom.listener;
 
 import android.view.View;
 
-import com.kish2.hermitcrabapp.utils.dev.NetWorkUtil;
+import com.kish2.hermitcrabapp.utils.network.NetWorkUtil;
 
 public abstract class OnClickNetWorkListener extends BaseOnClickListener {
 

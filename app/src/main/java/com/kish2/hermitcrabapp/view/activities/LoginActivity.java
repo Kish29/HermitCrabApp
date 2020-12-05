@@ -9,6 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -337,10 +338,9 @@ public class LoginActivity extends BaseActivity
         getLifecycle().addObserver(this.mPresenter);
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     public void initHandler() {
-        mHandler = new Handler() {
+        mHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
@@ -349,6 +349,7 @@ public class LoginActivity extends BaseActivity
                         /*mBGVideo.setVideoPath(mVideoPath);
                         mBGVideo.start();*/
                         break;
+                    case MessageForHandler.ADAPTER_INIT:
                     default:
                         break;
                 }

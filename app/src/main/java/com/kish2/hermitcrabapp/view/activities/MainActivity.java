@@ -1,26 +1,25 @@
 package com.kish2.hermitcrabapp.view.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentPagerAdapter;
-
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -35,11 +34,10 @@ import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.dev.GlideResourceRecycleManager;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
-import com.kish2.hermitcrabapp.utils.dev.SysInteractUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
-import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.BaseActivity;
+import com.kish2.hermitcrabapp.view.BaseFragment;
 import com.kish2.hermitcrabapp.view.fragments.personal.PersonalFragment;
 import com.yalantis.ucrop.UCrop;
 
@@ -248,10 +246,9 @@ public class MainActivity extends BaseActivity {
     public void attachPresenter() {
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     public void initHandler() {
-        mHandler = new Handler() {
+        mHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
@@ -300,13 +297,15 @@ public class MainActivity extends BaseActivity {
     protected void onImageCropSuccess(Uri uri) {
         switch (file_operate_purpose) {
             case USER_AVATAR:
-                // 把原图交给PersonalFragment
-                // Bitmap bitmap = CompressHelper.getDefault(this).compressToBitmap(newAvatarFile);
                 CustomTarget<Bitmap> customTarget = new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
                         GlideResourceRecycleManager.addBitmapIntoList(simpleClassName, bitmap);
                         ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).onUserAvatarUploadSuccess(bitmap);
+                        // 如果没有banner，使用头像
+                        if (!ApplicationConfigUtil.HAS_BANNER_BKG) {
+                            ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).onBannerBackgroundUploadSuccess(bitmap);
+                        }
                     }
 
                     @Override
@@ -316,10 +315,8 @@ public class MainActivity extends BaseActivity {
                 };
                 // 不要使用缓存机制
                 Glide.with(this).asBitmap().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).load(uri).into(customTarget);
+                break;
             case BANNER_BKG:
-                if (ApplicationConfigUtil.HAS_BANNER_BKG &&
-                        file_operate_purpose == SysInteractUtil.FILE_OPERATE_PURPOSE.USER_AVATAR)
-                    return;
                 CustomTarget<Bitmap> customTarget1 = new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {

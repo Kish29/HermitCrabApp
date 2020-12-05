@@ -3,6 +3,7 @@ package com.kish2.hermitcrabapp.view.fragments.community;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class CommunityFragment extends BaseFragment {
 
     /* 顶部导航条*/
@@ -70,10 +72,9 @@ public class CommunityFragment extends BaseFragment {
         mCategoryTab.setTextSelectColor(HermitCrabVectorIllustrations.colorWhite);
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     public void initHandler() {
-        mHandler = new Handler() {
+        mHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {

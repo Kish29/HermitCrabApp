@@ -1,5 +1,6 @@
 package com.kish2.hermitcrabapp.view.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +26,7 @@ import com.kish2.hermitcrabapp.view.BaseFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class FLoginMobile extends BaseFragment {
     /* 三个图标*/
     @BindView(R.id.iv_user_icon)

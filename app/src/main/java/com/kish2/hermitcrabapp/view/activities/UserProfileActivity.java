@@ -59,7 +59,6 @@ public class UserProfileActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-
         ButterKnife.bind(this);
         attachPresenter();
         getAndSetLayoutView();
