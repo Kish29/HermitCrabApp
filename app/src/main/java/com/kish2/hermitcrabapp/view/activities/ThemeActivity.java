@@ -135,8 +135,8 @@ public class ThemeActivity extends BaseActivity {
         mSamplingValue.setProgress(ApplicationConfigUtil.sample_value * 33 + 1);
         if (!ApplicationConfigUtil.BANNER_DEFAULT && ApplicationConfigUtil.HAS_BANNER_BKG) {
             mBannerImage.getLayoutParams().height = appBarLayoutHeight;
-            compressedBanner = BitmapFactory.decodeFile(String.valueOf(ApplicationConfigUtil.BANNER_URI));
-            /* 压缩到50以内 */
+            compressedBanner = BitmapFactory.decodeFile(ApplicationConfigUtil.LOCAL_BANNER_URI);
+            /* 压缩到50KB以内 */
             compressedBanner = BitMapAndDrawableUtil.compressImageToSize(compressedBanner, 50);
             Glide.with(this)
                     .load(compressedBanner)

@@ -1,17 +1,15 @@
 package com.kish2.hermitcrabapp;
 
-import com.kish2.hermitcrabapp.sqlite.SearchHistory;
 import com.kish2.hermitcrabapp.utils.security.InputCheckUtil;
-import com.kish2.hermitcrabapp.view.BaseActivity;
-import com.kish2.hermitcrabapp.view.activities.LoginActivity;
-import com.kish2.hermitcrabapp.view.activities.MainActivity;
 
 import org.junit.Test;
 
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.SecureUtil;
 
 import static com.kish2.hermitcrabapp.utils.security.LicenseEncryption.passwordEncryption;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit MyTest, which will execute on the development machine (host).
@@ -64,6 +62,17 @@ public class ExampleUnitTest {
         System.out.println(s1.length());
 
         System.out.println("4da0959add9e3a098bf0d2be6cf1fa26".length());
+    }
+
+
+    @Test
+    public void test1() {
+        System.out.println(RandomUtil.randomString(32));
+        System.out.println(IdUtil.simpleUUID());
+        System.out.println(IdUtil.simpleUUID());
+        System.out.println(IdUtil.simpleUUID());
+        System.out.println(IdUtil.simpleUUID());
+        System.out.println(IdUtil.simpleUUID());
     }
 
 }

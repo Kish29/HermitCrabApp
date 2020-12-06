@@ -23,7 +23,8 @@ public class ApplicationConfigUtil {
     public static boolean HAS_SIDE_MENU_BKG = false;
 
     public static Uri APP_SIDE_MENU_BKG_URI;
-    public static String BANNER_URI = null;
+    public static String LOCAL_BANNER_URI = null;
+    public static String LOCAL_AVATAR_URI = null;
 
     public static int sample_radius = 8;
     public static int sample_value = 2;
@@ -37,7 +38,8 @@ public class ApplicationConfigUtil {
         HAS_BANNER_BKG = mAppConfig.getBoolean("has_banner_bkg", false);
         HAS_SIDE_MENU_BKG = mAppConfig.getBoolean("has_side_bkg", false);
         BANNER_DEFAULT = mAppConfig.getBoolean("user_sys_default", true);
-        BANNER_URI = mAppConfig.getString("banner_uri", null);
+        LOCAL_BANNER_URI = mAppConfig.getString("banner_uri", null);
+        LOCAL_AVATAR_URI = mAppConfig.getString("avatar_uri", null);
         sample_radius = mAppConfig.getInt("sample_radius", 8);
         sample_value = mAppConfig.getInt("sample_value", 2);
     }
@@ -48,7 +50,7 @@ public class ApplicationConfigUtil {
             HermitCrabApp.USER.setToken(mAppConfig.getString("user_token", null));
         }
         if (HAS_AVATAR) {
-            USER_AVATAR = BitmapFactory.decodeFile(FileStorageManager.getUserAvatarPath());
+            USER_AVATAR = BitmapFactory.decodeFile(LOCAL_AVATAR_URI);
         }
         if (HAS_SIDE_MENU_BKG) {
         }
@@ -63,8 +65,10 @@ public class ApplicationConfigUtil {
         mAppConfigEditor.putBoolean("has_banner_bkg", HAS_BANNER_BKG);
         mAppConfigEditor.putBoolean("has_side_bkg", HAS_SIDE_MENU_BKG);
         mAppConfigEditor.putBoolean("user_sys_default", BANNER_DEFAULT);
-        if (BANNER_URI != null)
-            mAppConfigEditor.putString("banner_uri", BANNER_URI.toString());
+        if (LOCAL_BANNER_URI != null)
+            mAppConfigEditor.putString("banner_uri", LOCAL_BANNER_URI);
+        if (LOCAL_AVATAR_URI != null)
+            mAppConfigEditor.putString("avatar_uri", LOCAL_AVATAR_URI);
         mAppConfigEditor.putInt("sample_radius", sample_radius);
         mAppConfigEditor.putInt("sample_value", sample_value);
 

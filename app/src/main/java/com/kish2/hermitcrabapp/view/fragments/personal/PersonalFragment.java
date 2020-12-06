@@ -3,8 +3,10 @@ package com.kish2.hermitcrabapp.view.fragments.personal;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -55,10 +57,12 @@ import com.kongzue.dialog.v3.MessageDialog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.yalantis.ucrop.UCrop;
 
+import java.io.File;
 import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.hutool.core.util.IdUtil;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 @SuppressLint("NonConstantResourceId")
@@ -128,7 +132,7 @@ public class PersonalFragment extends BaseFragment {
     /* 学生服务*/
     private PersonalPresenter mPresenter;
 
-    CustomTarget<Bitmap> bitmapCustomTarget;
+    CustomTarget<Bitmap> bannerTarget;
 
     /* 这三个方法必须重写 */
     @Override
@@ -195,12 +199,14 @@ public class PersonalFragment extends BaseFragment {
         /* 必须先锁定appBarLayout高度 */
         mAppBarLayout.getLayoutParams().height = mAppBarLayout.getHeight();
         /* 指定customTarget的大小 */
-        bitmapCustomTarget = new CustomTarget<Bitmap>(mAppBarLayout.getWidth(), mAppBarLayout.getHeight()) {
+        bannerTarget = new CustomTarget<Bitmap>(mAppBarLayout.getWidth(), mAppBarLayout.getHeight()) {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                /* 改变字体颜色 */
                 Palette.from(resource).generate(palette -> {
                     setTextAndIconColor(ThemeUtil.isLightTone(palette, 0xa));
                 });
+                resource = BitMapAndDrawableUtil.centerCropBitmapToFitView(resource, mAppBarLayout);
                 mAppBarLayout.setBackground(new BitmapDrawable(getResources(), resource));
             }
 
@@ -251,15 +257,15 @@ public class PersonalFragment extends BaseFragment {
             else userBindInfo.setText(HermitCrabApp.USER.getDepartment());
         }
         /* 因为存在图片会使appLayout扩张，所以在appLayout固定高度之后，在refreshData中进行设置 */
-        if (!ApplicationConfigUtil.BANNER_DEFAULT && ApplicationConfigUtil.HAS_BANNER_BKG && ApplicationConfigUtil.BANNER_URI != null) {
+        if (!ApplicationConfigUtil.BANNER_DEFAULT && ApplicationConfigUtil.HAS_BANNER_BKG && ApplicationConfigUtil.LOCAL_BANNER_URI != null) {
             /* 加载图片到mAppBarLayout */
             Glide.with(this)
                     .asBitmap()
-                    .load(ApplicationConfigUtil.BANNER_URI)
+                    .load(ApplicationConfigUtil.LOCAL_BANNER_URI)
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(ApplicationConfigUtil.sample_radius, ApplicationConfigUtil.sample_value)))
-                    .into(bitmapCustomTarget);
+                    .into(bannerTarget);
         }
         if (ApplicationConfigUtil.HAS_AVATAR && ApplicationConfigUtil.USER_AVATAR != null) {
             mUserAvatar.setImageBitmap(ApplicationConfigUtil.USER_AVATAR);
@@ -283,21 +289,10 @@ public class PersonalFragment extends BaseFragment {
                     "使用头像",
                     "相册");
             messageDialog.show();
-            CustomTarget<Bitmap> customTarget = new CustomTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                    onBannerBackgroundUploadSuccess(resource);
-                }
-
-                @Override
-                public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                }
-            };
             /* 头像 */
             messageDialog.setOnCancelButtonClickListener((baseDialog, v1) -> {
                 if (ApplicationConfigUtil.HAS_AVATAR && ApplicationConfigUtil.USER_AVATAR != null) {
-                    Glide.with(this).asBitmap().load(ApplicationConfigUtil.USER_AVATAR).into(customTarget);
+                    onBannerBackgroundUploadSuccess(Uri.fromFile(new File(ApplicationConfigUtil.LOCAL_AVATAR_URI)));
                 }
                 return false;
             });
@@ -308,8 +303,8 @@ public class PersonalFragment extends BaseFragment {
                 options.withAspectRatio(ratio, 1);
                 ((MainActivity) requireActivity()).setSysInteractArgs(
                         SysInteractUtil.FILE_OPERATE_PURPOSE.BANNER_BKG,
-                        FileStorageManager.banner_bkg_file_name,
-                        FileStorageManager.DIR_TYPE.USER_BANNER_BACKGROUND,
+                        IdUtil.simpleUUID(),
+                        FileStorageManager.DIR_TYPE.CACHE,
                         SysInteractUtil.request_gallery_activity_crop, options);
                 ((MainActivity) requireActivity()).uploadPic();
                 return false;
@@ -346,8 +341,8 @@ public class PersonalFragment extends BaseFragment {
                 options.setCircleDimmedLayer(true);
                 ((MainActivity) requireActivity()).setSysInteractArgs(
                         SysInteractUtil.FILE_OPERATE_PURPOSE.USER_AVATAR,
-                        FileStorageManager.user_avatar_file_name,
-                        FileStorageManager.DIR_TYPE.USER_AVATAR,
+                        IdUtil.simpleUUID(),
+                        FileStorageManager.DIR_TYPE.CACHE,
                         SysInteractUtil.request_gallery_activity_crop, options);
                 ((MainActivity) requireActivity()).uploadPic();
                 return false;
@@ -359,8 +354,8 @@ public class PersonalFragment extends BaseFragment {
                 options.setCircleDimmedLayer(true);
                 ((MainActivity) requireActivity()).setSysInteractArgs(
                         SysInteractUtil.FILE_OPERATE_PURPOSE.USER_AVATAR,
-                        FileStorageManager.user_avatar_file_name,
-                        FileStorageManager.DIR_TYPE.USER_AVATAR,
+                        IdUtil.simpleUUID(),
+                        FileStorageManager.DIR_TYPE.CACHE,
                         SysInteractUtil.request_camera_activity_crop, options);
                 ((MainActivity) requireActivity()).takePhoto();
                 return false;
@@ -445,27 +440,6 @@ public class PersonalFragment extends BaseFragment {
     public void attachPresenter() {
     }
 
-    public void onUserAvatarUploadSuccess(Bitmap bitmap) {
-        if (bitmap != null) {
-            /* 压缩至300KB以内 */
-            bitmap = BitMapAndDrawableUtil.compressImageToSize(bitmap, 350);
-            /* 存储 */
-            if (bitmap != null) {
-                Bitmap finalBitmap = bitmap;
-                HermitCrabApp.APP_THREAD_POOL.execute(() -> {
-                    try {
-                        FileStorageManager.storeBitmapAsPng(finalBitmap, FileStorageManager.user_avatar_file_name, FileStorageManager.DIR_TYPE.USER_AVATAR, 100);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-            mUserAvatar.setImageBitmap(bitmap);
-            ApplicationConfigUtil.HAS_AVATAR = true;
-            ApplicationConfigUtil.USER_AVATAR = bitmap;
-        }
-
-    }
 
     @Override
     public void setTextAndIconColor(boolean isDarkTheme) {
@@ -489,37 +463,16 @@ public class PersonalFragment extends BaseFragment {
         topicText.setTextColor(colorId);
     }
 
-    public void onBannerBackgroundUploadSuccess(Bitmap bitmap) {
-        if (bitmap != null) {
-            /* 先压缩到1MB之内 */
-            int allocationByteCount = bitmap.getAllocationByteCount();
-            bitmap = BitMapAndDrawableUtil.compressImageToSize(bitmap, 1024);
-            /* 裁剪，因为有可能是头像图片 */
-            assert bitmap != null;
-            bitmap = BitMapAndDrawableUtil.centerCropBitmapToFitView(bitmap, mAppBarLayout);
-            /* 保存图片*/
-            saveBannerBkg(bitmap);
-            // 不要使用缓存机制
-            Glide.with(this)
-                    .asBitmap()
-                    .load(bitmap)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .apply(RequestOptions.bitmapTransform(
-                            new BlurTransformation(ApplicationConfigUtil.sample_radius, ApplicationConfigUtil.sample_value)))
-                    .into(bitmapCustomTarget);
-
-        }
-    }
-
-    /* 存两张图，一张原图，另一张是高斯模糊之后的图 */
-    private void saveBannerBkg(Bitmap bitmap) {
-        /* 将bitmap存入手机 */
+    public void onBannerBackgroundUploadSuccess(Uri uri) {
+        /* 复制到banner文件夹 */
         HermitCrabApp.APP_THREAD_POOL.execute(() -> {
             try {
-                /* 创建文件 */
-                ApplicationConfigUtil.BANNER_URI = FileStorageManager.storeBitmapAsPng(bitmap, FileStorageManager.banner_bkg_file_name, FileStorageManager.DIR_TYPE.USER_BANNER_BACKGROUND, 100);
-                /* 默认值 */
+                File banner = FileStorageManager.createFileIfNull(IdUtil.simpleUUID(), FileStorageManager.DIR_TYPE.USER_BANNER_BACKGROUND);
+                FileStorageManager.copyFile(uri.getPath(), banner);
+                // TODO: 2020/12/6 压缩后上传到服务器，得到url
+                //     压缩至800KB以内
+                // BitMapAndDrawableUtil.compressImageToSize(uri, 850);
+                ApplicationConfigUtil.LOCAL_BANNER_URI = banner.getPath();
                 ApplicationConfigUtil.HAS_BANNER_BKG = true;
                 ApplicationConfigUtil.BANNER_DEFAULT = false;
                 /* 异步保存 */
@@ -528,6 +481,41 @@ public class PersonalFragment extends BaseFragment {
                 e.printStackTrace();
             }
         });
+        /* 更新banner
+         * 在未知图片格式的情况下，请使用asBitmap*/
+        Glide.with(this)
+                .asBitmap()
+                .load(uri)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .apply(RequestOptions.bitmapTransform(new BlurTransformation(ApplicationConfigUtil.sample_radius, ApplicationConfigUtil.sample_value)))
+                .into(bannerTarget);
     }
 
+    public void onUserAvatarUploadSuccess(Uri uri) {
+        /* 复制到头像文件夹并上传服务器 */
+        HermitCrabApp.APP_THREAD_POOL.execute(() -> {
+            try {
+                File avatar = FileStorageManager.createFileIfNull(IdUtil.simpleUUID(), FileStorageManager.DIR_TYPE.USER_AVATAR);
+                FileStorageManager.copyFile(uri.getPath(), avatar);
+                // TODO: 2020/12/6 压缩后上传到服务器，得到url
+                //     压缩至300KB以内
+                // BitMapAndDrawableUtil.compressImageToSize(uri, 350);
+                ApplicationConfigUtil.LOCAL_AVATAR_URI = avatar.getPath();
+                ApplicationConfigUtil.HAS_AVATAR = true;
+                ApplicationConfigUtil.USER_AVATAR = BitmapFactory.decodeFile(uri.getPath());
+                /* 异步保存 */
+                ApplicationConfigUtil.storeAppConfig();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        /* 在未知图片格式的情况下，请使用asBitmap*/
+        Glide.with(this)
+                .asBitmap()
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .load(uri)
+                .into(mUserAvatar);
+    }
 }

@@ -12,8 +12,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.kish2.hermitcrabapp.HermitCrabApp;
-import com.kish2.hermitcrabapp.utils.view.ThemeMatchUCrop;
-import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,29 +62,29 @@ public class SysInteractUtil {
         return false;
     }
 
-    public static void uploadPicture(Activity activity, @NonNull String saveFileName, FileStorageManager.DIR_TYPE dir_type, int requestActivityCode) throws IOException {
-        /* 创建或获取要保存的文件 */
-        operateDestFile = FileStorageManager.createFileIfNull(saveFileName, dir_type);
+    public static File uploadPicture(Activity activity, @NonNull String saveFileName, FileStorageManager.DIR_TYPE dir_type, int requestActivityCode) throws IOException {
         Intent picture = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         activity.startActivityForResult(picture, requestActivityCode);
+        /* 创建或获取要保存的文件 */
+        return FileStorageManager.createFileIfNull(saveFileName, dir_type);
     }
 
     /* 注意，调用该函数应该先检查权限 */
     /* 调用该函数，并将拍摄的照片保存在对应的文件夹中 */
-    public static void takePhoto(Activity activity, @NonNull String saveFileName, FileStorageManager.DIR_TYPE dir_type, int requestActivityCode) throws IOException {
+    public static File takePhoto(Activity activity, @NonNull String saveFileName, FileStorageManager.DIR_TYPE dir_type, int requestActivityCode) throws IOException {
         /* 创建或获取要保存的文件 */
-        operateSourceFile = FileStorageManager.createFileIfNull(saveFileName, dir_type);
-        System.out.println(operateSourceFile);
+        File file = FileStorageManager.createFileIfNull(saveFileName, dir_type);
         /* 获取头像uri */
-        Uri photoTakenUri = getProviderUriFromFile(operateSourceFile);
+        Uri uri = getProviderUriFromFile(file);
         Intent intent = new Intent();
         /* 拍照动作 */
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         // 拍照后原图回存入此路径下(只能放入uri值，因为系统应用相机要访问该app的资源)
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoTakenUri);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         /* 设置获取的图片或视屏的质量，最高质量是1 */
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
         activity.startActivityForResult(intent, requestActivityCode);
+        return file;
     }
 
     public static Uri getProviderUriFromFile(File file) {
@@ -103,16 +101,4 @@ public class SysInteractUtil {
         return uri;
     }
 
-    public static void onTakePhotoSuccessAndNeedCrop(@NonNull Activity activity, UCrop.Options cropOptions) {
-        if (operateSourceFile != null) {
-            /* 在源文件上直接裁剪 */
-            Uri uri = Uri.fromFile(operateSourceFile);    // 这里uri必须通过该方式转换一下
-            ThemeMatchUCrop.imageUCropActivity(activity, uri, uri, cropOptions, request_crop_activity);
-        }
-    }
-
-    public static void onGalleryPickSuccessAndNeedCrop(@NonNull Activity activity, @NonNull Uri selectImageUri, UCrop.Options cropOptions) {
-        /* 保存的文件的路径*/
-        ThemeMatchUCrop.imageUCropActivity(activity, selectImageUri, Uri.fromFile(operateDestFile), cropOptions, request_crop_activity);
-    }
 }

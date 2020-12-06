@@ -1,8 +1,6 @@
 package com.kish2.hermitcrabapp.view.activities;
 
 import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,16 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.tabs.TabLayout;
 import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
@@ -32,7 +26,6 @@ import com.kish2.hermitcrabapp.adapters.viewpager.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.custom.view.NoScrollViewPager;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
-import com.kish2.hermitcrabapp.utils.dev.GlideResourceRecycleManager;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
@@ -296,46 +289,18 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onImageCropSuccess(Uri uri) {
         switch (file_operate_purpose) {
+            /* 如果是更换头像 */
             case USER_AVATAR:
-                CustomTarget<Bitmap> customTarget = new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
-                        GlideResourceRecycleManager.addBitmapIntoList(simpleClassName, bitmap);
-                        ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).onUserAvatarUploadSuccess(bitmap);
-                        // 如果没有banner，使用头像
-                        if (!ApplicationConfigUtil.HAS_BANNER_BKG) {
-                            ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).onBannerBackgroundUploadSuccess(bitmap);
-                        }
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-                };
-                // 不要使用缓存机制
-                Glide.with(this).asBitmap().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).load(uri).into(customTarget);
+                // 通知personalFragment头像选择完成
+                ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).onUserAvatarUploadSuccess(uri);
+                /* 默认头像作为banner背景 */
+                if (!ApplicationConfigUtil.HAS_BANNER_BKG) {
+                    ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).onBannerBackgroundUploadSuccess(uri);
+                }
                 break;
             case BANNER_BKG:
-                CustomTarget<Bitmap> customTarget1 = new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        GlideResourceRecycleManager.addBitmapIntoList(simpleClassName, resource);
-                        ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).onBannerBackgroundUploadSuccess(resource);
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-                };
-                // 不要使用缓存机制
-                Glide.with(this)
-                        .asBitmap()
-                        .load(uri)
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .into(customTarget1);
+                // 通知personalFragment头像选择完成
+                ((PersonalFragment) MainFragmentAdapter.getCurrentFragment()).onBannerBackgroundUploadSuccess(uri);
                 break;
             case PRODUCT_PICS:
             case SIDE_MENU_BKG:

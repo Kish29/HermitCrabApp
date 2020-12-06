@@ -10,8 +10,10 @@ import androidx.core.content.ContextCompat;
 import com.kish2.hermitcrabapp.HermitCrabApp;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 
 public class FileStorageManager {
 
@@ -29,22 +31,7 @@ public class FileStorageManager {
     private static String APP_SIDE_MENU_BKG_PATH;
     private static String CACHE_DIR;
 
-    public static final String user_avatar_file_name = "userAvatar.png";
-    public static final String banner_bkg_file_name = "bannerBkg.png";
-    public static final String app_side_menu_bkg_file_name = "sideMenuBkg.png";
     public static String APP_PROVIDER_AUTHORITY = "com.kish2.hermitcrabapp.FileProvider";
-
-    public static String getUserAvatarPath() {
-        return USER_AVATAR_PATH + "/" + user_avatar_file_name;
-    }
-
-    public static String getUserBannerBkgPath() {
-        return USER_BANNER_BKG_PATH + "/" + banner_bkg_file_name;
-    }
-
-    public static String getAppSideMenuBkgPath() {
-        return APP_SIDE_MENU_BKG_PATH + "/" + app_side_menu_bkg_file_name;
-    }
 
     /* 在app中调用*/
     public static void initApplicationDirs(Context context) {
@@ -119,4 +106,45 @@ public class FileStorageManager {
         }
         return file;
     }
+
+    /**
+     * @param src 源文件路径
+     * @param des 目的文件路径
+     */
+    public static void copyFile(String src, String des) {
+        copyFile(new File(src), new File(des));
+    }
+
+    /**
+     * @param src 源文件
+     * @param des 目的文件
+     */
+    public static void copyFile(File src, File des) {
+        try {
+            FileChannel cSrc = new FileInputStream(src).getChannel();
+            FileChannel cDes = new FileOutputStream(des).getChannel();
+            cDes.transferFrom(cSrc, 0, cSrc.size());
+            cSrc.close();
+            cDes.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param src 源文件
+     * @param des 目的文件
+     */
+    public static void copyFile(String src, File des) {
+        copyFile(new File(src), des);
+    }
+
+    /**
+     * @param src 源文件
+     * @param des 目的文件
+     */
+    public static void copyFile(File src, String des) {
+        copyFile(src, new File(des));
+    }
+
 }

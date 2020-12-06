@@ -17,10 +17,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
 import com.kish2.hermitcrabapp.utils.dev.GlideResourceRecycleManager;
 import com.kish2.hermitcrabapp.utils.dev.SysInteractUtil;
+import com.kish2.hermitcrabapp.utils.view.ThemeMatchUCrop;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.yalantis.ucrop.UCrop;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -52,6 +54,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     protected FileStorageManager.DIR_TYPE dir_type = FileStorageManager.DIR_TYPE.FILE_DOWNLOAD;
 
     protected String file_name = null;
+
+    protected File file = null;
 
     public void setRequestCode(int requestCode) {
         this.requestCode = requestCode;
@@ -103,15 +107,15 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
+                /* 拍照情况下，data为null */
                 case SysInteractUtil.request_camera_activity_crop:
-                    SysInteractUtil.onTakePhotoSuccessAndNeedCrop(this, mCropOptions);
+                    ThemeMatchUCrop.imageUCropActivity(this, Uri.fromFile(file), Uri.fromFile(file), mCropOptions, SysInteractUtil.request_crop_activity);
                     break;
+                /* 选择相册，data的uri是选择的图片路径 */
                 case SysInteractUtil.request_gallery_activity_crop:
-                    if (data != null) {
-                        Uri selectImageUri = data.getData();
-                        if (selectImageUri != null) {
-                            SysInteractUtil.onGalleryPickSuccessAndNeedCrop(this, selectImageUri, mCropOptions);
-                        }
+                    if (data != null && data.getData() != null) {
+                        Uri uri = data.getData();
+                        ThemeMatchUCrop.imageUCropActivity(this, uri, Uri.fromFile(file), mCropOptions, SysInteractUtil.request_crop_activity);
                     }
                     break;
                 case SysInteractUtil.request_crop_activity:
@@ -123,6 +127,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
                     break;
             }
         }
+
     }
 
     protected void onCameraPermissionGranted() {
@@ -170,7 +175,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (SysInteractUtil.checkAndRequestPermissions(this, list, SysInteractUtil.request_camera_permission)) {
             try {
-                SysInteractUtil.takePhoto(this, file_name, dir_type, requestCode);
+                file = SysInteractUtil.takePhoto(this, file_name, dir_type, requestCode);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -183,7 +188,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (SysInteractUtil.checkAndRequestPermissions(this, list, SysInteractUtil.request_file_pick_permission)) {
             try {
-                SysInteractUtil.uploadPicture(this, file_name, dir_type, requestCode);
+                file = SysInteractUtil.uploadPicture(this, file_name, dir_type, requestCode);
             } catch (IOException e) {
                 e.printStackTrace();
             }

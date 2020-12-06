@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -25,6 +26,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import cn.hutool.core.util.IdUtil;
 
 public class BitMapAndDrawableUtil {
 
@@ -138,6 +141,8 @@ public class BitMapAndDrawableUtil {
      * @param size 指定压缩之后的大小范围，单位：KB
      */
     public static Bitmap compressImageToSize(File file, int size) {
+        if (file.length() <= size)
+            return BitmapFactory.decodeFile(file.getPath());
         /* 默认保留50%的质量 */
         CompressHelper compressHelper = new CompressHelper.Builder(HermitCrabApp.getAppContext())
                 .setCompressFormat(Bitmap.CompressFormat.JPEG)
@@ -169,13 +174,29 @@ public class BitMapAndDrawableUtil {
      */
     public static Bitmap compressImageToSize(Bitmap bitmap, int size) {
         try {
-            File cache = FileStorageManager.createFileIfNull(System.currentTimeMillis() + ".png", FileStorageManager.DIR_TYPE.CACHE);
+            File cache = FileStorageManager.createFileIfNull(IdUtil.simpleUUID(), FileStorageManager.DIR_TYPE.CACHE);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(cache));
-            long totalSpace = cache.getTotalSpace();
+            /* 如果图片大小小于等于size，返回原图 */
+            if (cache.length() <= size)
+                return bitmap;
             return compressImageToSize(cache, size);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+
+    /**
+     * @param uri  待压缩的图片文件uri
+     * @param size 指定压缩之后的大小范围，单位：KB
+     */
+    public static Bitmap compressImageToSize(Uri uri, int size) {
+        File file = new File(uri.getPath());
+        if (file.length() <= size)
+            return BitmapFactory.decodeFile(file.getPath());
+        if (file != null)
+            return compressImageToSize(file, size);
         return null;
     }
 
