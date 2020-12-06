@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.loadmore.BaseLoadMoreView;
-import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.kish2.hermitcrabapp.R;

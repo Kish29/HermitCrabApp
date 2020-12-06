@@ -1,6 +1,5 @@
 package com.kish2.hermitcrabapp.presenter.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -8,6 +7,7 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.adapters.ChatListAdapter;
 import com.kish2.hermitcrabapp.bean.ChatItemPreview;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
@@ -25,12 +25,11 @@ import java.util.Map;
 
 public class ChatPresenter extends BasePresenter<MainActivity, ChatFragment> implements IBaseModel.OnRequestModelCallBack {
 
-    private ChatModel mChatModel;
+    private final ChatModel mChatModel;
     private CustomSwipeRefreshLayout refreshLayout;
-    private ChatListAdapter adapter;
+    private final ChatListAdapter adapter;
     private RecyclerView recyclerView;
 
-    @SuppressLint("HandlerLeak")
     public ChatPresenter(ChatFragment chatFragment) {
         bindView(chatFragment);
         initHandler();
@@ -71,13 +70,10 @@ public class ChatPresenter extends BasePresenter<MainActivity, ChatFragment> imp
         refreshLayout = fragment.getRefreshLayout();
         recyclerView = fragment.getRecyclerView();
         refreshLayout.setRefreshing(true);
-        new Thread() {
-            @Override
-            public void run() {
-                getDataFromModel();
-                handler.sendEmptyMessage(MessageForHandler.ADAPTER_INIT);
-            }
-        }.start();
+        HermitCrabApp.APP_THREAD_POOL.execute(() -> {
+            getDataFromModel();
+            handler.sendEmptyMessage(MessageForHandler.ADAPTER_INIT);
+        });
     }
 
     @Override

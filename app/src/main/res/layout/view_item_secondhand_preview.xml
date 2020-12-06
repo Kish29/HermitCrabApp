@@ -31,34 +31,19 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/bg_register" />
 
-            <TextView
-                android:id="@+id/tv_product_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|top"
-                android:layout_margin="@dimen/item_margin"
-                android:background="@drawable/bg_rounded_rectangle_tag"
-                android:gravity="center"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:text="电子产品"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font_16" />
-
         </FrameLayout>
         <!-- baseLineAligned 通过文本的基线对齐 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="90dp"
             android:baselineAligned="false"
-            android:gravity="center"
+            android:gravity="center|top"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_inform_day"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:id="@+id/tv_product_title"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
                 android:gravity="center"
                 android:text="星期一"
                 android:textAlignment="center"
@@ -68,7 +53,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp">
+                android:layout_height="20dp">
 
                 <TextView
                     android:id="@+id/tv_product_price"
@@ -79,17 +64,19 @@
                     android:text="￥999"
                     android:textAlignment="textStart"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/font_24"
+                    android:textSize="@dimen/font_16"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tv_desire_people"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="@dimen/item_margin"
                     android:gravity="center"
-                    android:text="5人不想要"
+                    android:text="5不想要"
+                    android:textSize="@dimen/font_12"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -97,14 +84,15 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:orientation="horizontal">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/riv_vender_avatar"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentStart="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/item_margin"
                     android:scaleType="centerCrop"
@@ -112,22 +100,33 @@
                     app:riv_oval="true" />
 
                 <TextView
+                    android:id="@+id/tv_vender_name"
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/item_margin"
                     android:layout_toEndOf="@+id/riv_vender_avatar"
                     android:gravity="center"
                     android:text="我不知道"
-                    android:textSize="@dimen/font_16" />
+                    android:textSize="@dimen/font_12" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                <TextView
+                    android:id="@+id/tv_product_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:contentDescription="@null"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ai_arrow_right" />
+                    android:layout_margin="@dimen/item_margin"
+                    android:background="@drawable/bg_rounded_rectangle_tag"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:text="电子产品"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_12" />
+
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

@@ -1,25 +1,41 @@
 package com.kish2.hermitcrabapp.model.fragments;
 
-import android.annotation.SuppressLint;
+import com.kish2.hermitcrabapp.bean.SecondHandPreview;
+import com.kish2.hermitcrabapp.model.BaseModel;
 
-import com.kish2.hermitcrabapp.bean.Inform;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
-public class SecondHandModel {
+public class SecondHandModel extends BaseModel {
 
-    public void updateInforms(ArrayList<Inform> informs) {
-        /* 测试，添加ListView，查看滑动效果 */
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-        informs.clear();
-        for (int i = 0; i < 1000; i++) {
-            Inform inform = new Inform();
-            inform.setDate(simpleDateFormat.format(new Date()));
-            inform.setTitle("星期日");
-            informs.add(inform);
-        }
+    public SecondHandModel(OnRequestModelCallBack callBack) {
+        super(callBack);
     }
 
+    public List<SecondHandPreview> getSecondHandPreview(int n) {
+        ArrayList<SecondHandPreview> previews = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            SecondHandPreview bean = new SecondHandPreview();
+            bean.setDesirePeople(i);
+            bean.setProductPrice(i);
+            bean.setProductTag("电子产品" + i);
+            bean.setProductTitle("这是标题" + i);
+            bean.setVenderName("这是Vender" + i);
+            previews.add(bean);
+        }
+        return previews;
+    }
+
+    @Override
+    protected int getModelRequestCode() {
+        return 0;
+    }
+
+    @Override
+    public Object onServerSuccess(JSONObject jsonObject) throws JSONException {
+        return null;
+    }
 }

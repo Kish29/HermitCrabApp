@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -31,6 +32,31 @@ import cn.hutool.core.util.IdUtil;
 
 public class BitMapAndDrawableUtil {
 
+    public static int dip2px(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
+
+    public static int px2dip(Context context, float px) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (px / scale + 0.5f);
+    }
+
+    public static int sp2px(Context context, float sp) {
+        final float scale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (sp * scale + 0.5f);
+    }
+
+    public static int dip2px(Context context, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                context.getResources().getDisplayMetrics());
+    }
+
+    public static int px2sp(Context context, float px) {
+        final float scale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (px / scale + 0.5f);
+    }
+
     public static Bitmap getBitmapFromVector(Context context, int vectorDrawableId) {
         Bitmap bitmap = null;
         @SuppressLint("UseCompatLoadingForDrawables") Drawable vectorDrawable = context.getDrawable(vectorDrawableId);
@@ -43,12 +69,19 @@ public class BitMapAndDrawableUtil {
         return bitmap;
     }
 
-    public static GradientDrawable getGradientCircleDrawable(Context context) {
+    public static GradientDrawable getGradientCircleDrawable(Context context, int radiusDip) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setShape(GradientDrawable.RECTANGLE);//形状
-        gradientDrawable.setCornerRadius(context.getResources().getDimension(R.dimen.corner_radius));//设置圆角Radius
+        if (radiusDip == -1)
+            gradientDrawable.setCornerRadius(context.getResources().getDimension(R.dimen.corner_radius));//设置圆角Radius
+        else
+            gradientDrawable.setCornerRadius(dip2px(context, radiusDip));//设置圆角Radius
         gradientDrawable.setColor(ThemeUtil.Theme.afterGetResourcesColorId);//颜色
         return gradientDrawable;
+    }
+
+    public static GradientDrawable getGradientCircleDrawable(Context context) {
+        return getGradientCircleDrawable(context, -1);
     }
 
 

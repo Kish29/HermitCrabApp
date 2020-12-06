@@ -6,23 +6,23 @@ import android.view.View;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-public class FavorButton extends LottieAnimationView {
+public class LAVFavorButton extends LottieAnimationView {
 
-    public FavorButton(Context context) {
+    public LAVFavorButton(Context context) {
         super(context);
-        setAnimation("twitter-heart-purchase.json");
+        setAnimation("favor-app.json");
         setOnClickListener(this::favorIt);
     }
 
-    public FavorButton(Context context, AttributeSet attrs) {
+    public LAVFavorButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setAnimation("twitter-heart-purchase.json");
+        setAnimation("favor-app.json");
         setOnClickListener(this::favorIt);
     }
 
-    public FavorButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LAVFavorButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setAnimation("twitter-heart-purchase.json");
+        setAnimation("favor-app.json");
         setOnClickListener(this::favorIt);
     }
 

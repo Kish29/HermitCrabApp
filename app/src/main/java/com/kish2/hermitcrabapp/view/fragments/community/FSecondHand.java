@@ -2,13 +2,9 @@ package com.kish2.hermitcrabapp.view.fragments.community;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,56 +12,53 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.InformAdapter;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
-import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.SecondHandPresenter;
-import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class FSecondHand extends FCommunityBase {
     @BindView(R.id.srl_refresh_list)
-    CustomSwipeRefreshLayout mRefreshLayout;
+    CustomSwipeRefreshLayout refreshLayout;
     @BindView(R.id.rv_container_items)
-    RecyclerView mProductsList;
+    RecyclerView mSecondHandList;
 
-    InformAdapter mProductsAdapter;
+    public CustomSwipeRefreshLayout getRefreshLayout() {
+        return refreshLayout;
+    }
 
-    public void setmProductsAdapter(InformAdapter mProductsAdapter) {
-        this.mProductsAdapter = mProductsAdapter;
+    public RecyclerView getRecyclerView() {
+        return mSecondHandList;
     }
 
     SecondHandPresenter mPresenter;
 
     @Override
     protected void themeChanged() {
-        mRefreshLayout.setColorSchemeColors(themeColorId);
+        refreshLayout.setColorSchemeColors(themeColorId);
     }
 
-    @SuppressLint("HandlerLeak")
     @Override
     public void initHandler() {
-
-        mHandler = new Handler() {
+       /* mHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
+                    case MessageForHandler.DATA_LOADING:
+                        refreshLayout.setRefreshing(true);
+                        break;
                     case MessageForHandler.ADAPTER_INIT:
-                        mProductsList.setAdapter(mProductsAdapter);
-                        ToastUtil.showToast(getContext(), "数据加载成功", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
-                        break;
+                        mSecondHandList.setAdapter((SecondHandListAdapter) msg.obj);
+                    case MessageForHandler.DATA_LOADED:
                     case MessageForHandler.DATA_UPDATE:
-                        mProductsAdapter.notifyDataSetChanged();
-                        ToastUtil.showToast(getContext(), "数据加载成功", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
-                        break;
                     default:
-                        ToastUtil.showToast(getContext(), "数据加载失败", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
+                        refreshLayout.setRefreshing(false);
                         break;
                 }
             }
-        };
+        };*/
     }
 
     @Override
@@ -77,17 +70,12 @@ public class FSecondHand extends FCommunityBase {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sub_fragment_content, container, false);
-        ButterKnife.bind(this, view);
-        /* 主线程 */
+        View fSecond = inflater.inflate(R.layout.sub_fragment_content, container, false);
+        ButterKnife.bind(this, fSecond);
         getAndSetLayoutView();
-        mRefreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                getLayoutComponentsAttr();
-            }
-        });
-        return view;
+        registerViewComponentsAffairs();
+        refreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
+        return fSecond;
     }
 
     @Override
@@ -100,18 +88,15 @@ public class FSecondHand extends FCommunityBase {
         /* 父Fragment*/
         mCommunity = (CommunityFragment) requireParentFragment();
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mProductsList.setLayoutManager(layoutManager);
+        mSecondHandList.setLayoutManager(layoutManager);
         /*StaggeredLayout不需要设置该项
         mInformList.setVerticalScrollBarEnabled(false);*/
-        mProductsList.setAdapter(mProductsAdapter);
     }
 
     @Override
     public void loadData() {
-        registerViewComponentsAffairs();
-        mRefreshLayout.setRefreshing(true);
-        mPresenter.getDataFromModel();
-        mRefreshLayout.setRefreshing(false);
+        mPresenter.initDataAdapter();
+        mPresenter.registerItemEvent();
     }
 
     @Override
@@ -123,11 +108,11 @@ public class FSecondHand extends FCommunityBase {
     @Override
     public void registerViewComponentsAffairs() {
         /* 因为onScrollChangedListener的onScrolled方法是回调方法，要等到item停下来时才调用，所以这儿直接监听touch事件 */
-        mProductsList.setOnTouchListener(this::touchCheck);
+        mSecondHandList.setOnTouchListener(this::touchCheck);
 
-        mRefreshLayout.setOnRefreshListener(() -> {
+        refreshLayout.setOnRefreshListener(() -> {
             mPresenter.getDataFromModel();
-            mRefreshLayout.setRefreshing(false);
+            refreshLayout.setRefreshing(false);
         });
     }
 

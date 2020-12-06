@@ -2,9 +2,6 @@ package com.kish2.hermitcrabapp.view.fragments.chat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +15,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.ChatListAdapter;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;
-import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.presenter.fragments.ChatPresenter;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
@@ -71,7 +66,7 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     public void initHandler() {
-        mHandler = new Handler(Looper.myLooper()) {
+        /*mHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
@@ -87,7 +82,7 @@ public class ChatFragment extends BaseFragment {
                         break;
                 }
             }
-        };
+        };*/
     }
 
     /* 这三个方法必须重写 */
@@ -100,13 +95,13 @@ public class ChatFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View fragmentMessage = inflater.inflate(R.layout.fragment_chat, container, false);
-        ButterKnife.bind(this, fragmentMessage);
+        View fChat = inflater.inflate(R.layout.fragment_chat, container, false);
+        ButterKnife.bind(this, fChat);
 
         getAndSetLayoutView();
         registerViewComponentsAffairs();
         refreshLayout.getViewTreeObserver().addOnGlobalLayoutListener(this::getLayoutComponentsAttr);
-        return fragmentMessage;
+        return fChat;
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ChatListAdapter extends BaseQuickAdapter<ChatItemPreview, VHChatItemPreview> implements LoadMoreModule {
 
-    private Context mContext;
+    private final Context mContext;
 
     public ChatListAdapter(Context context, @Nullable List<ChatItemPreview> data) {
         super(R.layout.view_item_chat_preview, data);
