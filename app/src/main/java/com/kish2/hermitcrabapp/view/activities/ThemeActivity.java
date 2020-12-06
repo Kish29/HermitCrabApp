@@ -80,6 +80,19 @@ public class ThemeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         /* banner的高度 */
         appBarLayoutHeight = getIntent().getIntExtra("appBarLayoutHeight", 0);
+        mHandler = new Handler(Looper.myLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                if (msg.what == -1) {
+                    Glide.with(ThemeActivity.this)
+                            .load(compressedBanner)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .apply(RequestOptions.bitmapTransform(new BlurTransformation(ApplicationConfigUtil.sample_radius, ApplicationConfigUtil.sample_value)))
+                            .into(mBannerImage);
+                }
+            }
+        };
         customTarget = new CustomTarget<Bitmap>() {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -95,7 +108,6 @@ public class ThemeActivity extends BaseActivity {
         ButterKnife.bind(this);
         getAndSetLayoutView();
         registerViewComponentsAffairs();
-        HermitCrabApp.APP_THREAD_POOL.execute(this::loadData);
     }
 
 
@@ -132,21 +144,17 @@ public class ThemeActivity extends BaseActivity {
         mRadius.setText(String.valueOf(ApplicationConfigUtil.sample_radius));
         mSampleRadius.setProgress(ApplicationConfigUtil.sample_radius * 4);
         mSampling.setText(String.valueOf(ApplicationConfigUtil.sample_value));
-        mSamplingValue.setProgress(ApplicationConfigUtil.sample_value * 33 + 1);
+        mSamplingValue.setProgress(ApplicationConfigUtil.sample_value * 33);
         if (!ApplicationConfigUtil.BANNER_DEFAULT && ApplicationConfigUtil.HAS_BANNER_BKG) {
-            mBannerImage.getLayoutParams().height = appBarLayoutHeight;
-            compressedBanner = BitmapFactory.decodeFile(ApplicationConfigUtil.LOCAL_BANNER_URI);
-            /* 压缩到50KB以内 */
-            compressedBanner = BitMapAndDrawableUtil.compressImageToSize(compressedBanner, 50);
-            Glide.with(this)
-                    .load(compressedBanner)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(ApplicationConfigUtil.sample_radius, ApplicationConfigUtil.sample_value)))
-                    .into(mBannerImage);
+            HermitCrabApp.APP_THREAD_POOL.execute(() -> {
+                mBannerImage.getLayoutParams().height = appBarLayoutHeight;
+                compressedBanner = BitmapFactory.decodeFile(ApplicationConfigUtil.LOCAL_BANNER_URI);
+                /* 压缩到50KB以内 */
+                compressedBanner = BitMapAndDrawableUtil.compressImageToSize(compressedBanner, 50);
+                mHandler.sendEmptyMessage(-1);
+            });
         }
     }
-
 
     @Override
     public void loadData() {
