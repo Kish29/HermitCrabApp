@@ -1,5 +1,5 @@
 # HermitCrabApp
-An android application for USTB students/teachers
+为方便北京科技大学学生进行二手交易，学习、课件资源分享开发的app
 
 # 2020-9-25
 该项目创建
@@ -45,3 +45,33 @@ FrameLayout，yyds！
 
 # 2020-11-15
 后半学期实验太多了，所以只能挤时间写了，把presenter和model层重构了一下
+
+
+
+后端暂时只实现了用户的注册、登录和简单的信息修改
+
+
+
+效果展示：
+
+欢迎页面：
+
+![welcome_page](https://github.com/Kish29/HermitCrabApp/images/welcome_page.jpg)
+
+社区二手交易页面：
+
+![welcome_page](https://github.com/Kish29/HermitCrabApp/images/community_page.jpg)
+
+消息界面：
+
+![welcome_page](https://github.com/Kish29/HermitCrabApp/images/chat_page.jpg)
+
+个人中心和主题界面：
+
+![welcome_page](https://github.com/Kish29/HermitCrabApp/images/personal_page.jpg)
+
+![welcome_page](https://github.com/Kish29/HermitCrabApp/images/theme_page_2.jpg)
+
+登录和注册界面：
+
+![welcome_page](https://github.com/Kish29/HermitCrabApp/images/login_page.jpg)
