@@ -56,22 +56,22 @@ FrameLayout，yyds！
 
 欢迎页面：
 
-![welcome_page](https://github.com/Kish29/HermitCrabApp/images/welcome_page.jpg)
+![welcome_page](images/welcome_page.jpg)
 
 社区二手交易页面：
 
-![welcome_page](https://github.com/Kish29/HermitCrabApp/images/community_page.jpg)
+![welcome_page](images/community_page.jpg)
 
 消息界面：
 
-![welcome_page](https://github.com/Kish29/HermitCrabApp/images/chat_page.jpg)
+![welcome_page](images/chat_page.jpg)
 
 个人中心和主题界面：
 
-![welcome_page](https://github.com/Kish29/HermitCrabApp/images/personal_page.jpg)
+![welcome_page](images/personal_page.jpg)
 
-![welcome_page](https://github.com/Kish29/HermitCrabApp/images/theme_page_2.jpg)
+![welcome_page](images/theme_page_2.jpg)
 
 登录和注册界面：
 
-![welcome_page](https://github.com/Kish29/HermitCrabApp/images/login_page.jpg)
+![welcome_page](images/login_page.jpg)
