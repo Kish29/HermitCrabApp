@@ -28,12 +28,13 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
     private final IUserModel model;
 
     public UserPresenterImpl() {
-        this.model = new UserModelImpl(this, this);
+        this.model = new UserModelImpl(this);
     }
 
     @Override
     public void onModelSuccess(Map<BaseModel.MODEL_RET, Object> data, int requestModelMethod) {
         if (viewExist()) {
+            /* 显示服务器消息 */
             String msg = (String) data.get(BaseModel.MODEL_RET.ret_msg);
             ToastUtil.showToast(getContext(), msg, ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
             switch (requestModelMethod) {
@@ -57,7 +58,10 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
                 case 2:
                     // todo:
                     break;
+                // 修改用户名
                 case 3:
+                    HermitCrabApp.USER.setUsername((String) data.get(BaseModel.MODEL_RET.ret_obj));
+                    // 修改密码
                 case 4:
                     mWaitDialog.doDismiss();
                     activity.refreshData();
@@ -75,7 +79,7 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
             switch (requestModelMethod) {
                 case 0:
                 case 1:
-                    ToastUtil.showToast(getContext(), msg, ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_BOTTOM);
+                    ToastUtil.showToast(getContext(), msg, ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
                     if (requestModelMethod == 0)
                         ((RegisterActivity) activity).mRegisterSubmit.revertAnimation();
                     else
@@ -84,7 +88,9 @@ public class UserPresenterImpl extends BasePresenter<BaseActivity, BaseFragment>
                 case 2:
                     // TODO: 2020/11/15  
                     break;
+                // 修改用户名
                 case 3:
+                    // 修改密码
                 case 4:
                     mWaitDialog.doDismiss();
                     KZDialogUtil.IOS_LIGHT_ERROR_DIALOG(getContext(), msg).show();

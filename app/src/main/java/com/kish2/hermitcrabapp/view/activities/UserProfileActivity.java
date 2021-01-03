@@ -2,16 +2,16 @@ package com.kish2.hermitcrabapp.view.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.presenter.impl.UserPresenterImpl;
-import com.kish2.hermitcrabapp.HermitCrabApp;
+import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.dev.StatusBarUtil;
 import com.kish2.hermitcrabapp.utils.view.KZDialogUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;
@@ -19,6 +19,7 @@ import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 import com.kish2.hermitcrabapp.view.BaseActivity;
 import com.kongzue.dialog.v3.InputDialog;
 import com.kongzue.dialog.v3.MessageDialog;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +32,7 @@ public class UserProfileActivity extends BaseActivity {
 
     @BindView(R.id.ll_user_avatar)
     ViewGroup mUserAvatar;
+    RoundedImageView avatar;
     @BindView(R.id.ll_username)
     ViewGroup mUsername;
     @BindView(R.id.ll_user_gender)
@@ -69,19 +71,17 @@ public class UserProfileActivity extends BaseActivity {
     public void getAndSetLayoutView() {
         StatusBarUtil.setSinkStatusBar(this, false, ThemeUtil.Theme.afterGetResourcesColorId);
         mToolBar.bindAndSetThisToolbar(this, true, "个人信息");
-        new Handler().postDelayed((Runnable) () -> {
-            /* title 部分 */
-            ((TextView) mUserAvatar.findViewById(R.id.tv_profile_title)).setText("头像");
-            ((TextView) mUserGender.findViewById(R.id.tv_profile_title)).setText("性别");
-            ((TextView) mUsername.findViewById(R.id.tv_profile_title)).setText("用户名");
-            ((TextView) mUserGrade.findViewById(R.id.tv_profile_title)).setText("年级");
-            ((TextView) mBindStudentId.findViewById(R.id.tv_profile_title)).setText("学号");
-            ((TextView) mBindMobile.findViewById(R.id.tv_profile_title)).setText("手机号");
-            ((TextView) mBindEmail.findViewById(R.id.tv_profile_title)).setText("邮箱");
-            ((TextView) mChangePwd.findViewById(R.id.tv_profile_title)).setText("更换密码");
-            ((TextView) mBindDepartment.findViewById(R.id.tv_profile_title)).setText("学院");
-
-        }, 0);
+        /* title 部分 */
+        ((TextView) mUserAvatar.findViewById(R.id.tv_profile_title)).setText("头像");
+        ((TextView) mUserGender.findViewById(R.id.tv_profile_title)).setText("性别");
+        ((TextView) mUsername.findViewById(R.id.tv_profile_title)).setText("用户名");
+        ((TextView) mUserGrade.findViewById(R.id.tv_profile_title)).setText("年级");
+        ((TextView) mBindStudentId.findViewById(R.id.tv_profile_title)).setText("学号");
+        ((TextView) mBindMobile.findViewById(R.id.tv_profile_title)).setText("手机号");
+        ((TextView) mBindEmail.findViewById(R.id.tv_profile_title)).setText("邮箱");
+        ((TextView) mChangePwd.findViewById(R.id.tv_profile_title)).setText("更换密码");
+        ((TextView) mBindDepartment.findViewById(R.id.tv_profile_title)).setText("学院");
+        avatar = mUserAvatar.findViewById(R.id.riv_profile_avatar);
     }
 
     @Override
@@ -96,6 +96,10 @@ public class UserProfileActivity extends BaseActivity {
 
     @Override
     public void refreshData() {
+        /* 头像 */
+        if (ApplicationConfigUtil.HAS_AVATAR && ApplicationConfigUtil.USER_AVATAR != null) {
+            avatar.setImageBitmap(ApplicationConfigUtil.USER_AVATAR);
+        }
         /* 小字部分 */
         if (HermitCrabApp.LOAD_USER_SUCCESS && HermitCrabApp.IS_USER_LOG_IN) {
             ((TextView) mUserGender.findViewById(R.id.tv_profile_preview)).setText(HermitCrabApp.USER.getGender());

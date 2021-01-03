@@ -228,9 +228,7 @@ public class BitMapAndDrawableUtil {
         File file = new File(uri.getPath());
         if (file.length() <= size)
             return BitmapFactory.decodeFile(file.getPath());
-        if (file != null)
-            return compressImageToSize(file, size);
-        return null;
+        return compressImageToSize(file, size);
     }
 
 }

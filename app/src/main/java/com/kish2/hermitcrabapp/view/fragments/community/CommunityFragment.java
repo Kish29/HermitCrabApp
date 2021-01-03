@@ -20,7 +20,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.viewpager.CommunityFragmentAdapter;
+import com.kish2.hermitcrabapp.adapters.pageradapter.CommunityFragmentAdapter;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;

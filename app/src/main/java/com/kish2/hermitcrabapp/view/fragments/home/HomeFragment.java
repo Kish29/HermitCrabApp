@@ -21,7 +21,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.adapters.viewpager.HomeFragmentAdapter;
+import com.kish2.hermitcrabapp.adapters.pageradapter.HomeFragmentAdapter;
 import com.kish2.hermitcrabapp.model.handler.MessageForHandler;
 import com.kish2.hermitcrabapp.utils.dev.ApplicationConfigUtil;
 import com.kish2.hermitcrabapp.utils.view.ThemeUtil;

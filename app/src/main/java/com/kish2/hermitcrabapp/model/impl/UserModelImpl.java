@@ -3,8 +3,6 @@ package com.kish2.hermitcrabapp.model.impl;
 import com.kish2.hermitcrabapp.model.BaseModel;
 import com.kish2.hermitcrabapp.model.IUserModel;
 import com.kish2.hermitcrabapp.model.api.UserApi;
-import com.kish2.hermitcrabapp.presenter.impl.UserPresenterImpl;
-import com.kish2.hermitcrabapp.utils.network.RetrofitUtil;
 import com.kish2.hermitcrabapp.utils.view.JsonUtil;
 
 import org.json.JSONException;
@@ -12,7 +10,6 @@ import org.json.JSONObject;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Retrofit;
 
 public class UserModelImpl extends BaseModel implements IUserModel {
 
@@ -29,10 +26,9 @@ public class UserModelImpl extends BaseModel implements IUserModel {
 
     public method_index index = method_index.login;
 
-    public UserModelImpl(UserPresenterImpl presenter, OnRequestModelCallBack callBack) {
+    public UserModelImpl(OnRequestModelCallBack callBack) {
         super(callBack);
-        Retrofit baseRequest = RetrofitUtil.getBaseRequest();
-        userApi = baseRequest.create(UserApi.class);
+        userApi = mBaseRequest.create(UserApi.class);
     }
 
     @Override
@@ -84,10 +80,12 @@ public class UserModelImpl extends BaseModel implements IUserModel {
                 JSONObject userListObj = jsonObject.getJSONObject("user_list");
                 JSONObject bindListObj = jsonObject.getJSONObject("user_bind_info_list");
                 return JsonUtil.toUserBeanList(userListObj, bindListObj);
+            case update_username:
+                return jsonObject.getString("new_username");
+            case update_password:
+                return null;
             case login:
             case register:
-            case update_password:
-            case update_username:
             default:
                 JSONObject userObj = jsonObject.getJSONObject("user");
                 JSONObject bindObj = jsonObject.getJSONObject("user_bind_info");
@@ -104,9 +102,9 @@ public class UserModelImpl extends BaseModel implements IUserModel {
                 return 1;
             case user_list:
                 return 2;
-            case update_password:
-                return 3;
             case update_username:
+                return 3;
+            case update_password:
                 return 4;
             default:
                 return -1;

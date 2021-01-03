@@ -173,6 +173,9 @@ public class LoginActivity extends BaseActivity
                 String checkCode = this.mFLoginMobile.getVerifyCode();
                 if (!InputCheckUtil.isValidMobile(mobile)) {
                     ToastUtil.showToast(this, "您输入的是无效的手机号哦~", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
+                }
+                if (checkCode.equals("")) {
+                    ToastUtil.showToast(this, "您没有输入验证码~", ToastUtil.TOAST_DURATION.TOAST_SHORT, ToastUtil.TOAST_POSITION.TOAST_CENTER);
                 } else {
                     mPresenter.loginByMobile(mobile, checkCode);
                 }

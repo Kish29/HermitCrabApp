@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.adapters.viewpager;
+package com.kish2.hermitcrabapp.adapters.pageradapter;
 
 import android.view.ViewGroup;
 

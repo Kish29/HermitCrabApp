@@ -176,7 +176,7 @@ public class ThemeActivity extends BaseActivity {
                 ThemeUtil.changeTheme(cur);
                 StatusBarUtil.setSinkStatusBar(this, false, ThemeUtil.Theme.afterGetResourcesColorId);
                 mToolBar.bindAndSetThisToolbar(this, true, "主题颜色");
-                mThemeList = new ViewGroup[9];
+//                mThemeList = new ViewGroup[9];
                 BitMapAndDrawableUtil.setSeekBarColor(mSampleRadius, ThemeUtil.Theme.afterGetResourcesColorId);
                 BitMapAndDrawableUtil.setSeekBarColor(mSamplingValue, ThemeUtil.Theme.afterGetResourcesColorId);
                 mRadius.setTextColor(ThemeUtil.Theme.afterGetResourcesColorId);

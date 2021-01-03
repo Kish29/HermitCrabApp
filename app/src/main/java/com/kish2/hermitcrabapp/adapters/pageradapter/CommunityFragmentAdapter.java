@@ -1,4 +1,4 @@
-package com.kish2.hermitcrabapp.adapters.viewpager;
+package com.kish2.hermitcrabapp.adapters.pageradapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,18 +6,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.kish2.hermitcrabapp.view.fragments.home.FAcademicAffairs;
-import com.kish2.hermitcrabapp.view.fragments.home.FLatest;
+import com.kish2.hermitcrabapp.view.fragments.community.FSecondHand;
+import com.kish2.hermitcrabapp.view.fragments.community.FTopic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
+public class CommunityFragmentAdapter extends FragmentStatePagerAdapter {
 
     /* 页面标题*/
     private List<String> pageTitles;
 
-    public HomeFragmentAdapter(@NonNull FragmentManager fm, int behavior, List<String> pageTitles) {
+    public CommunityFragmentAdapter(@NonNull FragmentManager fm, int behavior, List<String> pageTitles) {
         super(fm, behavior);
         this.pageTitles = new ArrayList<>();
         this.pageTitles = pageTitles;
@@ -30,11 +30,11 @@ public class HomeFragmentAdapter extends FragmentStatePagerAdapter {
         Fragment fragment;
         switch (position) {
             case 1:
-                fragment = new FAcademicAffairs();
+                fragment = new FTopic();
                 break;
             case 0:
             default:
-                fragment = new FLatest();
+                fragment = new FSecondHand();
                 break;
         }
         return fragment;

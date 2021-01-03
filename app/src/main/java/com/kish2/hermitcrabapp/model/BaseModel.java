@@ -1,6 +1,7 @@
 package com.kish2.hermitcrabapp.model;
 
 import com.kish2.hermitcrabapp.utils.dev.ExceptionHandler;
+import com.kish2.hermitcrabapp.utils.network.RetrofitUtil;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -15,6 +16,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public abstract class BaseModel implements IBaseModel, Callback<ResponseBody> {
 
@@ -34,10 +36,12 @@ public abstract class BaseModel implements IBaseModel, Callback<ResponseBody> {
     }
 
 
-    protected OnRequestModelCallBack callBack;
+    protected OnRequestModelCallBack mCallBack;
+    protected Retrofit mBaseRequest;
 
     public BaseModel(OnRequestModelCallBack callBack) {
-        this.callBack = callBack;
+        this.mCallBack = callBack;
+        this.mBaseRequest = RetrofitUtil.getBaseRequest();
     }
 
     /* 让子类实现该方法，该方法与presenter对接 */
@@ -77,7 +81,7 @@ public abstract class BaseModel implements IBaseModel, Callback<ResponseBody> {
                 retMap.put(MODEL_RET.ret_msg, "服务器异常，请稍后试试吧~");
                 break;
         }
-        callBack.onModelFailure(retMap, getModelRequestCode());
+        mCallBack.onModelFailure(retMap, getModelRequestCode());
     }
 
     @Override
@@ -87,8 +91,8 @@ public abstract class BaseModel implements IBaseModel, Callback<ResponseBody> {
         if (throwable instanceof SocketTimeoutException)
             retMap.put(MODEL_RET.ret_msg, "网络连接超时，请检查您的网络状况~");
         else
-            retMap.put(MODEL_RET.ret_msg, "网络异常，请检查您的网络状况~");
-        callBack.onModelFailure(retMap, getModelRequestCode());
+            retMap.put(MODEL_RET.ret_msg, "网络异常或无法连接到服务器~");
+        mCallBack.onModelFailure(retMap, getModelRequestCode());
     }
 
     private void onServerAccessSuccess(String json) throws JSONException {
@@ -101,11 +105,11 @@ public abstract class BaseModel implements IBaseModel, Callback<ResponseBody> {
         /* 服务端访问成功，但是操作失败 */
         if (status == SERVER_OPERATED_FAILURE) {
             retMap.put(MODEL_RET.ret_status, MODEL_STATUS.model_failure);
-            callBack.onModelFailure(retMap, getModelRequestCode());
+            mCallBack.onModelFailure(retMap, getModelRequestCode());
         } else {
             retMap.put(MODEL_RET.ret_status, MODEL_STATUS.model_success);
             retMap.put(MODEL_RET.ret_obj, onServerSuccess(jsonObject));
-            callBack.onModelSuccess(retMap, getModelRequestCode());
+            mCallBack.onModelSuccess(retMap, getModelRequestCode());
         }
     }
 
