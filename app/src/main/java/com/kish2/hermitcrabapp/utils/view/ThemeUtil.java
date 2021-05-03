@@ -11,7 +11,6 @@ import androidx.palette.graphics.Palette;
 
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kongzue.dialog.util.TextInfo;
 
 public class ThemeUtil {

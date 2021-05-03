@@ -20,7 +20,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.pageradapter.MainFragmentAdapter;
 import com.kish2.hermitcrabapp.custom.view.NoScrollViewPager;

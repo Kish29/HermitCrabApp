@@ -7,8 +7,6 @@ import android.os.Environment;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import com.kish2.hermitcrabapp.HermitCrabApp;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.kish2.hermitcrabapp.R;
-import com.kish2.hermitcrabapp.HermitCrabApp;
 
 public class HermitCrabBitMaps {
 

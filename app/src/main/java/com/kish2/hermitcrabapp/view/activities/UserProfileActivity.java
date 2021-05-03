@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.view.StatusFixedToolBar;
 import com.kish2.hermitcrabapp.presenter.impl.UserPresenterImpl;

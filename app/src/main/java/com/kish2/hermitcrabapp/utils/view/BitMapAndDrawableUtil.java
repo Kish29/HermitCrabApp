@@ -18,7 +18,6 @@ import android.widget.SeekBar;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.utils.dev.FileStorageManager;
 import com.nanchen.compresshelper.CompressHelper;
@@ -69,7 +68,7 @@ public class BitMapAndDrawableUtil {
         return bitmap;
     }
 
-    public static GradientDrawable getGradientCircleDrawable(Context context, int radiusDip) {
+    public static Drawable getGradientCircleDrawable(Context context, int radiusDip) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setShape(GradientDrawable.RECTANGLE);//形状
         if (radiusDip == -1)
@@ -80,7 +79,7 @@ public class BitMapAndDrawableUtil {
         return gradientDrawable;
     }
 
-    public static GradientDrawable getGradientCircleDrawable(Context context) {
+    public static Drawable getGradientCircleDrawable(Context context) {
         return getGradientCircleDrawable(context, -1);
     }
 
@@ -174,7 +173,7 @@ public class BitMapAndDrawableUtil {
      * @param size 指定压缩之后的大小范围，单位：KB
      */
     public static Bitmap compressImageToSize(File file, int size) {
-        if (file.length() <= size)
+        if (file.length() <= size * 1024)
             return BitmapFactory.decodeFile(file.getPath());
         /* 默认保留50%的质量 */
         CompressHelper compressHelper = new CompressHelper.Builder(HermitCrabApp.getAppContext())
@@ -193,6 +192,7 @@ public class BitMapAndDrawableUtil {
         try {
             FileOutputStream fos = new FileOutputStream(file);
             buff.writeTo(fos);
+            buff.close();
             fos.flush();
             fos.close();
         } catch (IOException e) {

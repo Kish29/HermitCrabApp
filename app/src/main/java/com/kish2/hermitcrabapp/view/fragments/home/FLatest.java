@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.adapters.InformAdapter;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;

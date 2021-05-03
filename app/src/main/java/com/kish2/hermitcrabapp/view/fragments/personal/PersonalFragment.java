@@ -34,7 +34,6 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.bean.HermitCrabVectorIllustrations;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
@@ -500,7 +499,7 @@ public class PersonalFragment extends BaseFragment {
                 FileStorageManager.copyFile(uri.getPath(), avatar);
                 // TODO: 2020/12/6 压缩后上传到服务器，得到url
                 //     压缩至300KB以内
-                // BitMapAndDrawableUtil.compressImageToSize(uri, 350);
+                // BitMapAndDrawableUtil.compressImageToSize(uri.getPath, 350);
                 ApplicationConfigUtil.LOCAL_AVATAR_URI = avatar.getPath();
                 ApplicationConfigUtil.HAS_AVATAR = true;
                 ApplicationConfigUtil.USER_AVATAR = BitmapFactory.decodeFile(uri.getPath());

@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
-import com.kish2.hermitcrabapp.HermitCrabApp;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

@@ -15,7 +15,7 @@
 
     <!-- Android API >=14 默认开启硬件加速-->
     <application
-        android:name=".HermitCrabApp"
+        android:name="com.kish2.hermitcrabapp.RealApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:hardwareAccelerated="true"
@@ -40,7 +40,7 @@
         </provider>
         <!-- 欢迎页 -->
         <activity
-            android:name=".view.activities.HermitCrabSplash"
+            android:name=".splash.HermitCrabSplash"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeBase.Fade.Fullscreen">

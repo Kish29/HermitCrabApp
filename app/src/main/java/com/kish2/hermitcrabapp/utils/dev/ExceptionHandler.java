@@ -1,6 +1,5 @@
 package com.kish2.hermitcrabapp.utils.dev;
 
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.utils.view.ToastUtil;
 
 public class ExceptionHandler {

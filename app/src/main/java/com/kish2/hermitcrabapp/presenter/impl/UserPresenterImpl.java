@@ -3,7 +3,6 @@ package com.kish2.hermitcrabapp.presenter.impl;
 import android.content.Intent;
 import android.os.Handler;
 
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.bean.HermitCrabBitMaps;
 import com.kish2.hermitcrabapp.bean.User;
 import com.kish2.hermitcrabapp.model.BaseModel;

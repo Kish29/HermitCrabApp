@@ -25,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.R;
 import com.kish2.hermitcrabapp.custom.listener.OnClickMayTriggerFastRepeatListener;
 import com.kish2.hermitcrabapp.custom.view.FixedVideoView;

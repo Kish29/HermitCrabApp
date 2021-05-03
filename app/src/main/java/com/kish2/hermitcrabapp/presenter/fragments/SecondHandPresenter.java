@@ -7,7 +7,6 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kish2.hermitcrabapp.HermitCrabApp;
 import com.kish2.hermitcrabapp.adapters.SecondHandListAdapter;
 import com.kish2.hermitcrabapp.bean.SecondHandPreview;
 import com.kish2.hermitcrabapp.custom.view.CustomSwipeRefreshLayout;

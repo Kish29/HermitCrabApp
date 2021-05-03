@@ -115,6 +115,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
                 case SysInteractUtil.request_gallery_activity_crop:
                     if (data != null && data.getData() != null) {
                         Uri uri = data.getData();
+                        String path = uri.getPath();
+                        String encodedPath = uri.getEncodedPath();
+                        System.out.println(encodedPath);
+                        System.out.println(path);
                         ThemeMatchUCrop.imageUCropActivity(this, uri, Uri.fromFile(file), mCropOptions, SysInteractUtil.request_crop_activity);
                     }
                     break;
