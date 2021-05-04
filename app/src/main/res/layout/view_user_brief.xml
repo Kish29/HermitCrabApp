@@ -23,9 +23,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|end"
-                android:text="@string/username_hint"
+                android:text="@string/hermitcrab_username_hint"
                 android:textColor="@color/white"
-                android:textSize="@dimen/font_18"
+                android:textSize="@dimen/hermitcrab_font_18"
                 tools:ignore="NestedWeights" />
 
             <TextView
@@ -33,10 +33,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/user_bind_hint"
+                android:text="@string/hermitcrab_user_bind_hint"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="@dimen/font_14"
+                android:textSize="@dimen/hermitcrab_font_14"
                 tools:ignore="NestedWeights" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -70,9 +70,9 @@
                     android:layout_height="0dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:text="@string/txt_default_hint"
+                    android:text="@string/hermitcrab_txt_default_hint"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_16"
+                    android:textSize="@dimen/hermitcrab_font_16"
                     tools:ignore="TooDeepLayout" />
 
                 <TextView
@@ -81,9 +81,9 @@
                     android:layout_height="0dp"
                     android:layout_weight="2"
                     android:gravity="top|center"
-                    android:text="@string/user_friend_hint"
+                    android:text="@string/hermitcrab_user_friend_hint"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_12" />
+                    android:textSize="@dimen/hermitcrab_font_12" />
             </LinearLayout>
         </LinearLayout>
 
@@ -108,9 +108,9 @@
                     android:layout_height="0dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:text="@string/txt_default_hint"
+                    android:text="@string/hermitcrab_txt_default_hint"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_16" />
+                    android:textSize="@dimen/hermitcrab_font_16" />
 
                 <TextView
                     android:id="@+id/tv_product_text"
@@ -118,9 +118,9 @@
                     android:layout_height="0dp"
                     android:layout_weight="2"
                     android:gravity="top|center"
-                    android:text="@string/user_product_hint"
+                    android:text="@string/hermitcrab_user_product_hint"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_12" />
+                    android:textSize="@dimen/hermitcrab_font_12" />
             </LinearLayout>
         </LinearLayout>
 
@@ -145,10 +145,10 @@
                     android:layout_height="0dp"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:text="@string/txt_default_hint"
+                    android:text="@string/hermitcrab_txt_default_hint"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_16" />
+                    android:textSize="@dimen/hermitcrab_font_16" />
 
                 <TextView
                     android:id="@+id/tv_topic_text"
@@ -156,9 +156,9 @@
                     android:layout_height="0dp"
                     android:layout_weight="2"
                     android:gravity="top|center"
-                    android:text="@string/user_topic_hint"
+                    android:text="@string/hermitcrab_user_topic_hint"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_12" />
+                    android:textSize="@dimen/hermitcrab_font_12" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/ll_theme_item"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/theme_item_height"
+        android:layout_height="@dimen/hermitcrab_theme_item_height"
         app:layout_constraintTop_toTopOf="parent">
 
         <View

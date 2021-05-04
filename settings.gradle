@@ -1,3 +1,2 @@
-include ':ucrop'
 include ':app'
 rootProject.name='HermitCrabApp'

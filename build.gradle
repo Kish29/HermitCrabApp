@@ -1,12 +1,12 @@
 buildscript {
     repositories {
         /*阿里云仓库*/
-        maven {
+        /*maven {
             url 'http://maven.aliyun.com/nexus/content/groups/public/'
-        }
+        }*/
         google()
         jcenter()
-        maven {
+        /*maven {
             url "https://maven.aliyun.com/repository/google"
         }
         maven {
@@ -14,7 +14,7 @@ buildscript {
         }
         maven {
             url "https://maven.aliyun.com/repository/central"
-        }
+        }*/
         maven { url 'https://jitpack.io' }
     }
     dependencies {
@@ -26,9 +26,9 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
+        /*maven {
             url 'http://maven.aliyun.com/nexus/content/groups/public/'
-        }
+        }*/
         google()
         jcenter()
         maven { url 'https://jitpack.io' }

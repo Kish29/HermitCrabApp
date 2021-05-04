@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragments.personal.PersonalFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/ablTopBarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/ctlTop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/topBar"
+                    layout="@layout/hermitcrab_top_bar_personal_view" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+
+                    <include
+                        android:id="@+id/ll_user_brief"
+                        layout="@layout/view_user_brief"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toStartOf="@+id/rl_user_avatar"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_user_avatar"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/ll_user_brief"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/riv_avatar"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerInParent="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/ic_student"
+                            app:riv_border_color="@color/white"
+                            app:riv_border_width="1dp"
+                            app:riv_oval="true" />
+
+                        <!-- 底色遮罩 -->
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/iv_mask_bg"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:contentDescription="@null"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ai_circle"
+                            app:riv_oval="true" />
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/iv_user_gender"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:contentDescription="@null"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ai_unknown"
+                            app:riv_oval="true" />
+                    </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/ns_personal_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_publish_center"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/ll_quick_entry"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:background="@color/black"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5">
+
+                    <LinearLayout
+                        android:id="@+id/ll_old_publish"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_marginEnd="10dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_topic_publish"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="4"
+                            android:background="@color/black"
+                            android:contentDescription="@null"
+                            android:padding="10dp"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/login_background" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="bottom|center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="二手发布"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/hermitcrab_font_12" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_topic_publish"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/ll_old_publish"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="4"
+                            android:background="@color/black"
+                            android:contentDescription="@null" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="bottom|center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="新帖发布"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/hermitcrab_font_12" />
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_quick_entry"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/ll_student_service"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_publish_center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:background="@color/black"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5">
+
+                    <LinearLayout
+                        android:id="@+id/ll_favor_product"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_marginEnd="10dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_favor_topic"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="4"
+                            android:background="@color/black"
+                            android:contentDescription="@null" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="bottom|center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="旧贝壳"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/hermitcrab_font_12" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_favor_topic"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/ll_favor_product"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="4"
+                            android:background="@color/black"
+                            android:contentDescription="@null" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="bottom|center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="帖子"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/hermitcrab_font_12" />
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ll_student_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_quick_entry">
+
+                <LinearLayout
+                    android:id="@+id/ll_service_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="?android:selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="课表"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/hermitcrab_font_18" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="课表"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/hermitcrab_font_18" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="课表"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/hermitcrab_font_18" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="课表"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/hermitcrab_font_18" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="课表"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/hermitcrab_font_18" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:gravity="start|center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_service_switch">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lav_heart_purchase"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:lottie_fileName="favor-app.json" />
+
+                    <Button
+                        android:id="@+id/btn_ani_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="动画播放" />
+
+                    <Button
+                        android:id="@+id/btn_ani_reverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="动画到放" />
+
+                    <Button
+                        android:id="@+id/btn_ani_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="动画重置" />
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

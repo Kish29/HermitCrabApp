@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kish2.hermitcrabapp.view.InformItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/hermitcrab_inform_height"
+    android:layout_margin="@dimen/hermitcrab_item_margin"
+    android:orientation="vertical"
+    android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+    app:cardCornerRadius="@dimen/hermitcrab_item_corner_radius"
+    app:cardElevation="@dimen/hermitcrab_item_elevation">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_inform_img"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="top"
+            android:layout_weight="2"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+
+        <!-- baseLineAligned 通过文本的基线对齐 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
+
+                <TextView
+                    android:id="@+id/tv_inform_day"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/hermitcrab_font_16"
+                    tools:ignore="NestedWeights"
+                    tools:text="星期一" />
+
+                <TextView
+                    android:id="@+id/tv_inform_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/hermitcrab_font_14"
+                    tools:text="2020年11月11日" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvInformTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="start|center"
+                    android:maxLines="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/hermitcrab_font_16"
+                    tools:text="第第六届青年之声模拟政协提第六届青年之声模拟政协提六届青年之声模拟政协提" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_position"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ai_position"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:gravity="start|center"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/hermitcrab_font_14"
+                        app:layout_constraintStart_toEndOf="@+id/iv_position"
+                        tools:text="待定" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</com.kish2.hermitcrabapp.view.InformItemView>

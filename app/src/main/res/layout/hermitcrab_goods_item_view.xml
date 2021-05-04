@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kish2.hermitcrabapp.view.GoodsItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/hermitcrab_item_margin"
+    android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+    app:cardCornerRadius="@dimen/hermitcrab_item_corner_radius"
+    app:cardElevation="@dimen/hermitcrab_item_elevation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_product_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:adjustViewBounds="true"
+            android:contentDescription="@null"
+            android:maxHeight="420dp"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ai_back" />
+
+        <!-- baseLineAligned 通过文本的基线对齐 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center|bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_product_title"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/hermitcrab_font_18"
+                tools:ignore="NestedWeights"
+                tools:text="星期一" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_product_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/hermitcrab_item_margin"
+                    android:paddingEnd="@dimen/hermitcrab_item_margin"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/hermitcrab_font_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="￥999" />
+
+                <TextView
+                    android:id="@+id/tv_desire_people"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/hermitcrab_item_margin"
+                    android:gravity="center"
+                    android:textSize="@dimen/hermitcrab_font_16"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="5不想要" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/riv_vender_avatar"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/hermitcrab_item_margin"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_register"
+                    app:riv_oval="true" />
+
+                <TextView
+                    android:id="@+id/tv_vender_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/hermitcrab_item_margin"
+                    android:layout_toEndOf="@+id/riv_vender_avatar"
+                    android:gravity="center"
+                    android:textSize="@dimen/hermitcrab_font_12"
+                    tools:text="我不知道" />
+
+                <TextView
+                    android:id="@+id/tv_product_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/hermitcrab_item_margin"
+                    android:background="@drawable/bg_rounded_rectangle_tag"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:padding="4dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/hermitcrab_font_12"
+                    tools:text="电子产品" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</com.kish2.hermitcrabapp.view.GoodsItemView>

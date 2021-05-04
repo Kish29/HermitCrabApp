@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="reg_page_ht_margin">16dp</dimen>
-    <dimen name="reg_page_vc_margin">16dp</dimen>
-    <dimen name="retrieve_bar_height">56dp</dimen>
-    <dimen name="chat_item_height">74dp</dimen>
-    <dimen name="theme_item_height">46dp</dimen>
-    <dimen name="user_profile_item_height">45dp</dimen>
-    <dimen name="item_margin">8dp</dimen>
-    <dimen name="item_elevation">8dp</dimen>
-    <dimen name="item_corner_radius">8dp</dimen>
-    <dimen name="inform_height">200dp</dimen>
+    <dimen name="hermitcrab_reg_page_ht_margin">16dp</dimen>
+    <dimen name="hermitcrab_reg_page_vc_margin">16dp</dimen>
+    <dimen name="hermitcrab_retrieve_bar_height">56dp</dimen>
+    <dimen name="hermitcrab_chat_item_height">74dp</dimen>
+    <dimen name="hermitcrab_theme_item_height">46dp</dimen>
+    <dimen name="hermitcrab_user_profile_item_height">45dp</dimen>
+    <dimen name="hermitcrab_item_margin">8dp</dimen>
+    <dimen name="hermitcrab_item_elevation">8dp</dimen>
+    <dimen name="hermitcrab_item_corner_radius">8dp</dimen>
+    <dimen name="hermitcrab_inform_height">200dp</dimen>
 
-    <dimen name="font_10">10sp</dimen>
-    <dimen name="font_12">12sp</dimen>
-    <dimen name="font_14">14sp</dimen>
-    <dimen name="font_16">16sp</dimen>
-    <dimen name="font_18">18sp</dimen>
-    <dimen name="font_20">20sp</dimen>
-    <dimen name="font_22">22sp</dimen>
-    <dimen name="font_24">24sp</dimen>
+    <dimen name="hermitcrab_font_10">10sp</dimen>
+    <dimen name="hermitcrab_font_12">12sp</dimen>
+    <dimen name="hermitcrab_font_14">14sp</dimen>
+    <dimen name="hermitcrab_font_16">16sp</dimen>
+    <dimen name="hermitcrab_font_18">18sp</dimen>
+    <dimen name="hermitcrab_font_20">20sp</dimen>
+    <dimen name="hermitcrab_font_22">22sp</dimen>
+    <dimen name="hermitcrab_font_24">24sp</dimen>
 
-    <dimen name="lay_12">12dp</dimen>
-    <dimen name="lay_16">16dp</dimen>
-    <dimen name="corner_radius">30dp</dimen>
+    <dimen name="hermitcrab_lay_12">12dp</dimen>
+    <dimen name="hermitcrab_lay_16">16dp</dimen>
+    <dimen name="hermitcrab_corner_radius">30dp</dimen>
 
 </resources>

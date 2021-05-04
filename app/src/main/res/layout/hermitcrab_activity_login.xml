@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activities.LoginActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_register" />
+
+    <com.kish2.hermitcrabapp.custom.FixedVideoView
+        android:id="@+id/login_reg_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <!--上方主要登录界面-->
+    <LinearLayout
+        android:id="@+id/llLoginContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/ervLoginContents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/ll_login_layer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@color/black_alpha_thick"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+        <LinearLayout
+            android:id="@+id/ll_login_pull"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_login_thirdpart"
+            android:orientation="vertical"
+            android:translationY="60dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/hermitcrab_lay_12"
+                android:gravity="center"
+                android:text="@string/hermitcrab_other_login_method"
+                android:textColor="@color/login_other_color"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_login_options"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/hermitcrab_font_18"
+                android:paddingEnd="@dimen/hermitcrab_font_18"
+                android:paddingBottom="@dimen/hermitcrab_lay_12"
+                android:visibility="visible">
+
+                <ImageButton
+                    android:id="@+id/ib_login_wx"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="@dimen/hermitcrab_lay_12"
+                    android:layout_marginEnd="@dimen/hermitcrab_lay_12"
+                    android:background="@drawable/ai_wechat"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop" />
+
+                <ImageButton
+                    android:id="@+id/ib_login_qq"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="@dimen/hermitcrab_lay_12"
+                    android:layout_marginEnd="@dimen/hermitcrab_lay_12"
+                    android:background="@drawable/ai_qq"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--常用颜色值-->
+    <color name="hermitcrab_white_alpha_90">#E5FFFFFF</color>
     <color name="black_alpha">#10000000</color>
     <color name="black_alpha_thick">#80000000</color>
 
@@ -8,7 +9,7 @@
     <color name="line_grey">#dcdcdc</color>
 
     <!--底部TabBar颜色-->
-    <color name="cl_text_default">#8a8a8a</color>
+    <color name="hermitcrab_text_default_color">#8a8a8a</color>
     <color name="text_green">#45c01a</color>
 
     <!--登录模块颜色-->

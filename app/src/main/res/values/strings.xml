@@ -1,79 +1,39 @@
 <resources>
 
     <!--<string name="app_name_en">HermitCrabApp</string>-->
-    <string name="app_name_zh">寄居蟹</string>
-    <string name="app_name_en">HermitCrab</string>
+    <string name="hermitcrab_app_name_zh">寄居蟹</string>
+    <string name="hermitcrab_app_name_en">HermitCrab</string>
 
     <!--navigation bar title-->
-    <string name="nav_home_title">首页</string>
-    <string name="nav_forum_title">社区</string>
-    <string name="nav_service_title">服务</string>
-    <string name="nav_message_title">消息</string>
-    <string name="nav_personal">个人</string>
-
-    <!-- 各个页面的ViewPager标题-->
-    <string-array name="home_page_titles">
-        <item>最新</item>
-        <item>教务处</item>
-        <item>讲座</item>
-    </string-array>
-
-    <string-array name="service_list_titles">
-        <item>服务项1</item>
-        <item>服务项2</item>
-        <item>服务项3</item>
-        <item>服务项4</item>
-        <item>服务项5</item>
-        <item>服务项6</item>
-        <item>服务项7</item>
-        <item>服务项8</item>
-        <item>服务项9</item>
-        <item>服务项11</item>
-        <item>服务项12</item>
-        <item>服务项13</item>
-        <item>服务项14</item>
-        <item>服务项15</item>
-        <item>服务项16</item>
-        <item>服务项17</item>
-        <item>服务项19</item>
-        <item>服务项20</item>
-        <item>服务项21</item>
-        <item>服务项22</item>
-        <item>服务项23</item>
-        <item>服务项24</item>
-        <item>服务项25</item>
-        <item>服务项26</item>
-        <item>服务项27</item>
-        <item>服务项28</item>
-        <item>服务项29</item>
-        <item>服务项30</item>
-        <item>服务项31</item>
-        <item>服务项32</item>
-    </string-array>
+    <string name="hermitcrab_nav_home_title">首页</string>
+    <string name="hermitcrab_nav_forum_title">社区</string>
+    <string name="hermitcrab_nav_service_title">服务</string>
+    <string name="hermitcrab_nav_chat_title">私聊</string>
+    <string name="hermitcrab_nav_personal_title">我的</string>
 
     <!--登录页面-->
-    <string name="prompt_identify">用户名</string>
-    <string name="prompt_password">密码</string>
-    <string name="prompt_mobile">手机号</string>
-    <string name="prompt_verify">验证码</string>
-    <string name="hint_verify">获取验证码</string>
-    <string name="resend_verify">重新获取</string>
+    <string name="hermitcrab_prompt_identify">用户名</string>
+    <string name="hermitcrab_prompt_password">密码</string>
+    <string name="hermitcrab_prompt_mobile">手机号</string>
+    <string name="hermitcrab_prompt_verify">验证码</string>
+    <string name="hermitcrab_hint_verify">获取验证码</string>
+    <string name="hermitcrab_resend_verify">重新获取</string>
 
-    <string name="login_title">登录</string>
-    <string name="forget_password">忘记密码</string>
-    <string name="login_by_verify_code">短信验证码登录</string>
-    <string name="remember_hint">下次自动登录</string>
-    <string name="register_title">注册</string>
-    <string name="resister_hint">还没有账号？马上注册一个吧！</string>
-    <string name="other_login_method">第三方登录</string>
-    <string name="prompt_password_check">请再次输入密码确认</string>
-    <string name="username_hint">未登录</string>
-    <string name="user_bind_hint">(未绑定学生信息)</string>
-    <string name="txt_default_hint">-</string>
-    <string name="user_product_hint">我的旧贝壳</string>
-    <string name="user_topic_hint">帖子</string>
-    <string name="user_friend_hint">好友</string>
-    <string name="btn_save">保存</string>
-    <string name="fragment_service_title">服务中心</string>
+    <string name="hermitcrab_login_title">登录</string>
+    <string name="hermitcrab_forget_password">忘记密码</string>
+    <string name="hermitcrab_login_by_verify_code">短信验证码登录</string>
+    <string name="hermitcrab_remember_hint">下次自动登录</string>
+    <string name="hermitcrab_register_title">注册</string>
+    <string name="hermitcrab_resister_hint">还没有账号？马上注册一个吧！</string>
+    <string name="hermitcrab_other_login_method">第三方登录</string>
+    <string name="hermitcrab_prompt_password_check">请再次输入密码确认</string>
+    <string name="hermitcrab_username_hint">未登录</string>
+    <string name="hermitcrab_user_bind_hint">(未绑定学生信息)</string>
+    <string name="hermitcrab_txt_default_hint">-</string>
+    <string name="hermitcrab_user_product_hint">我的旧贝壳</string>
+    <string name="hermitcrab_user_topic_hint">帖子</string>
+    <string name="hermitcrab_user_friend_hint">好友</string>
+    <string name="hermitcrab_btn_save">保存</string>
+    <string name="hermitcrab_fragment_service_title">服务中心</string>
 
 </resources>

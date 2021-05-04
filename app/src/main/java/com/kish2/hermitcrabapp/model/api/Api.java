@@ -1,5 +1,6 @@
 package com.kish2.hermitcrabapp.model.api;
 
+
 public class Api {
 //    public static final String API_BASE = "http://hermitcrab.free.idcfengye.com/api/";
 //    public static final String API_BASE = "http://10.39.230.84:9999/api/";
@@ -17,6 +18,6 @@ public class Api {
 
     public static final String API_AUTH_BY_MOBILE_CODE = USER_API + "authentication/mobile_code";
 
-    public static final String api_verify_code = "verifyCode";
+    public static final String API_VERIFY_CODE = "verifyCode";
 }
 

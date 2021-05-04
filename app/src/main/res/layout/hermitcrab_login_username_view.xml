@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--登录用户名、邮箱、手机号输入框界面-->
+    <LinearLayout
+        android:id="@+id/ll_identify"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/bg_input"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!--登录logo-->
+        <ImageView
+            android:id="@+id/ivUserIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ai_user" />
+
+        <!--小竖线-->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="22dp"
+            android:background="@color/black_alpha" />
+
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:autofillHints="@string/hermitcrab_prompt_identify"
+            android:background="@null"
+            android:focusable="true"
+            android:hint="@string/hermitcrab_prompt_identify"
+            android:imeOptions="actionNext"
+            android:inputType="textPhonetic"
+            android:lines="1"
+            android:maxLines="1"
+            android:minLines="1"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/hermitcrab_font_16" />
+
+        <!-- 删除输入内容的小按钮 -->
+        <ImageView
+            android:id="@+id/ivClearUsername"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ai_input_clear"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <!--密码输入框-->
+    <LinearLayout
+        android:id="@+id/ll_password"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/bg_input"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivPasswordIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="@null"
+            android:padding="2dp"
+            android:src="@drawable/ai_password" />
+
+        <!--小竖线-->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="22dp"
+            android:background="@color/black_alpha" />
+
+        <EditText
+            android:id="@+id/et_password_input"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:autofillHints="@string/hermitcrab_prompt_password"
+            android:background="@null"
+            android:hint="@string/hermitcrab_prompt_password"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:maxLines="1"
+            android:minLines="1"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/hermitcrab_font_16" />
+
+        <!-- 删除输入内容的小按钮 -->
+        <ImageView
+            android:id="@+id/ivClearPassword"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ai_input_clear"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvLoginByMobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:paddingStart="4dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="4dp"
+            android:paddingBottom="4dp"
+            android:text="@string/hermitcrab_login_by_verify_code"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</LinearLayout>

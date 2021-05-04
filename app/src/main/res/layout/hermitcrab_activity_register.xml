@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activities.RegisterActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_register" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv_login_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/cpb_register_submit"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="94dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="94dp"
+            android:background="@drawable/bg_login_button"
+            android:elevation="0dp"
+            android:outlineProvider="none"
+            android:text="@string/hermitcrab_register_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/hermitcrab_font_18"
+            app:initialCornerAngle="@dimen/hermitcrab_corner_radius"
+            app:spinning_bar_color="@color/white"
+            app:spinning_bar_padding="10dp"
+            app:spinning_bar_width="2dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,12 +7,12 @@ plugins {
 
 android {
     resourcePrefix RESOURSE_PREFIX
-    compileSdkVersion COMPILE_SDK_VERSION
+    compileSdkVersion Integer.parseInt(COMPILE_SDK_VERSION)
     buildToolsVersion BUILD_TOOLS_VERSION
     defaultConfig {
         applicationId APP_PACKAGE
-        minSdkVersion MIN_SDK_VERSION
-        targetSdkVersion TARGET_SDK_VERSION
+        minSdkVersion Integer.parseInt(MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(TARGET_SDK_VERSION)
         versionCode Integer.parseInt(VERSION_CODE)
         versionName VERSION_NAME
         testInstrumentationRunner "androidx.MyTest.runner.AndroidJUnitRunner"
@@ -27,6 +27,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
     packagingOptions {
         // filter duplicate so libs
@@ -46,8 +50,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     // kotlin stdlib
     implementation KOTLIN_STDLIB
 
@@ -79,13 +81,10 @@ dependencies {
     implementation HUTOOL
     implementation COMPRESS_HELPER
     implementation LOTTIE
-
-    // other local model
-    implementation project(':ucrop')
+    implementation PICTURE_SELECTOR
 
     // test lib
     testImplementation JUNIT_TEST
-
 
     // need to delete
     implementation 'com.afollestad.material-dialogs:core:3.3.0'

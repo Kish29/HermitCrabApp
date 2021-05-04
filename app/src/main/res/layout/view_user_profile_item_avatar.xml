@@ -15,9 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:gravity="center"
-        android:text="@string/app_name_en"
+        android:text="@string/hermitcrab_app_name_en"
         android:textColor="@color/black"
-        android:textSize="@dimen/font_16"
+        android:textSize="@dimen/hermitcrab_font_16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:riv_border_color="@color/cl_text_default"
+        app:riv_border_color="@color/hermitcrab_text_default_color"
         app:riv_border_width="1dp"
         app:riv_oval="true" />
 
